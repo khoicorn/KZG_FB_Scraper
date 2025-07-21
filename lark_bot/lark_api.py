@@ -3,6 +3,7 @@ import requests
 import os
 import json
 from .config import APP_ID, APP_SECRET
+from .logger import message_logger
 
 class LarkAPI:
     def __init__(self):
@@ -28,6 +29,8 @@ class LarkAPI:
                  }
         }
         print(payload)
+
+        message_logger.log_message(chat_id, text, direction= "outgoing")
         requests.post(url, headers=headers, json=payload)
     
     def send_file(self, chat_id, file_buffer, filename):
@@ -76,5 +79,7 @@ class LarkAPI:
             )
             
             # Handle send errors
+            message_logger.log_message(chat_id, f"Sent file: {filename}", "outgoing")
+            
             if send_response.status_code != 200:
                 raise Exception(f"Send failed: {send_response.text}")

@@ -12,7 +12,7 @@ class CommandHandler:
     def handle_command(self, chat_id, text):
         text = text.strip().lower()
 
-        if text in ["help", "hi", "menu"]:
+        if text in ["help", "hi", "menu", "start", "hello"]:
             self.show_help_menu(chat_id)
             
         elif text.startswith("search "):
@@ -111,8 +111,8 @@ class CommandHandler:
             "▸ `search domain.com`: direct search\n\n"
             "⛔ Cancel\n"
             "▸ `cancel`: during any operation\n\n"
-            "🆘 Help\n"
-            "▸ `help` | `hi` | `menu`: show this guide\n"
+            "📙 Help\n"
+            "▸ `help` | `hi` | `start`: show this guide\n"
             "─────────────────────────────────────\n"
             "⚡ Results delivered as Excel within 1-2 mins"
         )

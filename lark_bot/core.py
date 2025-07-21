@@ -1,6 +1,7 @@
 import json
 from .state_managers import state_manager
 from .command_handlers import command_handler
+from .logger import message_logger  # Thêm import
 
 def handle_incoming_message(event_data):
     # Access the nested structure correctly
@@ -13,6 +14,9 @@ def handle_incoming_message(event_data):
     text = content.get("text", "").strip().lower()
 
     print("Parsed content:", text)
+
+    # LOG TIN NHẮN ĐẾN
+    message_logger.log_message(chat_id, text, direction= "incoming")  # Thêm dòng này
     
     # Get current user state
     current_state = state_manager.get_state(chat_id)

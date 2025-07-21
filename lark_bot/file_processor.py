@@ -1,7 +1,6 @@
 import pandas as pd
 import time
 from io import BytesIO
-from tools import FacebookAdsCrawler
 from datetime import datetime
 # from io import StringIO
 

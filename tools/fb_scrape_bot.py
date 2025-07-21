@@ -1,9 +1,11 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
+import tempfile
 
 import re
 import pandas as pd
@@ -40,8 +42,18 @@ class FacebookAdsCrawler:
         """Initialize and configure the WebDriver"""
         if self.should_stop():
             return False
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
+        
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+
+    # 🔑 Tạo thư mục tạm để Chrome dùng làm user profile mỗi lần
+        user_data_dir = tempfile.mkdtemp()
+        options.add_argument(f'--user-data-dir={user_data_dir}')
+
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.set_window_size(1920, 1080)
         return True
         
     def fetch_ads_page(self):
@@ -153,7 +165,7 @@ class FacebookAdsCrawler:
             if not self.should_stop():
                 try:
                     video_tag = ad_element.find_element(By.TAG_NAME, "video")
-                    media_data["video_url"] = video_tag.get_attribute("src")
+                    media_data["video_url"] = video_tag.get_attribute("poster")
                 except NoSuchElementException:
                     pass
                     
