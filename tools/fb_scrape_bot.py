@@ -48,10 +48,6 @@ class FacebookAdsCrawler:
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
 
-    # 🔑 Tạo thư mục tạm để Chrome dùng làm user profile mỗi lần
-        user_data_dir = tempfile.mkdtemp()
-        options.add_argument(f'--user-data-dir={user_data_dir}')
-
         self.driver = webdriver.Chrome(options=options)
         self.driver.set_window_size(1920, 1080)
         return True

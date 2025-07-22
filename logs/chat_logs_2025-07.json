@@ -45,3 +45,11 @@
 {"ts": "2025-07-21T12:51:48.893546", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
 {"ts": "2025-07-21T12:51:57.891098", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
 {"ts": "2025-07-21T12:51:57.894581", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
+{"ts": "2025-07-22T14:51:46.482162", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
+{"ts": "2025-07-22T14:51:46.488448", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
+{"ts": "2025-07-22T14:51:54.056940", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
+{"ts": "2025-07-22T14:51:54.056940", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
+{"ts": "2025-07-22T14:52:27.861190", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
+{"ts": "2025-07-22T14:52:40.522067", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
+{"ts": "2025-07-22T14:53:01.253001", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
+{"ts": "2025-07-22T14:53:08.143461", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Error pr...", "full": null}
