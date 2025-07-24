@@ -44,14 +44,18 @@ class OptimizedLogger:
         """Ghi log message với format tối ưu"""
         log_file = self._get_log_file()
         timestamp = datetime.now().isoformat()
-        
+            # Format duy nhất cho msg
+        msg_content = (
+            message if direction == "incoming"
+            else (message[:10] + "..." if len(message) > 10 else message)
+        )
+
         # Tối ưu format log
         log_entry = {
             "ts": timestamp,  # viết tắt timestamp
             "cid": str(chat_id),  # viết tắt chat_id
             "dir": direction[:1],  # 'i' hoặc 'o'
-            "msg": message[:10] + ("..." if len(message) > 10 and direction == "outgoing" else ""),
-            "full": message if direction == "incoming" else None
+            "msg": msg_content
         }
         
         # Ghi log an toàn với lock

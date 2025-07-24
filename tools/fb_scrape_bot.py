@@ -5,14 +5,141 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
-import tempfile
 
 import re
 import pandas as pd
 from datetime import datetime
 import time
 import threading
+import queue
 
+class CrawlerQueue:
+    _instance = None
+    _lock = threading.Lock()
+    
+    def __new__(cls):
+        with cls._lock:
+            if cls._instance is None:
+                cls._instance = super().__new__(cls)
+                cls._instance.queue = queue.Queue()
+                cls._instance.active = False
+                cls._instance.current_chat_id = None
+                cls._instance.queue_list = []  # Thêm list để track thứ tự
+        return cls._instance
+    
+    def add_request(self, crawler):
+        """Thêm yêu cầu vào hàng đợi"""
+        with self._lock:
+            self.queue.put(crawler)
+            self.queue_list.append(crawler.chat_id)  # Track thứ tự
+            
+            # Gửi message về vị trí trong queue
+            position = len(self.queue_list)
+            if self.active:
+                # Nếu đang có request chạy, vị trí sẽ là position + 1 (vì có 1 đang chạy)
+                crawler.lark_api.send_text(
+                    crawler.chat_id,
+                    f"⏳ You’re queued at spot #{position}. I’ll ping you when it starts."
+                )
+        
+        if not self.active:
+            self._process_next()
+    
+    def _process_next(self):
+        """Xử lý yêu cầu tiếp theo trong hàng đợi"""
+        with self._lock:
+            if not self.queue.empty():
+                self.active = True
+                next_crawler = self.queue.get()
+                self.current_chat_id = next_crawler.chat_id
+                
+                # Remove từ queue_list
+                if next_crawler.chat_id in self.queue_list:
+                    self.queue_list.remove(next_crawler.chat_id)
+                
+                # Update position cho các request còn lại
+                self._update_queue_positions()
+                
+                # Tạo thread mới để chạy crawler
+                threading.Thread(
+                    target=self._run_crawler, 
+                    args=(next_crawler,),
+                    daemon=True
+                ).start()
+            else:
+                self.active = False
+                self.current_chat_id = None
+    
+    def _update_queue_positions(self):
+        """Cập nhật và thông báo vị trí mới cho các request trong queue"""
+        for i, chat_id in enumerate(self.queue_list, 1):
+            # Tìm crawler tương ứng trong queue để gửi message
+            temp_queue = list(self.queue.queue)
+            for crawler in temp_queue:
+                if crawler.chat_id == chat_id:
+                    crawler.lark_api.send_text(
+                        chat_id,
+                        f"📍 Current position in queue: #{i}"
+                    )
+                    break
+    
+    def _run_crawler(self, crawler):
+        """Chạy crawler và xử lý yêu cầu tiếp theo khi hoàn thành"""
+        try:
+            
+            crawler.crawl()  # Gọi phương thức crawl chính
+            
+            # Chỉ xử lý kết quả nếu không bị cancel
+            if not crawler.should_stop():
+                crawler.data_to_dataframe()  # Xử lý dữ liệu
+                # Note: send_results() method không có trong code gốc
+                # Có thể cần implement hoặc xử lý ở nơi khác
+                
+        except Exception as e:
+            if not crawler.should_stop():
+                crawler.lark_api.send_text(
+                    crawler.chat_id, 
+                    f"❌ Error during processing: {str(e)}"
+                )
+        finally:
+            with self._lock:
+                self.active = False
+                self.current_chat_id = None
+            self._process_next()  # Xử lý yêu cầu tiếp theo
+    
+    def get_queue_position(self, chat_id):
+        """Kiểm tra vị trí trong hàng đợi"""
+        with self._lock:
+            if self.current_chat_id == chat_id:
+                return 0  # Đang chạy
+            
+            try:
+                position = self.queue_list.index(chat_id) + 1
+                return position
+            except ValueError:
+                return None  # Không có trong hàng đợi
+    
+    def remove_from_queue(self, chat_id):
+        """Remove request khỏi queue khi bị cancel"""
+        with self._lock:
+            # Remove từ queue_list
+            if chat_id in self.queue_list:
+                self.queue_list.remove(chat_id)
+            
+            # Remove từ queue (phức tạp hơn vì queue.Queue không support remove trực tiếp)
+            temp_items = []
+            while not self.queue.empty():
+                item = self.queue.get()
+                if item.chat_id != chat_id:
+                    temp_items.append(item)
+            
+            # Put lại các items không bị remove
+            for item in temp_items:
+                self.queue.put(item)
+            
+            # Update positions cho các request còn lại
+            self._update_queue_positions()
+    
 class FacebookAdsCrawler:
     def __init__(self, keyword, chat_id):
         self.keyword = keyword
@@ -22,6 +149,7 @@ class FacebookAdsCrawler:
         self.lark_api = LarkAPI()
         self.chat_id = chat_id
         self._stop_event = threading.Event()
+        self.queue_manager = CrawlerQueue()  # Thêm dòng này
 
     def force_stop(self):
         """More reliable stopping mechanism"""
@@ -51,6 +179,27 @@ class FacebookAdsCrawler:
         self.driver = webdriver.Chrome(options=options)
         self.driver.set_window_size(1920, 1080)
         return True
+    
+    def start(self):
+        """Phương thức để bắt đầu crawl thông qua hàng đợi"""
+        # Kiểm tra xem request đã có trong queue chưa
+        position = self.queue_manager.get_queue_position(self.chat_id)
+        
+        if position is not None:
+            if position == 0:
+                self.lark_api.send_text(
+                    self.chat_id,
+                    "🔄 Your searchword is being processed..."
+                )
+            else:
+                self.lark_api.send_text(
+                    self.chat_id,
+                    f"⏳ Your request is in waiting list (No #{position})"
+                )
+            return
+        
+        # Thêm vào queue
+        self.queue_manager.add_request(self)
         
     def fetch_ads_page(self):
         """Load the Facebook Ads Library page"""
@@ -59,7 +208,29 @@ class FacebookAdsCrawler:
         url = (f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&"
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
+        
         time.sleep(5)
+
+        # search_results = self.driver.find_elements(
+        #     By.CSS_SELECTOR, ".x6s0dn4.x78zum5"
+        # )
+        # search_results = self.driver.find_elements(By.XPATH, "//*[contains(concat(' ', normalize-space(@class), ' '), ' x6s0dn4 ') and contains(concat(' ', normalize-space(@class), ' '), ' x78zum5 ') and @role='heading']")
+
+        # # "and @role='heading'] 
+        
+        # if search_results:
+        #     for search_result in search_results:
+        #         text = search_result.text.lower()
+        #         if "result" in search_result.text.lower():
+        #             text = text.replace("results","").replace("result","").strip().replace("No results found","0")
+        #             print(text)
+        #             if int(text) == 0:
+        #                 return False
+
+        #         # print(f"Search result: {search_result.text}")
+        # else:
+        #     print("No results found")
+
         return True
         
     def scroll_to_bottom(self):
@@ -68,7 +239,7 @@ class FacebookAdsCrawler:
             return False
             
         if not self.should_stop():
-            self.lark_api.send_text(self.chat_id, "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
+            self.lark_api.send_text(self.chat_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
         
         print("Step 1: Starting to scroll to the bottom of the page...")
         last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -161,7 +332,7 @@ class FacebookAdsCrawler:
             if not self.should_stop():
                 try:
                     video_tag = ad_element.find_element(By.TAG_NAME, "video")
-                    media_data["video_url"] = video_tag.get_attribute("poster")
+                    media_data["video_url"] = video_tag.get_attribute("src")
                 except NoSuchElementException:
                     pass
                     
@@ -221,7 +392,7 @@ class FacebookAdsCrawler:
                 
             count = 0
             ad_elements = self.driver.find_elements(By.CLASS_NAME, self.ad_card_class)
-            
+
             for ad in ad_elements:
                 # Check cancellation before processing each ad
                 if self.should_stop():
@@ -234,6 +405,7 @@ class FacebookAdsCrawler:
                     ad_data["ad_number"] = count
                     self.ads_data.append(ad_data)
                     print(f"Processed ad #{count}: {ad_data['library_id']}")
+                
 
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
             

@@ -4,6 +4,18 @@ from .file_processor import generate_excel_report
 from tools import FacebookAdsCrawler
 import threading
 import re
+import urllib.parse  # Import the specific submodule
+
+def clean_url(url):
+
+    if "[" in url:
+        
+        match = re.search(r'\[(.*?)\]', url)  # Non-greedy match between []
+        if match:
+            url = match.group(1)  # "chatbuypromax.com"
+
+    parsed = urllib.parse.urlparse(url)
+    return parsed.netloc if parsed.scheme else url
 
 class CommandHandler:
     def __init__(self):
@@ -11,6 +23,7 @@ class CommandHandler:
     
     def handle_command(self, chat_id, text):
         text = text.strip().lower()
+        # print(text)
 
         if text in ["help", "hi", "menu", "start", "hello"]:
             self.show_help_menu(chat_id)
@@ -28,20 +41,20 @@ class CommandHandler:
             if state_manager.request_cancel(chat_id):
                 self.lark_api.send_text(chat_id, "⛔ Canceling...")
             else:
-                self.lark_api.send_text(chat_id, "ℹ️ No active process to cancel.")
-
-        elif text == "help":
-            self.show_help_menu(chat_id)
+                self.lark_api.send_text(chat_id, "👀 No active process to cancel.")
 
         else:
             self.lark_api.send_text(chat_id, "❌ Unrecognized command. Type 'help' for options")
     
     def handle_search_term(self, chat_id, search_term):
         # Validate the search term is a domain (e.g., "thaidealzone.com")
+        # print(search_term)
+
+        search_term = clean_url(search_term)  # Clean the URL to get the domain
         print(search_term)
 
-        if not self.is_valid_domain(search_term):
-            self.lark_api.send_text(chat_id, "❌ Invalid request. \nPlease provide a valid domain [e.g., chatbuypro.com]:")
+        if not self.is_valid_domain(chat_id, search_term):
+            # self.lark_api.send_text(chat_id, "❌ Invalid request. \nPlease provide a valid domain [e.g., chatbuypro.com]:")
             return
 
         print("Searching ...")
@@ -54,7 +67,8 @@ class CommandHandler:
             args=(chat_id, search_term),
             daemon=True
         ).start()
-        
+    
+    
     def process_search_async(self, chat_id, search_term):
         file_buffer = None
         try:
@@ -73,9 +87,16 @@ class CommandHandler:
             # Only send results if not cancelled
             if not state_manager.should_cancel(chat_id):
                 if df.empty:
-                    self.lark_api.send_text(chat_id, "❌ No results found for this domain.")
+                    self.lark_api.send_text(chat_id, "❌ No results found for this domain.\n")
+
+                    # Encode the search term to be URL-safe
+                    encoded_term = urllib.parse.quote(search_term)
+                    link = f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q={encoded_term}&search_type=keyword_unordered"
+                    message = f"🔗 Visit for more info: {link}"
+                    # Send the message
+                    self.lark_api.send_text(chat_id, message)
                 else:
-                    self.lark_api.send_text(chat_id, "✅ Search completed successfully!")
+                    self.lark_api.send_text(chat_id, f"✅ Search completed: {df.shape[0]} results.")
                     self.lark_api.send_file(chat_id, file_buffer, filename)
             else:
                 self.lark_api.send_text(chat_id, "⛔ Process cancelled successfully!")
@@ -119,10 +140,28 @@ class CommandHandler:
         print(help_text)
         self.lark_api.send_text(chat_id, help_text)
 
-    def is_valid_domain(self, domain):
+    def is_valid_domain(self, chat_id, domain):
+        # Reject if input contains '@'
+        if '@' in domain:
+            self.lark_api.send_text(chat_id, "❌ Domain contains '@'. \nPlease provide a valid domain [e.g., chatbuypro.com]:")
+            return False
+
+        # Require at least one dot and check domain pattern
         domain_pattern = re.compile(
-            r'^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$'
+            r'^([a-zA-Z0-9-]{2,}\.)+[a-zA-Z]{2,}$'  # part before dot must be at least 2 chars
         )
-        return bool(domain_pattern.fullmatch(domain))
+
+        # Match full domain and ensure it's not too short
+        if not domain_pattern.fullmatch(domain):
+            self.lark_api.send_text(chat_id, "❌ Invalid request. \nPlease provide a valid domain [e.g., chatbuypro.com]:")
+            return False
+
+        # Additional optional check: min total length
+        if len(domain) < 8:  # e.g., x.co is 4 chars, a.com is 5
+            self.lark_api.send_text(chat_id, "❌ Domain is too short. \nPlease provide a valid domain [e.g., chatbuypro.com]:")
+            return False
+
+        return True
+
 
 command_handler = CommandHandler()
