@@ -185,3 +185,62 @@
 {"ts": "2025-07-25T15:46:15.037173", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
 {"ts": "2025-07-25T15:46:19.487315", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c..."}
 {"ts": "2025-07-25T15:46:21.633862", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:..."}
+{"ts": "2025-07-25T18:17:08.377861", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:17:08.380967", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent FB Ad..."}
+{"ts": "2025-07-25T18:23:22.293873", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel"}
+{"ts": "2025-07-25T18:23:22.294981", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "👀 No activ..."}
+{"ts": "2025-07-25T18:23:27.153950", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi"}
+{"ts": "2025-07-25T18:23:31.684652", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "start"}
+{"ts": "2025-07-25T18:24:13.043141", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:24:28.168876", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:24:57.144480", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:25:33.508239", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "start"}
+{"ts": "2025-07-25T18:25:33.508777", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:28:46.076401", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:28:46.077607", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:29:25.011442", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:29:25.012516", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:30:08.525939", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:30:08.527505", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:32:14.705162", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:32:14.706909", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:32:50.724256", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:32:50.724833", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:33:26.071895", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:33:26.072953", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:35:07.826402", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:35:07.827629", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:36:38.429828", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:36:38.431088", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:38:08.794341", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:38:08.795478", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:40:08.219027", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:40:08.220531", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:40:09.438016", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi"}
+{"ts": "2025-07-25T18:40:09.439222", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Crypt..."}
+{"ts": "2025-07-25T18:40:47.609766", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
+{"ts": "2025-07-25T18:40:47.610341", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T18:41:21.544863", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
+{"ts": "2025-07-25T18:41:21.546008", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T18:41:41.693372", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:41:41.695685", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T18:42:06.209426", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:42:06.210582", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T18:42:23.542750", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T18:42:23.543843", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:23:52.131560", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "heko"}
+{"ts": "2025-07-25T22:23:52.134364", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
+{"ts": "2025-07-25T22:23:55.099856", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
+{"ts": "2025-07-25T22:23:55.101083", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:26:03.876728", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T22:26:03.877452", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:28:06.492487", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi"}
+{"ts": "2025-07-25T22:28:06.493182", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:28:48.765492", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T22:28:48.766686", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:29:55.261773", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
+{"ts": "2025-07-25T22:29:55.262919", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:31:39.913132", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T22:31:39.913699", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}
+{"ts": "2025-07-25T22:32:44.050180", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
+{"ts": "2025-07-25T22:32:44.051295", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent Comma..."}

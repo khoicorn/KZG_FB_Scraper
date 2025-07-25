@@ -32,6 +32,92 @@ class LarkAPI:
 
         message_logger.log_message(chat_id, text, direction= "outgoing")
         requests.post(url, headers=headers, json=payload)
+
+    def send_interactive_card(self, chat_id):
+        """
+        Sends a clean text-based command menu card
+        """
+        url = "https://open.larksuite.com/open-apis/message/v4/send/"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json; charset=utf-8"
+        }
+
+        # Using subtle colors for headers and dividers only
+        divider_color = "#E5E7EB"  # Light gray divider
+        
+        card_content = {
+            "config": {
+                "wide_screen_mode": True
+            },
+            "header": {
+                "title": {
+                    "tag": "plain_text",
+                    "content": "🤖 FB Chat Bot | Command Menu"
+                },
+                            "subtitle": {
+                "tag": "plain_text",
+                "content": "Excel report will be generated in 1-2 minutes"
+                },
+                "template": "blue"
+            },
+            "elements": [
+                {
+                    "tag": "div",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "**Basic Commands:**"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "• **help** - Show available commands\n" +
+                                "• **search domain.com** - Start scraping the target domain\n" +
+                                "• **cancel** - Cancel any in-progress search\n"
+                    }
+                },
+                {
+                    "tag": "hr",
+                    "style": {
+                        "color": divider_color
+                    }
+                },
+                 {
+                    "tag": "div",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "**Sample Flow:**"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "text": {
+                        "tag": "lark_md",
+                        "content":
+                                "user: search chatbuypro.com\n" +
+                                "bot:  --Searching starts ...\n" +
+                                "bot:  --Progress updates ...\n" +
+                                "bot:  --Successful: 10 results found! [File Attached]"
+                    }
+                }
+            ]
+        }
+
+        payload = {
+            "chat_id": chat_id,
+            "msg_type": "interactive",
+            "card": card_content
+        }
+
+        print(payload)
+
+        message_logger.log_message(chat_id, "Sent Command menu", direction="outgoing")
+        response = requests.post(url, headers=headers, json=payload)
+        
+        if response.status_code != 200:
+            raise Exception(f"Failed to send card: {response.text}")
     
     def send_file(self, chat_id, file_buffer, filename):
             """

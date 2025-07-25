@@ -124,17 +124,17 @@ class CommandHandler:
                     del state_manager.active_processes[chat_id]
             
     def show_help_menu(self, chat_id):
-        help_text = (
-            "🤖 FB Ads Scraper\n"
-            "──────────────────────\n"
-            "🔍 `search domain.com`\n"
-            "⛔ `cancel`\n"
-            "📙 `help`\n"
-            "──────────────────────\n"
-            "⚡ Excel results in 1-2 mins"
-        )
+        # help_text = (
+        #     "🤖 FB Ads Scraper\n"
+        #     "──────────────────────\n"
+        #     "🔍 `search domain.com`\n"
+        #     "⛔ `cancel`\n"
+        #     "📙 `help`\n"
+        #     "──────────────────────\n"
+        #     "⚡ Excel results in 1-2 mins"
+        # )
         # print(help_text)
-        self.lark_api.send_text(chat_id, help_text)
+        self.lark_api.send_interactive_card(chat_id)
 
     def is_valid_domain(self, chat_id, domain):
         print("DOMAIN CLEANED:", domain)
