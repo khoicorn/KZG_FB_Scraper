@@ -41,7 +41,8 @@ class CrawlerQueue:
                 # Nếu đang có request chạy, vị trí sẽ là position + 1 (vì có 1 đang chạy)
                 crawler.lark_api.send_text(
                     crawler.chat_id,
-                    f"⏳ You’re queued at spot #{position}. I’ll ping you when it starts."
+                    f"⏳ You’re queued at spot #{position}. I’ll ping you when it starts.",
+                    self.thread_id
                 )
         
         if not self.active:
@@ -81,7 +82,8 @@ class CrawlerQueue:
                 if crawler.chat_id == chat_id:
                     crawler.lark_api.send_text(
                         chat_id,
-                        f"📍 Current position in queue: #{i}"
+                        f"📍 Current position in queue: #{i}",
+                        self.thread_id
                     )
                     break
     
@@ -143,13 +145,15 @@ class CrawlerQueue:
             self._update_queue_positions()
     
 class FacebookAdsCrawler:
-    def __init__(self, keyword, chat_id):
+    def __init__(self, keyword, chat_id, thread_id):
         self.keyword = keyword
         self.ad_card_class = "x1plvlek xryxfnj x1gzqxud x178xt8z x1lun4ml xso031l xpilrb4 xb9moi8 xe76qn7 x21b0me x142aazg x1i5p2am x1whfx0g xr2y4jy x1ihp6rs x1kmqopl x13fuv20 x18b5jzi x1q0q8m5 x1t7ytsu x9f619"
         self.driver = None
         self.ads_data = []
         self.lark_api = LarkAPI()
         self.chat_id = chat_id
+        self.thread_id = thread_id
+        # self.unique_id =
         self._stop_event = threading.Event()
         self.queue_manager = CrawlerQueue()  # Thêm dòng này
 
@@ -191,12 +195,14 @@ class FacebookAdsCrawler:
             if position == 0:
                 self.lark_api.send_text(
                     self.chat_id,
-                    "🔄 Your searchword is being processed..."
+                    "🔄 Your searchword is being processed...",
+                    self.thread_id
                 )
             else:
                 self.lark_api.send_text(
                     self.chat_id,
-                    f"⏳ Your request is in waiting list (No #{position})"
+                    f"⏳ Your request is in waiting list (No #{position})",
+                    self.thread_id
                 )
             return
         
@@ -276,7 +282,7 @@ class FacebookAdsCrawler:
             
         # Send initial progress message
         if not self.should_stop():
-            self.lark_api.send_text(self.chat_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
+            self.lark_api.send_text(self.chat_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%", self.thread_id)
         
         last_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_attempt = 0
@@ -322,7 +328,7 @@ class FacebookAdsCrawler:
             print("-- Page stabilization check timeout")
         
         if not self.should_stop():
-            self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
+            self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%", self.thread_id)
 
         return True
     
@@ -486,12 +492,12 @@ class FacebookAdsCrawler:
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
             
             if not self.should_stop():
-                self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%")
+                self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%", self.thread_id)
        
         except Exception as e:
             print(f"Error during crawl: {e}")
             if not self.should_stop():
-                self.lark_api.send_text(self.chat_id, f"❌ Error during crawl: {str(e)}")
+                self.lark_api.send_text(self.chat_id, f"❌ Error during crawl: {str(e)}", self.thread_id)
         finally:
             if self.driver:
                 self.driver.quit()

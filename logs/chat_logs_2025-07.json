@@ -1,525 +1,84 @@
-{"ts": "2025-07-18T17:07:29.618863", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-18T17:07:29.620897", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-18T17:07:42.198360", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-18T17:07:56.958447", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-18T17:08:49.337995", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-18T17:08:52.430769", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-18T17:08:54.004544", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-21T10:45:47.448481", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-21T10:45:47.452625", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-21T10:46:00.561486", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-21T10:46:00.563803", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-21T10:46:14.578211", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-21T10:46:27.461147", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-21T10:46:43.721347", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-21T10:46:47.081376", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-21T10:46:48.946168", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-21T12:45:24.073996", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-21T12:45:24.082770", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-21T12:45:36.712476", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-21T12:45:36.721343", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
-{"ts": "2025-07-21T12:45:44.226366", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-21T12:45:44.227374", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-21T12:46:02.690662", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-21T12:46:02.692478", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-21T12:46:32.408235", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-21T12:46:32.409244", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
-{"ts": "2025-07-21T12:46:38.421897", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-21T12:46:38.422980", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-21T12:47:34.813006", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello", "full": "hello"}
-{"ts": "2025-07-21T12:47:34.815315", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-21T12:47:41.499064", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-21T12:47:41.500071", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-21T12:47:53.766496", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-21T12:48:06.262024", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-21T12:48:18.035974", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-21T12:48:20.966601", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-21T12:48:22.115093", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-21T12:51:06.928211", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-21T12:51:06.928211", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-21T12:51:19.668766", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-21T12:51:23.946499", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-21T12:51:26.117818", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-21T12:51:30.188418", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-21T12:51:48.890601", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-21T12:51:48.893546", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
-{"ts": "2025-07-21T12:51:57.891098", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-21T12:51:57.894581", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-22T14:51:46.482162", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-22T14:51:46.488448", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-22T14:51:54.056940", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-22T14:51:54.056940", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-22T14:52:27.861190", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-22T14:52:40.522067", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-22T14:53:01.253001", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-22T14:53:08.143461", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Error pr...", "full": null}
-{"ts": "2025-07-23T11:21:12.029035", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T11:21:12.032310", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T11:55:04.777027", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T11:55:04.797655", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:50:41.363801", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-23T12:50:41.365803", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:51:00.480754", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T12:51:00.481764", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:51:29.058103", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T12:51:29.058103", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:51:39.111915", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T12:51:39.112962", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:52:36.899489", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T12:52:36.900496", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:52:42.197972", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T12:52:42.198549", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T12:52:49.315833", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T12:52:49.384230", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T12:52:52.970334", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔍 Bắt đầu ...", "full": null}
-{"ts": "2025-07-23T12:52:53.145988", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T12:52:53.147171", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
-{"ts": "2025-07-23T12:53:03.009344", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T12:53:03.010722", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T12:53:05.328609", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:53:06.530903", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Bắt đầu ...", "full": null}
-{"ts": "2025-07-23T12:53:17.826318", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:53:24.569514", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:53:27.620271", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T12:53:29.132366", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-23T12:53:35.773979", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:53:52.447509", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:54:26.052956", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T12:54:28.980256", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T12:54:30.217036", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-23T13:32:12.781167", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search a.c", "full": "search a.com"}
-{"ts": "2025-07-23T13:32:12.782180", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T13:32:16.336257", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Bắt đầu ...", "full": null}
-{"ts": "2025-07-23T13:32:16.704916", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Bắt đầu ...", "full": null}
-{"ts": "2025-07-23T13:32:25.314507", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:32:38.754219", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T13:32:38.756762", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T13:32:42.368891", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "⏳ Yêu cầu ...", "full": null}
-{"ts": "2025-07-23T13:32:46.229529", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:33:03.755398", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T13:33:06.001786", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T13:33:16.236962", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🚀 Bắt đầu ...", "full": null}
-{"ts": "2025-07-23T13:33:17.081289", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T13:33:24.694932", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:33:37.129790", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:33:43.956707", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:33:47.005566", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T13:33:48.168145", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-23T13:54:29.897297", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello", "full": "hello"}
-{"ts": "2025-07-23T13:54:29.897297", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T13:54:35.848523", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search a", "full": "search a"}
-{"ts": "2025-07-23T13:54:49.542413", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello", "full": "hello"}
-{"ts": "2025-07-23T13:54:49.543423", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T13:54:51.324929", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search a", "full": "search a"}
-{"ts": "2025-07-23T13:54:53.632604", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaid"}
-{"ts": "2025-07-23T13:55:10.187636", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaid"}
-{"ts": "2025-07-23T13:55:10.189433", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T13:55:39.376693", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thai"}
-{"ts": "2025-07-23T13:55:54.400085", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thai"}
-{"ts": "2025-07-23T13:56:24.499454", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaiz"}
-{"ts": "2025-07-23T13:56:24.500527", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T13:57:09.985480", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "test", "full": "test"}
-{"ts": "2025-07-23T13:57:09.986492", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn...", "full": null}
-{"ts": "2025-07-23T13:57:16.174440", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thai"}
-{"ts": "2025-07-23T13:57:16.175450", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T13:57:20.296836", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search a.c", "full": "search a.com"}
-{"ts": "2025-07-23T13:57:20.297848", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T13:57:41.987017", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search bad", "full": "search bad.com"}
-{"ts": "2025-07-23T13:57:41.988611", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T13:57:45.625524", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T13:57:46.106657", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T13:57:47.966281", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T13:57:47.968061", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T13:57:52.223035", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T13:58:12.120189", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "bad.com", "full": "bad.com"}
-{"ts": "2025-07-23T13:58:12.120824", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn...", "full": null}
-{"ts": "2025-07-23T13:58:18.235706", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search bad", "full": "search bad.com"}
-{"ts": "2025-07-23T13:58:18.236715", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Domain i...", "full": null}
-{"ts": "2025-07-23T13:58:29.805265", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "seach x", "full": "seach x"}
-{"ts": "2025-07-23T13:58:29.805265", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn...", "full": null}
-{"ts": "2025-07-23T13:58:39.765020", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search kho", "full": "search khoingo@hotmail.com"}
-{"ts": "2025-07-23T13:58:39.766033", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Domain c...", "full": null}
-{"ts": "2025-07-23T13:58:56.330802", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T13:58:56.332701", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T13:59:04.162295", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T13:59:04.552434", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T13:59:12.886030", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T13:59:12.887257", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-23T13:59:13.653444", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:59:24.098810", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:59:32.091277", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T13:59:35.717063", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T13:59:51.756112", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search a", "full": "search a"}
-{"ts": "2025-07-23T13:59:51.756112", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T14:00:50.177812", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:00:50.178826", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:00:53.828417", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T14:00:54.357401", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T14:00:55.013088", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thai"}
-{"ts": "2025-07-23T14:00:55.013088", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-23T14:01:04.026523", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:01:21.099000", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:01:53.552788", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:01:56.559184", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T14:01:57.756092", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-23T14:02:14.182345", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T14:02:14.183365", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:02:17.809836", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T14:02:18.215052", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T14:02:26.851336", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:02:37.404490", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:02:43.935281", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:02:47.287974", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T14:07:28.839664", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T14:07:28.841425", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:07:32.437510", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T14:07:33.071819", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T14:07:43.018400", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:07:53.511967", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:08:00.395620", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:08:03.224771", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T14:08:03.589815", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "facebook.c...", "full": null}
-{"ts": "2025-07-23T14:10:36.071163", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T14:10:36.072234", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:10:39.626464", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T14:10:40.003749", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T14:10:49.352497", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:10:59.798761", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:11:08.349184", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:11:11.156661", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T14:11:11.576682", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit [t...", "full": null}
-{"ts": "2025-07-23T14:16:07.933829", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T14:16:07.934847", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:16:11.531247", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Searchin...", "full": null}
-{"ts": "2025-07-23T14:16:11.944091", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🚀 Processi...", "full": null}
-{"ts": "2025-07-23T14:16:21.277040", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:16:31.905366", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:16:38.341659", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:16:41.107284", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T14:16:41.595950", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit fo...", "full": null}
-{"ts": "2025-07-23T14:23:06.993348", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello", "full": "hello"}
-{"ts": "2025-07-23T14:23:06.995375", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T14:23:15.143303", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:23:15.144569", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:23:27.418608", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:23:29.796925", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "search [ch", "full": "search [chatbuypro.com](http://chatbuypro.com/)"}
-{"ts": "2025-07-23T14:23:29.805171", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "❌ Invalid ...", "full": null}
-{"ts": "2025-07-23T14:23:45.261443", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:23:46.395674", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:23:46.396210", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:23:51.543505", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "⏳ You’re q...", "full": null}
-{"ts": "2025-07-23T14:24:22.809463", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:24:26.181768", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T14:24:27.435755", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-23T14:24:34.296399", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:24:34.554406", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "hello", "full": "hello"}
-{"ts": "2025-07-23T14:24:34.555948", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-23T14:24:44.562643", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T14:24:48.358215", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T14:24:52.097341", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T14:25:03.031829", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T14:25:03.039662", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "ℹ️ No acti...", "full": null}
-{"ts": "2025-07-23T14:37:15.369908", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-23T14:37:15.373610", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:37:29.961593", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "full": null}
-{"ts": "2025-07-23T14:37:40.442146", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:37:46.687911", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:37:50.378768", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "full": null}
-{"ts": "2025-07-23T14:37:50.763946", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit fo...", "full": null}
-{"ts": "2025-07-23T14:41:56.230202", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "start", "full": "start"}
-{"ts": "2025-07-23T14:41:56.232210", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T14:42:01.788884", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:42:01.790911", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:42:15.363604", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "full": null}
-{"ts": "2025-07-23T14:42:31.927615", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:43:08.934968", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:43:16.545537", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Error pr...", "full": null}
-{"ts": "2025-07-23T14:45:03.910608", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi", "full": "hi"}
-{"ts": "2025-07-23T14:45:03.912796", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T14:45:26.302916", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.om"}
-{"ts": "2025-07-23T14:45:26.304933", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:45:29.451230", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T14:45:29.452442", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T14:45:30.998438", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T14:45:34.271389", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:45:34.272400", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:45:36.062984", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:45:36.063494", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔄 Your req...", "full": null}
-{"ts": "2025-07-23T14:45:40.244143", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T14:45:44.243516", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T14:45:47.810187", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T14:45:51.927767", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help", "full": "help"}
-{"ts": "2025-07-23T14:45:51.928808", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S...", "full": null}
-{"ts": "2025-07-23T14:45:57.326110", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:45:57.326727", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:45:58.930516", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel", "full": "cancel"}
-{"ts": "2025-07-23T14:45:58.931563", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin...", "full": null}
-{"ts": "2025-07-23T14:46:01.901611", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ...", "full": null}
-{"ts": "2025-07-23T14:47:40.540778", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "i", "msg": "search cha", "full": "search chatbuypro.com"}
-{"ts": "2025-07-23T14:47:40.542963", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-23T14:47:52.945188", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "Start sear...", "full": null}
-{"ts": "2025-07-23T14:48:10.296004", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:48:43.900945", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-23T14:48:48.297018", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-23T14:48:49.614782", "cid": "oc_25c5e00836a9d35c63fc905ad93619b6", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-24T13:00:10.883848", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search tha", "full": "search thaidealzone.com"}
-{"ts": "2025-07-24T13:00:10.899042", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "full": null}
-{"ts": "2025-07-24T13:00:24.193718", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "full": null}
-{"ts": "2025-07-24T13:00:36.990573", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "full": null}
-{"ts": "2025-07-24T13:00:47.871724", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "full": null}
-{"ts": "2025-07-24T13:00:51.151872", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "full": null}
-{"ts": "2025-07-24T13:00:52.839906", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "full": null}
-{"ts": "2025-07-24T18:36:49.193430", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T18:36:49.202674", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T18:37:06.327882", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T18:37:06.332075", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T18:37:12.814985", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "cancel"}
-{"ts": "2025-07-24T18:37:12.815538", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Cancelin..."}
-{"ts": "2025-07-24T18:37:16.544361", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "⛔ Process ..."}
-{"ts": "2025-07-24T18:37:21.350500", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search https://thaidealzone.com/"}
-{"ts": "2025-07-24T18:37:21.351046", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Invalid ..."}
-{"ts": "2025-07-24T18:41:49.539729", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search https://thaidealzone.com/"}
-{"ts": "2025-07-24T18:41:49.539729", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T18:42:02.633566", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T18:42:15.399964", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T18:42:33.072127", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T18:42:36.860663", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T18:42:38.463827", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T21:28:22.018190", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi"}
-{"ts": "2025-07-24T21:28:22.021594", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:28:33.313818", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:28:33.315102", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:29:48.172502", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "@_user_1 hello"}
-{"ts": "2025-07-24T21:29:48.174028", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T21:30:01.051833", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "@_user_1 search"}
-{"ts": "2025-07-24T21:30:01.051833", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T21:30:08.594143", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "@_user_1 cancel"}
-{"ts": "2025-07-24T21:30:08.595226", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T21:32:00.310838", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:32:00.312875", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:37:10.199054", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "@_user_1 hi"}
-{"ts": "2025-07-24T21:37:10.199791", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T21:41:41.715682", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "@_user_1 hello"}
-{"ts": "2025-07-24T21:41:41.715682", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T21:42:26.735426", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:42:26.737442", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:46:03.917945", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:46:03.917945", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:46:15.129117", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:46:15.129652", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:47:18.252872", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "hello"}
-{"ts": "2025-07-24T21:47:18.254400", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T21:47:29.263781", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T21:47:29.264792", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T21:47:34.952171", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "hi"}
-{"ts": "2025-07-24T21:47:34.952171", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔄 Your req..."}
-{"ts": "2025-07-24T21:47:43.881245", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T21:47:54.647109", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T21:49:29.902221", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "cancel"}
-{"ts": "2025-07-24T21:49:29.911250", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "ℹ️ No acti..."}
-{"ts": "2025-07-24T21:54:18.120204", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "cancel"}
-{"ts": "2025-07-24T21:54:18.126387", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "👀 No activ..."}
-{"ts": "2025-07-24T21:54:31.271283", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T21:54:31.273308", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T21:54:45.599541", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T21:54:56.155923", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T21:55:11.157324", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T21:55:15.074822", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T21:55:16.404048", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T21:56:32.911699", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T21:56:32.912693", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T21:56:45.623970", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T21:56:56.215192", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T21:57:09.692321", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T21:57:12.873061", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T21:57:14.647209", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T21:57:40.597469", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T21:57:40.598964", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T21:57:52.790852", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T21:58:03.345683", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T21:58:14.023466", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T21:58:17.543007", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T21:58:18.973951", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T21:59:23.946936", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T21:59:23.949408", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:00:04.744378", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:00:04.746569", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:00:17.921778", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:00:28.578569", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:00:36.347484", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:00:40.159410", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T22:00:41.520099", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T22:06:52.983497", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypro.com"}
-{"ts": "2025-07-24T22:06:52.991199", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:07:06.865723", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:07:25.642136", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:07:48.531414", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:07:53.446352", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:07:53.848670", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:08:15.073341", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypro.com"}
-{"ts": "2025-07-24T22:08:15.075335", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:08:27.647261", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:08:46.813411", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:08:59.020015", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "[hello](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=all&is_targeted_country=false&media_type=all&q=chatbuypro.com&search_type=keyword_unordered)"}
-{"ts": "2025-07-24T22:08:59.021182", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T22:09:23.963815", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:09:26.959141", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T22:09:28.284706", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Sent file:..."}
-{"ts": "2025-07-24T22:13:08.260881", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T22:13:08.261986", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:13:21.365950", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:13:31.926272", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:13:38.240010", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:13:42.255541", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:13:42.684720", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:14:21.892967", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "[hello](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=all&is_targeted_country=false&media_type=all&q=chatbuypromax.com&search_type=keyword_unordered)"}
-{"ts": "2025-07-24T22:14:21.894831", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T22:15:01.055334", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "[hello]([ad library](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=all&is_targeted_country=false&media_type=all&q=chatbuypromax.com&search_type=keyword_unordered))"}
-{"ts": "2025-07-24T22:15:01.056351", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T22:20:36.406949", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T22:20:36.406949", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Invalid ..."}
-{"ts": "2025-07-24T22:22:07.502883", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "[chatbuypro](https://chatbuypromax.com/)"}
-{"ts": "2025-07-24T22:22:07.503896", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T22:24:12.145279", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T22:24:12.148585", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:24:19.966981", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:24:23.205021", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:24:23.607122", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:30:27.821275", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T22:30:27.826542", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:30:35.600676", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:30:38.794515", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:30:39.285779", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:31:22.943302", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:31:22.944626", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:31:37.226036", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:31:40.307817", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:31:40.727009", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:33:33.296281", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:33:33.300658", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:33:46.137577", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:33:49.294171", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:33:49.754214", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:38:18.777671", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T22:38:18.779138", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:38:31.721255", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:38:42.539975", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:38:49.244350", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:38:52.811985", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:38:53.278762", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:40:00.112535", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T22:40:00.112535", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:40:21.347952", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:40:32.041065", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:40:39.015245", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:40:41.949716", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:40:42.387148", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:41:28.016673", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T22:41:28.018001", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:41:40.547640", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T22:41:51.596710", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T22:41:58.559916", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T22:42:01.837992", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:42:02.268450", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:46:05.161722", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:46:05.164277", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:46:17.759455", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:46:21.098307", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:46:21.553232", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:47:08.596746", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [thaidealzone.com](http://thaidealzone.com/)"}
-{"ts": "2025-07-24T22:47:08.599237", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:47:21.187156", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:47:24.578001", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:47:25.064638", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:50:03.129281", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:50:03.129281", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:50:18.136549", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:50:21.036768", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:50:21.501600", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:50:38.975069", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T22:50:38.976591", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T22:50:51.723502", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T22:50:54.795807", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T22:50:55.237472", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T22:55:38.333860", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "hi"}
-{"ts": "2025-07-24T22:55:38.335885", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T23:08:28.823053", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.co"}
-{"ts": "2025-07-24T23:08:28.825071", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:08:42.258527", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:08:45.705957", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:08:46.125956", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:10:34.562959", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T23:10:34.564055", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:10:47.255260", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:10:50.720191", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:10:51.158676", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:11:13.421037", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T23:11:13.421037", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:11:26.014473", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:11:29.290095", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:11:29.706383", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:12:24.531986", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:12:24.532982", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:12:37.434033", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:12:41.421888", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:12:41.843989", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:13:21.802105", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:13:21.802105", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:13:35.276852", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:13:38.660389", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:13:39.207878", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:14:28.630588", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:14:28.632886", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:14:41.321972", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:14:44.600914", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:14:45.067646", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:15:13.915220", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:15:13.916914", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:15:26.270975", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T23:15:36.833306", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T23:15:43.787897", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T23:15:46.740422", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:15:47.237843", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:17:06.359566", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:17:06.364164", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:17:28.489619", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T23:17:39.089621", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T23:17:45.944937", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T23:17:49.256487", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:17:49.690583", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:22:15.627912", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:22:15.630092", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:22:56.740577", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Error du..."}
-{"ts": "2025-07-24T23:23:00.633113", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:23:01.113404", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:26:45.561821", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search [chatbuypromax.com](http://chatbuypromax.com/)"}
-{"ts": "2025-07-24T23:26:45.564305", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:26:58.112942", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T23:27:08.698927", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T23:27:15.372012", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T23:27:18.425501", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:27:18.843921", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:28:00.854910", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "search chatbuypromax.com"}
-{"ts": "2025-07-24T23:28:00.855925", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:28:13.283929", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T23:28:23.887738", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T23:28:32.064924", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T23:28:34.874505", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ No resul..."}
-{"ts": "2025-07-24T23:28:35.305604", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "🔗 Visit fo..."}
-{"ts": "2025-07-24T23:34:07.397155", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "@_user_1 hello"}
-{"ts": "2025-07-24T23:34:07.399306", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T23:34:47.471687", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "i", "msg": "@_user_1 start"}
-{"ts": "2025-07-24T23:34:47.472847", "cid": "oc_a3e7533035c211bb7d79321e9f5902e5", "dir": "o", "msg": "❌ Unrecogn..."}
-{"ts": "2025-07-24T23:35:13.349267", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "start"}
-{"ts": "2025-07-24T23:35:13.351530", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T23:35:20.206964", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "help"}
-{"ts": "2025-07-24T23:35:20.208582", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T23:38:24.800043", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "hi"}
-{"ts": "2025-07-24T23:38:24.800604", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🤖 FB Ads S..."}
-{"ts": "2025-07-24T23:38:41.606484", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
-{"ts": "2025-07-24T23:38:41.609059", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi..."}
-{"ts": "2025-07-24T23:38:54.252213", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear..."}
-{"ts": "2025-07-24T23:39:04.990546", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
-{"ts": "2025-07-24T23:39:13.555877", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
-{"ts": "2025-07-24T23:39:16.693916", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c..."}
-{"ts": "2025-07-24T23:39:19.056362", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:..."}
+{"ts": "2025-07-25T13:26:28.913242", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hi"}
+{"ts": "2025-07-25T13:26:28.918179", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "omt_1be6985cfe4c177a"}
+{"ts": "2025-07-25T13:30:07.699021", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T13:30:07.700962", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "omt_1be7756a824e177b"}
+{"ts": "2025-07-25T13:37:00.421012", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T13:37:00.421628", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "omt_1be7756a824e177b"}
+{"ts": "2025-07-25T13:39:40.336082", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T13:39:40.336621", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "omt_1be7756a824e177b"}
+{"ts": "2025-07-25T13:42:22.713662", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T13:42:22.714236", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:33.172153", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:42:33.173364", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:37.410873", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:38.438915", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:55.333071", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "search chatbuypro.com"}
+{"ts": "2025-07-25T13:42:55.335152", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:56.560226", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:59.375356", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔄 Your sea...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:42:59.978047", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:00.458712", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:02.753328", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:05.257693", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:24.680622", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "cancel"}
+{"ts": "2025-07-25T13:43:24.682061", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "👀 No activ...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:48.206117", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:43:48.208247", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:52.397803", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:43:53.007796", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:02.784299", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:09.048350", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:10.451624", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:44:10.454134", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:10.571306", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:14.355201", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:15.040469", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:23.510056", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:29.879950", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:44:31.632107", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:25.398806", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:46:25.400005", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:30.123764", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:30.786933", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:40.580860", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:47.235328", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:46:50.429015", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:52:22.062781", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:52:22.063901", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:52:22.787724", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ Error pr...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:52:39.762412", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:52:39.764005", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:52:52.724106", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear..."}
+{"ts": "2025-07-25T13:52:59.226071", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜..."}
+{"ts": "2025-07-25T13:53:03.508004", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜..."}
+{"ts": "2025-07-25T13:53:06.871609", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:53:08.851932", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Sent file:...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:56:49.118855", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:56:49.119784", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:56:53.175064", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:56:53.746232", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:02.703241", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:09.017343", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:10.377826", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:57:10.380914", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:10.669070", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:14.985169", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "❌ No resul...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:16.159736", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔗 Visit fo...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:24.158406", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:30.401294", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:31.990939", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:57:54.932745", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:57:54.934324", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:58:08.712185", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:58:15.045458", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:58:16.824779", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:58:20.312914", "cid": "oc_0b74fc4e8a5bcc2051ef1807cb054c92", "dir": "o", "msg": "✅ Search c...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:59:33.850390", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "search thaidealzone.com"}
+{"ts": "2025-07-25T13:59:33.852504", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🔍 Processi...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:59:47.802164", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "Start sear...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:59:54.244263", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T13:59:55.711519", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T14:00:01.342101", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "✅ Search c...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T14:00:03.100511", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "Sent file:...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
+{"ts": "2025-07-25T14:03:41.444427", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "i", "msg": "hello"}
+{"ts": "2025-07-25T14:03:41.445545", "cid": "oc_87efff3c120bf6467f7480203d3466ce", "dir": "o", "msg": "🤖 FB Ads S...", "tid": "om_x100b471b94f7c8b00d73250734e8275"}
