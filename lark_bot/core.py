@@ -8,7 +8,7 @@ def handle_incoming_message(event_data):
     message = event_data["event"]["message"]
     print("Received message:", message)
     chat_id = message["chat_id"]
-    thread_id = 'om_x100b471b94f7c8b00d73250734e8275'
+    # thread_id = 'om_x100b471b94f7c8b00d73250734e8275'
     
     # Parse the JSON content string
     content = json.loads(message["content"])
@@ -25,16 +25,16 @@ def handle_incoming_message(event_data):
 
     # Handle cancel command regardless of state - but use command_handler
     if text == "cancel":
-        command_handler.handle_command(chat_id, text, thread_id)
+        command_handler.handle_command(chat_id, text)
         return
 
     # Process message based on state
     if current_state == "AWAITING_SEARCH_TERM":
         command_handler.handle_search_term(chat_id, text)
     elif current_state is None:  # Use 'is None' instead of '== None'
-        command_handler.handle_command(chat_id, text, thread_id)
+        command_handler.handle_command(chat_id, text)
     elif current_state == "IN_PROGRESS":
         if text == "cancel":
-            command_handler.handle_command(chat_id, text, thread_id)
+            command_handler.handle_command(chat_id, text)
         else:
             command_handler.lark_api.send_text(chat_id, "🔄 Your request is still being processed. Type 'cancel' to stop it.")

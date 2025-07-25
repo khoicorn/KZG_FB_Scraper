@@ -40,28 +40,23 @@ class OptimizedLogger:
         
         return self.current_log_file
     
-    def log_message(self, chat_id, message, direction="incoming", thread_id=None):
-        """Ghi log message với format tối ưu, hỗ trợ thread_id"""
+    def log_message(self, chat_id, message, direction="incoming"):
+        """Ghi log message với format tối ưu"""
         log_file = self._get_log_file()
         timestamp = datetime.now().isoformat()
-        
-        # Format duy nhất cho msg
+            # Format duy nhất cho msg
         msg_content = (
             message if direction == "incoming"
             else (message[:10] + "..." if len(message) > 10 else message)
         )
 
-        # Tối ưu format log với thread_id tùy chọn
+        # Tối ưu format log
         log_entry = {
             "ts": timestamp,  # viết tắt timestamp
             "cid": str(chat_id),  # viết tắt chat_id
             "dir": direction[:1],  # 'i' hoặc 'o'
             "msg": msg_content
         }
-        
-        # Thêm thread_id nếu có
-        if thread_id:
-            log_entry["tid"] = str(thread_id)  # viết tắt thread_id
         
         # Ghi log an toàn với lock
         with threading.Lock():
