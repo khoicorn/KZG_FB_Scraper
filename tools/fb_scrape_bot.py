@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
 
@@ -143,7 +145,7 @@ class CrawlerQueue:
 class FacebookAdsCrawler:
     def __init__(self, keyword, chat_id):
         self.keyword = keyword
-        self.ad_card_class = "xh8yej3"
+        self.ad_card_class = "x1plvlek xryxfnj x1gzqxud x178xt8z x1lun4ml xso031l xpilrb4 xb9moi8 xe76qn7 x21b0me x142aazg x1i5p2am x1whfx0g xr2y4jy x1ihp6rs x1kmqopl x13fuv20 x18b5jzi x1q0q8m5 x1t7ytsu x9f619"
         self.driver = None
         self.ads_data = []
         self.lark_api = LarkAPI()
@@ -233,39 +235,105 @@ class FacebookAdsCrawler:
 
         return True
         
+    # def scroll_to_bottom(self):
+    #     """Scroll to the bottom of the page to load all ads"""
+    #     if self.should_stop():
+    #         return False
+            
+    #     if not self.should_stop():
+    #         self.lark_api.send_text(self.chat_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
+        
+    #     print("Step 1: Starting to scroll to the bottom of the page...")
+    #     last_height = self.driver.execute_script("return document.body.scrollHeight")
+        
+    #     while True:
+    #         if self.should_stop():
+    #             return False
+                
+    #         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    #         time.sleep(2)
+            
+    #         if self.should_stop():
+    #             return False
+                
+    #         new_height = self.driver.execute_script("return document.body.scrollHeight")
+    #         if new_height == last_height:
+    #             print("--Reached the bottom of the page. All ads should be loaded!")
+    #             break
+    #         last_height = new_height
+            
+    #     time.sleep(8)
+        
+    #     if not self.should_stop():
+    #         self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
+        
+    #     return True
+
     def scroll_to_bottom(self):
-        """Scroll to the bottom of the page to load all ads"""
+        """Scroll to the bottom of the page to load all ads with optimized waiting"""
         if self.should_stop():
             return False
             
+        # Send initial progress message
         if not self.should_stop():
             self.lark_api.send_text(self.chat_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
         
-        print("Step 1: Starting to scroll to the bottom of the page...")
         last_height = self.driver.execute_script("return document.body.scrollHeight")
+        scroll_attempt = 0
+        max_attempts = 10  # Prevent infinite scrolling
         
-        while True:
+        while scroll_attempt <= max_attempts:
             if self.should_stop():
                 return False
                 
+            # Scroll to bottom
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
             
+            # Use dynamic waiting instead of fixed sleep
+            try:
+                WebDriverWait(self.driver, 2).until(
+                    lambda d: d.execute_script("return document.body.scrollHeight") > last_height
+                )
+            except TimeoutException:
+                # No new content loaded within timeout
+                print("-- Reached bottom of page")
+                break
+                
+            # Check if we need to stop after waiting
             if self.should_stop():
                 return False
                 
+            # Update height and attempt counter
             new_height = self.driver.execute_script("return document.body.scrollHeight")
             if new_height == last_height:
-                print("--Reached the bottom of the page. All ads should be loaded!")
+                print("-- Content height stabilized")
                 break
+                
             last_height = new_height
+            scroll_attempt += 1
+            print(f"-- New content loaded ({scroll_attempt}/{max_attempts})")
             
-        time.sleep(8)
+        # Final stabilization check
+        try:
+            WebDriverWait(self.driver, 3).until(
+                lambda d: self._is_page_stabilized(d, last_height)
+            )
+        except TimeoutException:
+            print("-- Page stabilization check timeout")
         
         if not self.should_stop():
             self.lark_api.send_text(self.chat_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
-        
+
         return True
+    
+    def _is_page_stabilized(self, driver, last_height):
+        """Check if page height remains constant for 3 consecutive checks"""
+        heights = []
+        for _ in range(3):
+            heights.append(driver.execute_script("return document.body.scrollHeight"))
+            time.sleep(0.5)  # Short interval between checks
+        
+        return all(h == heights[0] for h in heights) and heights[0] == last_height
         
     def extract_library_id(self, text):
         """Extract Library ID from ad text"""
@@ -391,9 +459,17 @@ class FacebookAdsCrawler:
                 return
                 
             count = 0
-            ad_elements = self.driver.find_elements(By.CLASS_NAME, self.ad_card_class)
+            # ad_elements = self.driver.find_elements(By.CLASS_NAME, self.ad_card_class)
+            # print(len(ad_elements))
 
-            for ad in ad_elements:
+            # Convert to CSS selector
+            css_selector = "." + self.ad_card_class.replace(" ", ".")
+
+            # Find elements
+            elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
+            # threshold = len(elements)
+
+            for ad in elements:
                 # Check cancellation before processing each ad
                 if self.should_stop():
                     print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")

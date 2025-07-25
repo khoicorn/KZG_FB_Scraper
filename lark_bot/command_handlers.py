@@ -9,7 +9,7 @@ import urllib.parse  # Import the specific submodule
 def clean_url(url):
 
     if "[" in url:
-        
+
         match = re.search(r'\[(.*?)\]', url)  # Non-greedy match between []
         if match:
             url = match.group(1)  # "chatbuypromax.com"
@@ -137,7 +137,7 @@ class CommandHandler:
             "─────────────────────────────────────\n"
             "⚡ Results delivered as Excel within 1-2 mins"
         )
-        print(help_text)
+        # print(help_text)
         self.lark_api.send_text(chat_id, help_text)
 
     def is_valid_domain(self, chat_id, domain):
