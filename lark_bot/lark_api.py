@@ -53,11 +53,11 @@ class LarkAPI:
             "header": {
                 "title": {
                     "tag": "plain_text",
-                    "content": "🤖 FB Chat Bot | Command Menu"
+                    "content": "🤖 FB Chat Bot"
                 },
                             "subtitle": {
                 "tag": "plain_text",
-                "content": "Excel report will be generated in 1-2 minutes"
+                "content": "Excel report results in 1-2 minutes"
                 },
                 "template": "blue"
             },
@@ -66,40 +66,32 @@ class LarkAPI:
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": "**Basic Commands:**"
+                        "content": "**Basic Commands:**\n" + 
+                                "**📙 /help** - Show available commands\n" +
+                                "**🔍 /search domain.com** - Start scraping the target domain\n" +
+                                "**⛔ /cancel** - Cancel any in-progress search\n"
                     }
                 },
                 {
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": "• **help** - Show available commands\n" +
-                                "• **search domain.com** - Start scraping the target domain\n" +
-                                "• **cancel** - Cancel any in-progress search\n"
+                        "content": "**Example:**\n" + 
+                                " /search chatbuypro.com\n" +
+                                " /search thaidealzone.com"
                     }
                 },
-                {
+                               {
                     "tag": "hr",
                     "style": {
                         "color": divider_color
                     }
                 },
-                 {
-                    "tag": "div",
-                    "text": {
-                        "tag": "lark_md",
-                        "content": "**Sample Flow:**"
-                    }
-                },
                 {
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content":
-                                "user: search chatbuypro.com\n" +
-                                "bot:  --Searching starts ...\n" +
-                                "bot:  --Progress updates ...\n" +
-                                "bot:  --Successful: 10 results found! [File Attached]"
+                        "content": "📋 Bot handles **1 request** at a time. New requests will be queued."
                     }
                 }
             ]

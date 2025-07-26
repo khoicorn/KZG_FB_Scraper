@@ -27,24 +27,24 @@ def process_message_async(data, chat_type):
         
         # Group chat logic - only respond to commands starting with /
         # if chat_type == "group":
-        #     if text.startswith('/'):
-        #         # Remove the / prefix from the text
-        #         modified_text = text[1:]  # Remove first character (/)
-        #         logger.info(f"Group command detected, modified: '{text}' -> '{modified_text}'")
-                
-        #         # Modify the data to remove the / prefix
-        #         message_json['text'] = modified_text
-        #         data['event']['message']['content'] = json.dumps(message_json)
-                
-        #         # Process the command in group
-        #         handle_incoming_message(data)
-        #     else:
-        #         logger.warning("No command in group")
+        if text.startswith('/'):
+            # Remove the / prefix from the text
+            modified_text = text[1:]  # Remove first character (/)
+            logger.info(f"Group command detected, modified: '{text}' -> '{modified_text}'")
+            
+            # Modify the data to remove the / prefix
+            message_json['text'] = modified_text
+            data['event']['message']['content'] = json.dumps(message_json)
+            
+            # Process the command in group
+            handle_incoming_message(data)
+        else:
+            logger.warning("No command in group")
         
         # P2P chat logic - respond to all messages
         # elif chat_type == "p2p":
-        # logger.info("Processing P2P message")
-        handle_incoming_message(data)
+            # logger.info("Processing P2P message")
+            # handle_incoming_message(data)
         
         # else:
         #     logger.warning(f"Unknown chat type: {chat_type}")
