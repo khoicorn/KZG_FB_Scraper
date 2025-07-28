@@ -14,6 +14,43 @@ from datetime import datetime
 import time
 import threading
 import queue
+import requests
+
+import io
+from openpyxl import Workbook
+from openpyxl.drawing.image import Image as OpenPyxlImage
+from openpyxl.utils import get_column_letter
+from PIL import Image as PILImage
+
+def add_image_objects_df(df, url_column, image_size=(100, 80)):
+    """
+    Downloads images from a URL column and adds a new column with in-memory PIL image objects (resized).
+
+    Parameters:
+    - df: pandas DataFrame
+    - url_column: str, column name that contains image URLs
+    - output_column: str, name of the new column for image objects
+    - image_size: tuple(int, int), max (width, height) for resizing
+
+    Returns:
+    - A copy of the DataFrame with a new column containing PIL.Image objects
+    """
+    image_objects = []
+
+    for idx, url in enumerate(df[url_column]):
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            img = PILImage.open(io.BytesIO(response.content))
+            img.thumbnail(image_size, PILImage.Resampling.LANCZOS)
+            image_objects.append(img)
+        except Exception as e:
+            print(f"⚠️ Failed to download or process image at row {idx}: {e}")
+            image_objects.append(None)
+
+    df = df.copy()
+    df[url_column] = image_objects
+    return df
 
 class CrawlerQueue:
     _instance = None
@@ -395,14 +432,17 @@ class FacebookAdsCrawler:
                     media_data["company"] = alt.strip()
                 elif not media_data["image_url"]:
                     media_data["image_url"] = src
-                    
+
             # Process video
             if not self.should_stop():
                 try:
                     video_tag = ad_element.find_element(By.TAG_NAME, "video")
                     media_data["video_url"] = video_tag.get_attribute("src")
+                    media_data["thumbnail_url"] = video_tag.get_attribute("poster")
                 except NoSuchElementException:
                     pass
+            
+
                     
         except Exception as e:
             print(f"Error extracting media: {e}")
@@ -459,7 +499,6 @@ class FacebookAdsCrawler:
                 return
                 
             count = 0
-            # ad_elements = self.driver.find_elements(By.CLASS_NAME, self.ad_card_class)
             # print(len(ad_elements))
 
             # Convert to CSS selector
@@ -518,6 +557,11 @@ class FacebookAdsCrawler:
         df_cleaned["ad_url"] = df_cleaned["image_url"].fillna(df_cleaned["video_url"])
         df_cleaned["ad_type"] = df_cleaned["image_url"].notnull().replace({True: "image", False: "video"})
         df_cleaned["pixel_id"] = df_cleaned["pixel_id"].str.replace("%3D", "")
+        df_cleaned["thumbnail_url"] =  df_cleaned["thumbnail_url"] .fillna(df_cleaned["image_url"])
+        
+        # df_cleaned["destination_url"] = df_cleaned["destination_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
+        # df_cleaned["ad_url"] = df_cleaned["ad_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
+        # df_cleaned["thumbnail_url"] = df_cleaned["ad_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
 
         final_columns = [
             "library_id",
@@ -526,7 +570,9 @@ class FacebookAdsCrawler:
             "pixel_id",
             "destination_url",
             "ad_type",
-            "ad_url"]
+            "ad_url",
+            "thumbnail_url"
+            ]
 
         print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
         self.df = df_cleaned[final_columns]
