@@ -1,7 +1,8 @@
 import requests
-import os
+# import os
 import json
 import time
+from datetime import datetime, timedelta
 from .config import APP_ID, APP_SECRET
 from .logger import message_logger
 
@@ -61,6 +62,47 @@ class LarkAPI:
             response = requests.request(method, url, **kwargs)
         
         return response
+    
+    def reply_to_message(self, message_id: str, text: str, reply_in_thread: bool = True):
+        """
+        Replies to a specific message in Lark/Feishu
+        
+        Args:
+            message_id (str): ID of the message to reply to
+            text (str): Text content of the reply
+            reply_in_thread (bool): Whether to reply in thread form
+            uuid (str): Unique ID for deduplication (optional)
+        
+        Returns:
+            dict: Response data if successful, None otherwise
+        """
+        url = f"https://open.larksuite.com/open-apis/im/v1/messages/{message_id}/reply"
+        headers = {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+        
+        payload = {
+            "content": json.dumps({"text": text}),
+            "msg_type": "text",
+            "reply_in_thread": reply_in_thread
+        }
+        
+        try:
+            response = self._make_authenticated_request('POST', url, headers=headers, json=payload)
+            response_data = response.json()
+            print(payload)
+            
+            if response.status_code == 200 and response_data.get("code") == 0:
+                message_logger.log_message(message_id, text, direction="outgoing", is_reply=True)
+                return response_data["data"]
+            else:
+                error_msg = response_data.get("msg", "Unknown error")
+                print(f"Failed to reply to message {message_id}. Error: {error_msg} (Code: {response_data.get('code')})")
+                return None
+                
+        except Exception as e:
+            print(f"Exception occurred while replying to message {message_id}: {str(e)}")
+            return None
     
     def send_text(self, chat_id, text):
         url = "https://open.larksuite.com/open-apis/message/v4/send/"
@@ -158,18 +200,23 @@ class LarkAPI:
         
         if response.status_code != 200:
             raise Exception(f"Failed to send card: {response.text}")
-    
-    def send_file(self, chat_id, file_buffer, filename):
+        
+    def send_file(self, message_id, file_buffer, filename, reply_in_thread = True):
         """
         Uploads and sends in-memory file
         """
         # Step 1: Upload file directly from memory
         upload_url = "https://open.larksuite.com/open-apis/im/v1/files"
-        
+
+          # Tính expire_time (UTC timestamp mili giây)
+        # expire_at = int((datetime.utcnow() + timedelta(minutes=5)).timestamp() * 1000)  # 5 phút sau
+
         files = {
             'file': (filename, file_buffer, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         }
-        data = {'file_type': 'stream', 'file_name': filename}
+        data = {'file_type': 'stream', 
+                'file_name': filename
+                }
         
         upload_response = self._make_authenticated_request(
             'POST',
@@ -187,28 +234,88 @@ class LarkAPI:
         if not file_key:
             raise Exception("File upload failed: No file_key in response")
         
-        # Step 2: Send message with file
-        send_url = "https://open.larksuite.com/open-apis/im/v1/messages"
-        params = {"receive_id_type": "chat_id"}
-        headers = {
-            "Content-Type": "application/json; charset=utf-8"
-        }
+           # Step 2: Send message with file
+        send_url = f"https://open.larksuite.com/open-apis/im/v1/messages/{message_id}/reply"
+        headers = {"Content-Type": "application/json; charset=utf-8"}
+        
         payload = {
-            "receive_id": chat_id,
             "msg_type": "file",
-            "content": json.dumps({"file_key": file_key})
+            "content": json.dumps({"file_key": file_key}),
+            "reply_in_thread": reply_in_thread
         }
         
         send_response = self._make_authenticated_request(
             'POST',
             send_url, 
-            params=params, 
             headers=headers, 
             json=payload
         )
         
         # Handle send errors
-        message_logger.log_message(chat_id, f"Sent file: {filename}", "outgoing")
-        
         if send_response.status_code != 200:
-            raise Exception(f"Send failed: {send_response.text}")
+            send_error = send_response.json()
+            error_msg = send_error.get('msg', 'Unknown send error')
+            error_code = send_error.get('code', 'UNKNOWN')
+            raise Exception(f"Failed to send file: {error_msg} (Code: {error_code})")
+        
+        
+    # def send_file(self, chat_id, file_buffer, filename):
+    #     """
+    #     Uploads and sends in-memory file
+    #     """
+    #     # Step 1: Upload file directly from memory
+    #     upload_url = "https://open.larksuite.com/open-apis/im/v1/files"
+
+    #       # Tính expire_time (UTC timestamp mili giây)
+    #     # expire_at = int((datetime.utcnow() + timedelta(minutes=5)).timestamp() * 1000)  # 5 phút sau
+
+    #     files = {
+    #         'file': (filename, file_buffer, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    #     }
+    #     data = {'file_type': 'stream', 
+    #             'file_name': filename
+    #             }
+        
+    #     upload_response = self._make_authenticated_request(
+    #         'POST',
+    #         upload_url, 
+    #         files=files, 
+    #         data=data
+    #     )
+        
+    #     # Handle upload errors
+    #     if upload_response.status_code != 200:
+    #         raise Exception(f"Upload failed: {upload_response.text}")
+        
+    #     file_key = upload_response.json().get("data", {}).get("file_key")
+        
+    #     if not file_key:
+    #         raise Exception("File upload failed: No file_key in response")
+        
+    #     # Step 2: Send message with file
+    #     send_url = "https://open.larksuite.com/open-apis/im/v1/messages"
+    #     params = {"receive_id_type": "chat_id"}
+    #     headers = {
+    #         "Content-Type": "application/json; charset=utf-8"
+    #     }
+
+    #     payload = {
+    #         "receive_id": chat_id,
+    #         "msg_type": "file",
+    #         "content": json.dumps({"file_key": file_key
+    #                                })
+    #     }
+        
+    #     send_response = self._make_authenticated_request(
+    #         'POST',
+    #         send_url, 
+    #         params=params, 
+    #         headers=headers, 
+    #         json=payload
+    #     )
+        
+    #     # Handle send errors
+    #     print(chat_id, f"Sent file: {filename}", "outgoing")
+        
+    #     if send_response.status_code != 200:
+    #         raise Exception(f"Send failed: {send_response.text}")

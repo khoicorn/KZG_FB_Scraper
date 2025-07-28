@@ -1,14 +1,16 @@
 import json
 from .state_managers import state_manager
 from .command_handlers import command_handler
-from .logger import message_logger  # Thêm import
+from .logger import message_logger
 
 def handle_incoming_message(event_data):
     # Access the nested structure correctly
+    print(event_data)
     message = event_data["event"]["message"]
     print("Received message:", message)
     chat_id = message["chat_id"]
-    # thread_id = 'om_x100b471b94f7c8b00d73250734e8275'
+    message_id = message["message_id"]
+    user_id = event_data["event"]["sender"]["sender_id"]["user_id"]
     
     # Parse the JSON content string
     content = json.loads(message["content"])
@@ -16,25 +18,29 @@ def handle_incoming_message(event_data):
 
     print("Parsed content:", text)
 
-    # LOG TIN NHẮN ĐẾN
-    message_logger.log_message(chat_id, text, direction= "incoming")  # Thêm dòng này
-    
-    # Get current user state
-    current_state = state_manager.get_state(chat_id)
-    print(f"Current state: {current_state}, chat_id: {chat_id}, text: {text}")
+    # Log incoming message
+    message_logger.log_message(chat_id, text, direction="incoming")
 
-    # Handle cancel command regardless of state - but use command_handler
+    # Store chat_id mapping only if state is None
+    current_state = state_manager.get_state(user_id)
+    if current_state is None:
+        print(f"State is None for user_id {user_id}, setting chat_id mapping")
+        state_manager.set_state(user_id, None, chat_id, message_id)
+
+    print(f"Current state: {current_state}, user_id: {user_id}, chat_id: {chat_id}, text: {text}")
+
+    # Handle cancel command regardless of state
     if text == "cancel":
-        command_handler.handle_command(chat_id, text)
+        command_handler.handle_command(user_id, text)
         return
 
     # Process message based on state
     if current_state == "AWAITING_SEARCH_TERM":
-        command_handler.handle_search_term(chat_id, text)
-    elif current_state is None:  # Use 'is None' instead of '== None'
-        command_handler.handle_command(chat_id, text)
+        command_handler.handle_search_term(user_id, text)
     elif current_state == "IN_PROGRESS":
-        if text == "cancel":
-            command_handler.handle_command(chat_id, text)
-        else:
-            command_handler.lark_api.send_text(chat_id, "🔄 Your request is still being processed. Type 'cancel' to stop it.")
+        command_handler.lark_api.reply_to_message(
+            message_id,
+            "🔄 A search is already in progress. Type 'cancel' to stop it and start a new one."
+        )
+    elif current_state is None:
+        command_handler.handle_command(user_id, text)
