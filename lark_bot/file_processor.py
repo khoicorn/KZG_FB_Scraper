@@ -270,30 +270,27 @@ def generate_excel_report(crawler):
         time.sleep(1)
 
     crawler.data_to_dataframe()
-
+    print(crawler.df.empty)
+    if not crawler.df.empty:
    # Export in-memory only
-    excel_buffer = export_dataframe_with_images(
-        df=crawler.df,
-        image_column='thumbnail_url'
-    )
     
-    # Or use the class directly for more control (also in-memory only)
-    exporter = ExcelImageExporter(
-        image_size=(100, 100),
-        row_height=100,
-        timeout=15
-    )
-    
-    excel_buffer = exporter.export_to_excel(
-        df=crawler.df,
-        image_column='thumbnail_url'
-    )
-
-    # output = BytesIO()
-    # with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-    #     crawler.df.to_excel(writer, index=False, sheet_name='Results')
+        # Or use the class directly for more control (also in-memory only)
+        exporter = ExcelImageExporter(
+            image_size=(100, 100),
+            row_height=100,
+            timeout=15
+        )
+        
+        excel_buffer = exporter.export_to_excel(
+            df=crawler.df,
+            image_column='thumbnail_url'
+        )
+    else:
+        excel_buffer = None
 
     # output.seek(0)
     filename = f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx"
+
+    # print(excel_buffer, filename, craw)
 
     return excel_buffer, filename, crawler.df
