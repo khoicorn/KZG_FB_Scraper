@@ -1,7 +1,7 @@
 from .state_managers import state_manager
 from .lark_api import LarkAPI
 from .file_processor import generate_excel_report
-from tools import FacebookAdsCrawler
+from tools import *
 import threading
 import re
 import urllib.parse  # Import the specific submodule
@@ -76,20 +76,24 @@ class CommandHandler:
 
         print("Searching ...")
         state_manager.set_state(user_id, "IN_PROGRESS", chat_id)
-        self.lark_api.reply_to_message(
-            message_id,
-            "🔍 Processing your request. This may take a minute...\n\n💡 Type 'cancel' anytime to stop the process"
+
+        reply_message_id = self.lark_api.reply_to_message(
+            message_id = message_id,
+            card= domain_processing_card(search_word= search_term,
+                                         progress_percent= 0),
+            reply_in_thread= True
         )
+
+        print("PROCESSING ID", reply_message_id)
         
         # Process in background if domain is valid
         threading.Thread(
             target=self.process_search_async,
-            args=(user_id, search_term),
+            args=(user_id, search_term, reply_message_id),
             daemon=True
         ).start()
     
-    
-    def process_search_async(self, user_id, search_term):
+    def process_search_async(self, user_id, search_term, bot_reply_id):
         chat_id = state_manager.get_chat_id(user_id)
         message_id = state_manager.get_message_info(user_id)["message_id"]
 
@@ -99,7 +103,7 @@ class CommandHandler:
         
         file_buffer = None
         try:
-            crawler = FacebookAdsCrawler(search_term, chat_id, message_id)
+            crawler = FacebookAdsCrawler(search_term, chat_id, bot_reply_id)
             
             # Register the process BEFORE starting
             state_manager.register_process(user_id, crawler, chat_id)
@@ -114,13 +118,24 @@ class CommandHandler:
             # Only send results if not cancelled
             if not state_manager.should_cancel(user_id):
                 if df.empty:
-                    self.lark_api.reply_to_message(message_id, "❌ No results found for this domain.\n")
+                    # self.lark_api.reply_to_message(message_id, "❌ No results found for this domain.\n")
                     encoded_term = urllib.parse.quote(search_term)
                     link = f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q={encoded_term}&search_type=keyword_unordered"
                     message = f"🔗 Visit for more info: {link}"
-                    self.lark_api.reply_to_message(message_id, message)
+                    # self.lark_api.reply_to_message(message_id, message)
+                    
+                    self.lark_api.update_card_message(bot_reply_id, card= 
+                                                      search_no_result_card(
+                                                          search_word=search_term,
+                                                          href= link
+                                                      ))
                 else:
-                    self.lark_api.reply_to_message(message_id, f"✅ Search completed: {df.shape[0]} results.")
+                    # self.lark_api.reply_to_message(message_id, f"✅ Search completed: {df.shape[0]} results.")
+                    self.lark_api.update_card_message(message_id= bot_reply_id,
+                                                      card = search_complete_card(
+                                                          search_word= search_term,
+                                                          num_results= df.shape[0]
+                                                      ))
                     self.lark_api.send_file(message_id, file_buffer, filename)
             else:
                 self.lark_api.reply_to_message(message_id, "⛔ Process cancelled successfully!")

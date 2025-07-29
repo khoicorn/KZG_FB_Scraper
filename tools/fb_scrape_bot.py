@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
+from .interactive_card_library import *
 
 import re
 import pandas as pd
@@ -76,10 +77,14 @@ class CrawlerQueue:
             position = len(self.queue_list)
             if self.active:
                 # Nếu đang có request chạy, vị trí sẽ là position + 1 (vì có 1 đang chạy)
-                crawler.lark_api.reply_to_message(
-                    crawler.message_id,
-                    f"⏳ You’re queued at spot #{position}. I’ll ping you when it starts."
-                )
+                # crawler.lark_api.reply_to_message(
+                #     crawler.message_id,
+                #     f"⏳ You’re queued at spot #{position}. I’ll ping you when it starts."
+                # )
+                crawler.lark_api.update_card_message(crawler.message_id, 
+                                        card= queue_card(search_word= crawler.keyword,
+                                         position= position)
+                                         )
         
         if not self.active:
             self._process_next()
@@ -116,10 +121,14 @@ class CrawlerQueue:
             temp_queue = list(self.queue.queue)
             for crawler in temp_queue:
                 if crawler.chat_id == chat_id:
-                    crawler.lark_api.reply_to_message(
-                        crawler.message_id,
-                        f"📍 Current position in queue: #{i}"
-                    )
+                    # crawler.lark_api.reply_to_message(
+                    #     crawler.message_id,
+                    #     f"📍 Current position in queue: #{i}"
+                    # )
+                    crawler.lark_api.update_card_message(crawler.message_id, 
+                        card= queue_card(search_word= crawler.keyword,
+                            position= i)
+                            )
                     break
     
     def _run_crawler(self, crawler):
@@ -257,8 +266,10 @@ class FacebookAdsCrawler:
             
         # Send initial progress message
         if not self.should_stop():
-            self.lark_api.reply_to_message(self.message_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
-        
+            # self.lark_api.reply_to_message(self.message_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
+            self.lark_api.update_card_message(self.message_id, 
+                                        card= domain_processing_card(search_word= self.keyword,
+                                         progress_percent= 10),)
         last_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_attempt = 0
         max_attempts = 10  # Prevent infinite scrolling
@@ -303,8 +314,10 @@ class FacebookAdsCrawler:
             print("-- Page stabilization check timeout")
         
         if not self.should_stop():
-            self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
-
+            # self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
+            self.lark_api.update_card_message(self.message_id, 
+                                        card= domain_processing_card(search_word= self.keyword,
+                                         progress_percent= 40),)
         return True
     
     def _is_page_stabilized(self, driver, last_height):
@@ -469,8 +482,10 @@ class FacebookAdsCrawler:
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
             
             if not self.should_stop():
-                self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%")
-       
+                # self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%")
+                self.lark_api.update_card_message(self.message_id, 
+                                        card= domain_processing_card(search_word= self.keyword,
+                                         progress_percent= 80),)
         except Exception as e:
             print(f"Error during crawl: {e}")
             if not self.should_stop():

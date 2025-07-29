@@ -63,38 +63,107 @@ class LarkAPI:
         
         return response
     
-    def reply_to_message(self, message_id: str, text: str, reply_in_thread: bool = True):
+    # def reply_to_message(self, message_id: str, text: str, reply_in_thread: bool = True):
+    #     """
+    #     Replies to a specific message in Lark/Feishu
+        
+    #     Args:
+    #         message_id (str): ID of the message to reply to
+    #         text (str): Text content of the reply
+    #         reply_in_thread (bool): Whether to reply in thread form
+    #         uuid (str): Unique ID for deduplication (optional)
+        
+    #     Returns:
+    #         dict: Response data if successful, None otherwise
+    #     """
+    #     url = f"https://open.larksuite.com/open-apis/im/v1/messages/{message_id}/reply"
+    #     headers = {
+    #         "Content-Type": "application/json; charset=utf-8"
+    #     }
+        
+    #     payload = {
+    #         "content": json.dumps({"text": text}),
+    #         "msg_type": "text",
+    #         "reply_in_thread": reply_in_thread
+    #     }
+        
+    #     try:
+    #         response = self._make_authenticated_request('POST', url, headers=headers, json=payload)
+    #         response_data = response.json()
+    #         # reply_message_id = response_data["data"]["message_id"]
+            
+    #         # if response.status_code == 200 and response_data.get("code") == 0:
+    #         message_logger.log_message(message_id, text, direction="outgoing")
+    #         # print(f"Success replies with", response_data)
+    #         return response_data["data"]["message_id"]
+            
+    #         # else:
+    #             # error_msg = response_data.get("msg", "Unknown error")
+    #             # print(f"Failed to reply to message {message_id}. Error: {error_msg} (Code: {response_data.get('code')})")
+    #             # return None
+                
+    #     except Exception as e:
+    #         print(f"Exception occurred while replying to message {message_id}: {str(e)}")
+    #         return None
+
+    def reply_to_message(self, message_id: str, content=None, text: str = None, card: dict = None, 
+                    reply_in_thread: bool = True, msg_type: str = "text"):
         """
-        Replies to a specific message in Lark/Feishu
+        Replies to a specific message in Lark/Feishu with text or interactive card
         
         Args:
             message_id (str): ID of the message to reply to
-            text (str): Text content of the reply
+            content: Legacy parameter for backward compatibility
+            text (str): Text content of the reply (for text messages)
+            card (dict): Interactive card content (for card messages)
             reply_in_thread (bool): Whether to reply in thread form
-            uuid (str): Unique ID for deduplication (optional)
-        
+            msg_type (str): Message type - "text" or "interactive"
+            
         Returns:
-            dict: Response data if successful, None otherwise
+            str: Reply message ID if successful, None otherwise
         """
         url = f"https://open.larksuite.com/open-apis/im/v1/messages/{message_id}/reply"
         headers = {
             "Content-Type": "application/json; charset=utf-8"
         }
         
+        # Determine message type and content
+        if card is not None:
+            # Interactive card message
+            msg_type = "interactive"
+            message_content = json.dumps(card)
+            
+        elif text is not None:
+            # Text message
+            msg_type = "text"
+            message_content = json.dumps({"text": text})
+        elif content is not None:
+            # Legacy support - assume it's text
+            msg_type = "text"
+            message_content = json.dumps({"text": content})
+        else:
+            print("Error: No content provided (text or card)")
+            return None
+        
         payload = {
-            "content": json.dumps({"text": text}),
-            "msg_type": "text",
+            "content": message_content,
+            "msg_type": msg_type,
             "reply_in_thread": reply_in_thread
         }
         
         try:
             response = self._make_authenticated_request('POST', url, headers=headers, json=payload)
             response_data = response.json()
-            print(payload)
             
             if response.status_code == 200 and response_data.get("code") == 0:
-                message_logger.log_message(message_id, text, direction="outgoing", is_reply=True)
-                return response_data["data"]
+                reply_message_id = response_data["data"]["message_id"]
+                
+                # Log the message
+                log_content = text if text else f"Interactive Card: {card.get('header', {}).get('title', {}).get('content', 'Card')}"
+                message_logger.log_message(message_id, log_content, direction="outgoing")
+                
+                print(f"Successfully replied with {msg_type} message. Reply ID: {reply_message_id}")
+                return reply_message_id
             else:
                 error_msg = response_data.get("msg", "Unknown error")
                 print(f"Failed to reply to message {message_id}. Error: {error_msg} (Code: {response_data.get('code')})")
@@ -103,6 +172,43 @@ class LarkAPI:
         except Exception as e:
             print(f"Exception occurred while replying to message {message_id}: {str(e)}")
             return None
+        
+    def update_card_message(self, message_id: str, card: dict):
+        """
+        Updates an existing interactive card message in Lark/Feishu
+        
+        Args:
+            message_id (str): ID of the message to be updated
+            card (dict): New interactive card content
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        url = f"https://open.larksuite.com/open-apis/im/v1/messages/{message_id}"
+        headers = {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+        
+        payload = {
+            "content": json.dumps(card)
+        }
+        
+        try:
+            response = self._make_authenticated_request('PATCH', url, headers=headers, json=payload)
+            response_data = response.json()
+            
+            if response.status_code == 200 and response_data.get("code") == 0:
+                print(f"Successfully updated card message {message_id}")
+                return True
+            else:
+                error_msg = response_data.get("msg", "Unknown error")
+                error_code = response_data.get("code", "Unknown code")
+                print(f"Failed to update message {message_id}. Error: {error_msg} (Code: {error_code})")
+                return False
+                
+        except Exception as e:
+            print(f"Exception occurred while updating message {message_id}: {str(e)}")
+            return False
     
     def send_text(self, chat_id, text):
         url = "https://open.larksuite.com/open-apis/message/v4/send/"
