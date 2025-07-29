@@ -65,7 +65,7 @@ def domain_processing_card(search_word, progress_percent=0):
             {
                 "tag": "div",
                 "text": {
-                    "content": "💡 Type 'cancel' anytime to stop the process",
+                    "content": "💡 Type '/cancel' anytime to stop the process",
                     "tag": "lark_md"
                 }
             }
@@ -215,7 +215,7 @@ def search_no_result_card(search_word, href):
             {
                 "tag": "div",
                 "text": {
-                    "content": f"**No results found:** [Click here to check]({href})",
+                    "content": f"**No result found:** [Click here to check]({href})",
                     "tag": "lark_md"
                 }
             }
@@ -223,7 +223,7 @@ def search_no_result_card(search_word, href):
         "header": {
             "template": "gray",
             "title": {
-                "content": "📭 No results found",
+                "content": "📭 No result found",
                 "tag": "plain_text"
             }
         }
@@ -300,7 +300,7 @@ def queue_card(search_word, position):
             {
                 "tag": "div",
                 "text": {
-                    "content": "💡 Type 'cancel' anytime to stop the process",
+                    "content": "💡 Type '/cancel' anytime to stop the process",
                     "tag": "lark_md"
                 }
             }
