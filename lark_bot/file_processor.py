@@ -270,9 +270,11 @@ def generate_excel_report(crawler):
         time.sleep(1)
 
     crawler.data_to_dataframe()
-    print(crawler.df.empty)
-    if not crawler.df.empty:
+
+    print(crawler.df)
+    if (not crawler.df.empty) or (len(crawler.df["thumbnail_url"]) > 0):
    # Export in-memory only
+        print(crawler.df)
     
         # Or use the class directly for more control (also in-memory only)
         exporter = ExcelImageExporter(

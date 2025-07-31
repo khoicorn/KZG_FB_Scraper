@@ -221,7 +221,7 @@ def search_no_result_card(search_word, href):
             }
         ],
         "header": {
-            "template": "gray",
+            "template": "grey",
             "title": {
                 "content": "📭 No result found",
                 "tag": "plain_text"

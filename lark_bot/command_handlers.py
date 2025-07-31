@@ -102,6 +102,7 @@ class CommandHandler:
             return
         
         file_buffer = None
+
         try:
             crawler = FacebookAdsCrawler(search_term, chat_id, bot_reply_id)
             
@@ -114,7 +115,7 @@ class CommandHandler:
                 return
                     
             file_buffer, filename, df = generate_excel_report(crawler)
-            
+            print(df)
             # Only send results if not cancelled
             if not state_manager.should_cancel(user_id):
                 if df.empty:

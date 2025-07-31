@@ -371,7 +371,8 @@ class FacebookAdsCrawler:
             "company": None,
             "avatar_url": None,
             "image_url": None,
-            "video_url": None
+            "video_url": None,
+            "thumbnail_url": None
         }
         
         try:
@@ -389,6 +390,7 @@ class FacebookAdsCrawler:
                     media_data["company"] = alt.strip()
                 elif not media_data["image_url"]:
                     media_data["image_url"] = src
+                    media_data["thumbnail_url"] = src
 
             # Process video
             if not self.should_stop():
@@ -508,6 +510,8 @@ class FacebookAdsCrawler:
         if df.empty:
             self.df = df
             return
+        
+        # print(df.to_excel("test.xlsx"))
 
         filter_conditions = (df["image_url"].notnull() & df["video_url"].notnull()) | (~df["image_url"].notnull() & ~df["video_url"].notnull())
 
@@ -516,7 +520,8 @@ class FacebookAdsCrawler:
         df_cleaned["ad_url"] = df_cleaned["image_url"].fillna(df_cleaned["video_url"])
         df_cleaned["ad_type"] = df_cleaned["image_url"].notnull().replace({True: "image", False: "video"})
         df_cleaned["pixel_id"] = df_cleaned["pixel_id"].str.replace("%3D", "")
-        df_cleaned["thumbnail_url"] =  df_cleaned["thumbnail_url"] .fillna(df_cleaned["image_url"])
+        # df_cleaned["thumbnail_url"] =  df_cleaned["thumbnail_url"].fillna(df_cleaned["image_url"])
+        # print('FINAL DATA', df_cleaned)
         
         # df_cleaned["destination_url"] = df_cleaned["destination_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
         # df_cleaned["ad_url"] = df_cleaned["ad_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
@@ -533,6 +538,6 @@ class FacebookAdsCrawler:
             "thumbnail_url"
             ]
 
-        print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
+        # print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
         self.df = df_cleaned[final_columns]
         print(self.df.columns)
