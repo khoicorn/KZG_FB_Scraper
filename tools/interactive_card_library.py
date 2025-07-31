@@ -80,7 +80,7 @@ def domain_processing_card(search_word, progress_percent=0):
     }
 
 
-def search_complete_card(search_word, num_results):
+def search_complete_card(search_word, num_results, href):
     """
     Creates a completion card showing successful search results.
     
@@ -140,7 +140,7 @@ def search_complete_card(search_word, num_results):
             {
                 "tag": "div",
                 "text": {
-                    "content": f"**Search completed:** {num_results} results found",
+                    "content": f"**Search completed:** {num_results} results found [🔗 View details]({href})",
                     "tag": "lark_md"
                 }
             }
@@ -215,7 +215,7 @@ def search_no_result_card(search_word, href):
             {
                 "tag": "div",
                 "text": {
-                    "content": f"**No result found:** [Click here to check]({href})",
+                    "content": f"**No result found:** [🔗 Click here to check]({href})",
                     "tag": "lark_md"
                 }
             }

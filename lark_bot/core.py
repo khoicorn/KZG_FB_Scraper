@@ -19,7 +19,11 @@ def handle_incoming_message(event_data):
     print("Parsed content:", text)
 
     # Log incoming message
-    message_logger.log_message(chat_id, text, direction="incoming")
+    message_logger.log_message(user_id= user_id, 
+                               message_id= message_id, 
+                               chat_id=chat_id, 
+                               message=text, 
+                               direction="incoming")
 
     # Store chat_id mapping only if state is None
     current_state = state_manager.get_state(user_id)

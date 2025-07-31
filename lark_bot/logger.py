@@ -40,7 +40,7 @@ class OptimizedLogger:
         
         return self.current_log_file
     
-    def log_message(self, chat_id, message, direction="incoming"):
+    def log_message(self, user_id, message_id, chat_id, message, direction="incoming"):
         """Ghi log message với format tối ưu"""
         log_file = self._get_log_file()
         timestamp = datetime.now().isoformat()
@@ -52,6 +52,8 @@ class OptimizedLogger:
 
         # Tối ưu format log
         log_entry = {
+            "uid": user_id,
+            "mid": message_id,
             "ts": timestamp,  # viết tắt timestamp
             "cid": str(chat_id),  # viết tắt chat_id
             "dir": direction[:1],  # 'i' hoặc 'o'
