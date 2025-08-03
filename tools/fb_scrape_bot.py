@@ -3,55 +3,25 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.common.exceptions import TimeoutException
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
 from .interactive_card_library import *
 
 import re
 import pandas as pd
-from datetime import datetime
+# from datetime import datetime
 import time
 import threading
 import queue
-import requests
+# import requests
 
-import io
-from openpyxl import Workbook
-from openpyxl.drawing.image import Image as OpenPyxlImage
-from openpyxl.utils import get_column_letter
-from PIL import Image as PILImage
-
-def add_image_objects_df(df, url_column, image_size=(100, 80)):
-    """
-    Downloads images from a URL column and adds a new column with in-memory PIL image objects (resized).
-
-    Parameters:
-    - df: pandas DataFrame
-    - url_column: str, column name that contains image URLs
-    - output_column: str, name of the new column for image objects
-    - image_size: tuple(int, int), max (width, height) for resizing
-
-    Returns:
-    - A copy of the DataFrame with a new column containing PIL.Image objects
-    """
-    image_objects = []
-
-    for idx, url in enumerate(df[url_column]):
-        try:
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            img = PILImage.open(io.BytesIO(response.content))
-            img.thumbnail(image_size, PILImage.Resampling.LANCZOS)
-            image_objects.append(img)
-        except Exception as e:
-            print(f"⚠️ Failed to download or process image at row {idx}: {e}")
-            image_objects.append(None)
-
-    df = df.copy()
-    df[url_column] = image_objects
-    return df
+# import io
+# from openpyxl import Workbook
+# from openpyxl.drawing.image import Image as OpenPyxlImage
+# from openpyxl.utils import get_column_letter
+# from PIL import Image as PILImage
 
 class CrawlerQueue:
     _instance = None
@@ -189,6 +159,11 @@ class CrawlerQueue:
             self._update_queue_positions()
     
 class FacebookAdsCrawler:
+
+    # Pre-compiled regex patterns (class-level variables)
+    _LIBRARY_ID_PATTERN = re.compile(r'Library ID:\s*(\d+)')
+    _DATE_PATTERN = re.compile(r'\b\d{1,2}\s\w{3}\s\d{4}\b')
+
     def __init__(self, keyword, chat_id, message_id = False):
         self.keyword = keyword
         self.ad_card_class = "x1plvlek xryxfnj x1gzqxud x178xt8z x1lun4ml xso031l xpilrb4 xb9moi8 xe76qn7 x21b0me x142aazg x1i5p2am x1whfx0g xr2y4jy x1ihp6rs x1kmqopl x13fuv20 x18b5jzi x1q0q8m5 x1t7ytsu x9f619"
@@ -216,7 +191,7 @@ class FacebookAdsCrawler:
         return self._stop_event.is_set() or state_manager.should_cancel(self.chat_id)
     
     def initialize_driver(self):
-        """Initialize and configure the WebDriver"""
+        """Optimized driver configuration"""
         if self.should_stop():
             return False
         
@@ -224,9 +199,13 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')  # Reduce resource usage
+        options.add_argument('--disable-extensions')  # Improve performance
+        options.add_argument('--disable-infobars')
+        options.add_argument('--single-process')  # Lightweight mode
+        options.add_argument('--window-size=1280,720')  # Smaller than 1920x1080
 
         self.driver = webdriver.Chrome(options=options)
-        self.driver.set_window_size(1920, 1080)
         return True
     
     def start(self):
@@ -260,65 +239,49 @@ class FacebookAdsCrawler:
         return True
 
     def scroll_to_bottom(self):
-        """Scroll to the bottom of the page to load all ads with optimized waiting"""
-        if self.should_stop():
-            return False
-            
-        # Send initial progress message
-        if not self.should_stop():
-            # self.lark_api.reply_to_message(self.message_id, "Start searching:\n🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%")
-            self.lark_api.update_card_message(self.message_id, 
-                                        card= domain_processing_card(search_word= self.keyword,
-                                         progress_percent= 10),)
-        last_height = self.driver.execute_script("return document.body.scrollHeight")
-        scroll_attempt = 0
-        max_attempts = 10  # Prevent infinite scrolling
-        
-        while scroll_attempt <= max_attempts:
+            """Optimized scrolling with reduced attempts"""
             if self.should_stop():
                 return False
                 
-            # Scroll to bottom
-            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            
-            # Use dynamic waiting instead of fixed sleep
-            try:
-                WebDriverWait(self.driver, 2).until(
-                    lambda d: d.execute_script("return document.body.scrollHeight") > last_height
+            self.lark_api.update_card_message(
+                self.message_id, 
+                card=domain_processing_card(
+                    search_word=self.keyword,
+                    progress_percent=10
                 )
-            except TimeoutException:
-                # No new content loaded within timeout
-                print("-- Reached bottom of page")
-                break
-                
-            # Check if we need to stop after waiting
-            if self.should_stop():
-                return False
-                
-            # Update height and attempt counter
-            new_height = self.driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
-                print("-- Content height stabilized")
-                break
-                
-            last_height = new_height
-            scroll_attempt += 1
-            print(f"-- New content loaded ({scroll_attempt}/{max_attempts})")
-            
-        # Final stabilization check
-        try:
-            WebDriverWait(self.driver, 3).until(
-                lambda d: self._is_page_stabilized(d, last_height)
             )
-        except TimeoutException:
-            print("-- Page stabilization check timeout")
-        
-        if not self.should_stop():
-            # self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%")
-            self.lark_api.update_card_message(self.message_id, 
-                                        card= domain_processing_card(search_word= self.keyword,
-                                         progress_percent= 40),)
-        return True
+            
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            scroll_attempt = 0
+            max_attempts = 6  # Reduced from 10 to 6
+            
+            while scroll_attempt < max_attempts:
+                if self.should_stop():
+                    return False
+                    
+                # Scroll in increments instead of full page
+                scroll_increment = 800
+                current_position = self.driver.execute_script("return window.pageYOffset")
+                self.driver.execute_script(f"window.scrollTo(0, {current_position + scroll_increment});")
+                
+                # Reduced wait time
+                time.sleep(0.8)  # Reduced from 2 seconds
+                
+                new_height = self.driver.execute_script("return document.body.scrollHeight")
+                if new_height == last_height:
+                    scroll_attempt += 1
+                else:
+                    scroll_attempt = 0
+                    last_height = new_height
+
+            self.lark_api.update_card_message(
+                self.message_id, 
+                card=domain_processing_card(
+                    search_word=self.keyword,
+                    progress_percent=40
+                )
+            )
+            return True
     
     def _is_page_stabilized(self, driver, last_height):
         """Check if page height remains constant for 3 consecutive checks"""
@@ -328,40 +291,104 @@ class FacebookAdsCrawler:
             time.sleep(0.5)  # Short interval between checks
         
         return all(h == heights[0] for h in heights) and heights[0] == last_height
-        
+            
     def extract_library_id(self, text):
-        """Extract Library ID from ad text"""
-        match = re.search(r'Library ID:\s*(\d+)', text)
+        match = self._LIBRARY_ID_PATTERN.search(text)
         return match.group(1) if match else None
         
     def extract_date(self, text):
-        """Extract date from ad text"""
-        match = re.search(r'\b\d{1,2}\s\w{3}\s\d{4}\b', text)
+        match = self._DATE_PATTERN.search(text)
         return match.group() if match else None
-        
+    
     def process_ad_element(self, ad_element):
-        """Extract data from a single ad element"""
+        """Optimized element processing with batched JS execution"""
         if self.should_stop():
             return None
-            
+           
         try:
-            text = ad_element.text
-            if "Library ID" not in text:
+            # Get all data in single JS execution
+            ad_data = self.driver.execute_script("""
+                const element = arguments[0];
+                const text = element.innerText;
+                
+                // Extract media
+                let company = null;
+                let avatarUrl = null;
+                let imageUrl = null;
+                let videoUrl = null;
+                let thumbnailUrl = null;
+                
+                const imgs = element.querySelectorAll('img');
+                for (const img of imgs) {
+                    if (img.alt && !company) {
+                        company = img.alt.trim();
+                        avatarUrl = img.src;
+                    } else if (!imageUrl) {
+                        imageUrl = img.src;
+                        thumbnailUrl = img.src;
+                    }
+                }
+                
+                // Extract video
+                const video = element.querySelector('video');
+                if (video) {
+                    videoUrl = video.src;
+                    thumbnailUrl = video.poster || thumbnailUrl;
+                }
+                
+                // Extract links
+                let destinationUrl = null;
+                let pixelId = null;
+                const links = element.querySelectorAll('a');
+                for (const link of links) {
+                    const url = link.href;
+                    if (url && url.includes('l.facebook.com')) {
+                        if (url.includes('pixelId')) {
+                            pixelId = url.split('pixelId')[1].split('&')[0].replace('%3D', '');
+                            destinationUrl = url;
+                        } else {
+                            destinationUrl = url;
+                            break; // Stop at first valid link
+                        }
+                    }
+                }
+                
+                return {
+                    text,
+                    company,
+                    avatarUrl,
+                    imageUrl,
+                    videoUrl,
+                    thumbnailUrl,
+                    destinationUrl,
+                    pixelId
+                };
+            """, ad_element)
+            
+            if "Library ID" not in ad_data['text']:
                 return None
                 
-            ad_data = {
-                "text_snippet": text[:100].replace("\n", " ") + "...",
-                "library_id": self.extract_library_id(text),
-                "ad_start_date": self.extract_date(text),
-                **self._extract_media(ad_element),
-                **self._extract_links(ad_element)
-            }
-            return ad_data
+            # Extract ID and date using regex
+            lib_id = self.extract_library_id(ad_data['text'])
+            start_date = self.extract_date(ad_data['text'])
             
+            return {
+                "text_snippet": ad_data['text'][:100].replace("\n", " ") + "...",
+                "library_id": lib_id,
+                "ad_start_date": start_date,
+                "company": ad_data['company'],
+                "avatar_url": ad_data['avatarUrl'],
+                "image_url": ad_data['imageUrl'],
+                "video_url": ad_data['videoUrl'],
+                "thumbnail_url": ad_data['thumbnailUrl'],
+                "destination_url": ad_data['destinationUrl'],
+                "pixel_id": ad_data['pixelId']
+            }
+        
         except Exception as e:
             print(f"Error processing ad: {e}")
             return None
-            
+                
     def _extract_media(self, ad_element):
         """Extract image and video data from ad"""
         if self.should_stop():
@@ -520,12 +547,6 @@ class FacebookAdsCrawler:
         df_cleaned["ad_url"] = df_cleaned["image_url"].fillna(df_cleaned["video_url"])
         df_cleaned["ad_type"] = df_cleaned["image_url"].notnull().replace({True: "image", False: "video"})
         df_cleaned["pixel_id"] = df_cleaned["pixel_id"].str.replace("%3D", "")
-        # df_cleaned["thumbnail_url"] =  df_cleaned["thumbnail_url"].fillna(df_cleaned["image_url"])
-        # print('FINAL DATA', df_cleaned)
-        
-        # df_cleaned["destination_url"] = df_cleaned["destination_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
-        # df_cleaned["ad_url"] = df_cleaned["ad_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
-        # df_cleaned["thumbnail_url"] = df_cleaned["ad_url"].apply(lambda url: f'=HYPERLINK("{url}", "Click here")')
 
         final_columns = [
             "library_id",

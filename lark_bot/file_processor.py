@@ -8,17 +8,19 @@ from PIL import Image
 import requests
 import logging
 from typing import Optional, Tuple
-# from pathlib import Path
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
 
 class ExcelImageExporter:
-    """Enhanced Excel exporter with image support and error handling."""
+    """Optimized Excel exporter with parallel image processing."""
     
     def __init__(self, 
                  image_size: Tuple[int, int] = (80, 80),
                  row_height: int = 80,
                  image_col_width: int = 18,
-                 timeout: int = 10):
+                 timeout: int = 10,
+                 max_workers: int = 10):
         """
         Initialize the Excel exporter.
         
@@ -27,17 +29,16 @@ class ExcelImageExporter:
             row_height: Excel row height for image rows
             image_col_width: Width of the image column
             timeout: Request timeout in seconds
+            max_workers: Max threads for parallel image downloads
         """
         self.image_size = image_size
         self.row_height = row_height
         self.image_col_width = image_col_width
         self.timeout = timeout
-        
-        # Setup logging
-        logging.basicConfig(level=logging.INFO)
+        self.max_workers = max_workers
         self.logger = logging.getLogger(__name__)
     
-    def _download_and_process_image(self, url: str) -> Optional[BytesIO]:
+    def _download_and_process_image(self, url: str) -> Optional[bytes]:
         """
         Download and process an image from URL.
         
@@ -45,39 +46,29 @@ class ExcelImageExporter:
             url: Image URL to download
             
         Returns:
-            BytesIO object containing processed image or None if failed
+            bytes: PNG image data or None if failed
         """
         try:
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-            
+            headers = {'User-Agent': 'Mozilla/5.0'}
             response = requests.get(url, headers=headers, timeout=self.timeout)
             response.raise_for_status()
             
-            # Open and process image
-            img = Image.open(BytesIO(response.content))
-            
-            # Convert to RGB if necessary
-            if img.mode in ('RGBA', 'LA', 'P'):
-                img = img.convert('RGB')
-            
-            # Create thumbnail
-            img.thumbnail(self.image_size, Image.Resampling.LANCZOS)
-            
-            # Save to buffer
-            img_buffer = BytesIO()
-            img.save(img_buffer, format="PNG", optimize=True)
-            img_buffer.seek(0)
-            
-            return img_buffer
-            
-        except requests.exceptions.RequestException as e:
-            self.logger.warning(f"Failed to download image from {url}: {e}")
+            with Image.open(BytesIO(response.content)) as img:
+                # Convert to RGB if necessary
+                if img.mode in ('RGBA', 'LA', 'P'):
+                    img = img.convert('RGB')
+                
+                # Create thumbnail
+                img.thumbnail(self.image_size, Image.Resampling.LANCZOS)
+                
+                # Save to buffer and return bytes
+                with BytesIO() as buffer:
+                    img.save(buffer, format="PNG", optimize=True)
+                    return buffer.getvalue()
+                    
         except Exception as e:
-            self.logger.warning(f"Failed to process image from {url}: {e}")
-        
-        return None
+            self.logger.warning(f"Image processing failed for {url}: {str(e)}")
+            return None
     
     def _setup_header_styling(self, ws, num_cols: int):
         """Apply styling to header row."""
@@ -94,14 +85,11 @@ class ExcelImageExporter:
     def _auto_adjust_column_widths(self, ws, df: pd.DataFrame):
         """Auto-adjust column widths based on content."""
         for col_idx, column in enumerate(df.columns, 1):
-            max_length = len(str(column))  # Header length
-            
-            # Check data length
-            for value in df[column].astype(str):
-                max_length = max(max_length, len(value))
-            
-            # Set width with reasonable limits
-            adjusted_width = min(max(max_length + 2, 10), 50)
+            max_length = max(
+                len(str(column)),
+                df[column].astype(str).str.len().max()
+            )
+            adjusted_width = min(max_length + 2, 50)
             ws.column_dimensions[get_column_letter(col_idx)].width = adjusted_width
     
     def export_to_excel(self, 
@@ -135,85 +123,89 @@ class ExcelImageExporter:
         # Apply header styling
         self._setup_header_styling(ws, len(df.columns))
         
-        # Process data rows
-        successful_images = 0
-        failed_images = 0
-        
+        # Phase 1: Write data and collect image URLs
+        download_tasks = {}
         for row_idx, (_, row) in enumerate(df.iterrows(), start=2):
-            # Write data
             for col_idx, (col_name, value) in enumerate(row.items(), 1):
-                # Skip image URL column in output (or include it, based on preference)
                 ws.cell(row=row_idx, column=col_idx, value=value)
             
-            # Process image
-            image_url = row[image_column]
-            if pd.notna(image_url) and str(image_url).strip():
-                img_buffer = self._download_and_process_image(str(image_url))
+            if pd.notna(row[image_column]) and str(row[image_column]).strip():
+                download_tasks[row_idx] = str(row[image_column])
+
+        # Phase 2: Parallel image downloads
+        image_data = {}  # {row_idx: image_bytes}
+        if download_tasks:
+            with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                future_to_row = {
+                    executor.submit(self._download_and_process_image, url): row_idx
+                    for row_idx, url in download_tasks.items()
+                }
                 
-                if img_buffer:
-                    try:
-                        openpyxl_img = OpenPyxlImage(img_buffer)
-                        
-                        # Position image
-                        image_col_letter = get_column_letter(image_col_idx)
-                        openpyxl_img.anchor = f"{image_col_letter}{row_idx}"
-                        
-                        ws.add_image(openpyxl_img)
-                        
-                        # Adjust row height
-                        ws.row_dimensions[row_idx].height = self.row_height
-                        
-                        successful_images += 1
-                        
-                    except Exception as e:
-                        self.logger.error(f"Failed to add image to Excel for row {row_idx}: {e}")
-                        failed_images += 1
-                else:
+                for future in as_completed(future_to_row):
+                    row_idx = future_to_row[future]
+                    image_data[row_idx] = future.result()
+
+        # Phase 3: Insert images into worksheet
+        successful_images = 0
+        failed_images = 0
+        for row_idx, img_bytes in image_data.items():
+            if img_bytes:
+                try:
+                    # Create a new BytesIO for OpenPyxlImage
+                    img_buffer = BytesIO(img_bytes)
+                    img = OpenPyxlImage(img_buffer)
+                    
+                    # Position image
+                    image_col_letter = get_column_letter(image_col_idx)
+                    img.anchor = f"{image_col_letter}{row_idx}"
+                    
+                    ws.add_image(img)
+                    ws.row_dimensions[row_idx].height = self.row_height
+                    successful_images += 1
+                    
+                except Exception as e:
+                    self.logger.error(f"Failed to add image to Excel for row {row_idx}: {e}")
                     failed_images += 1
             else:
                 failed_images += 1
-                
-        # Process hyperlinks in specified column (add this after image processing)
-        # Auto-adjust column widths
-        self._auto_adjust_column_widths(ws, df)
-
-        # hyperlink_column = "destination_url"  # Change this to your desired column name
-        list_urls = ["destination_url", "ad_url", "thumbnail_url"]
-        for hyperlink_column in list_urls:
-            if hyperlink_column in df.columns:
+        
+        # Process hyperlinks
+        hyperlink_columns = ["destination_url", "ad_url", "thumbnail_url"]
+        for col_name in hyperlink_columns:
+            if col_name in df.columns:
+                col_idx = df.columns.get_loc(col_name) + 1
                 for row_idx, (_, row) in enumerate(df.iterrows(), start=2):
-                    url = row[hyperlink_column]
+                    url = row[col_name]
                     if pd.notna(url) and str(url).strip():
-                        cell = ws.cell(row=row_idx, column=df.columns.get_loc(hyperlink_column)+1)
+                        cell = ws.cell(row=row_idx, column=col_idx)
                         cell.value = "Click here"
                         cell.hyperlink = url
                         cell.font = Font(color="0563C1", underline="single")
-                        
-            colA_idx = df.columns.get_loc(hyperlink_column) + 1  # +1 for 1-based index
-            ws.column_dimensions[get_column_letter(colA_idx)].width = 20  # Your desired width
+                
+                # Set column width after processing
+                ws.column_dimensions[get_column_letter(col_idx)].width = 20
 
         # Set image column width
         image_col_letter = get_column_letter(image_col_idx)
-        print(image_col_letter)
         ws.column_dimensions[image_col_letter].width = self.image_col_width
         
+        # Auto-adjust other column widths
+        self._auto_adjust_column_widths(ws, df)
         
         # Log results
         self.logger.info(f"Export completed: {successful_images} images added, {failed_images} failed")
         
-        # Save to memory only
+        # Save to memory
         output = BytesIO()
         wb.save(output)
         output.seek(0)
-        
         return output
 
-# Usage example and convenience function
 def export_dataframe_with_images(df: pd.DataFrame, 
                                 image_column: str,
                                 **kwargs) -> BytesIO:
     """
-    Convenience function to export DataFrame with images to Excel (in-memory).
+    Convenience function to export DataFrame with images to Excel.
     
     Args:
         df: DataFrame to export
@@ -226,47 +218,44 @@ def export_dataframe_with_images(df: pd.DataFrame,
     exporter = ExcelImageExporter(**kwargs)
     return exporter.export_to_excel(df, image_column)
 
-# import pandas as pd
-
-# from io import BytesIO
-from datetime import datetime
-# from io import StringIO
-
 def generate_excel_report(crawler):
+    """Generate Excel report from crawler data with robust error handling."""
     today = datetime.now().strftime("%Y-%m-%d")
-    time.sleep(3)
-
-    # Bỏ qua kiểm tra, luôn gọi start() và chờ queue
-    crawler.start()  
-        
-    # Chờ đến khi request thoát khỏi queue (đã xử lý xong)
-    while crawler.queue_manager.get_queue_position(crawler.chat_id) is not None:
-        time.sleep(1)
-
-    crawler.data_to_dataframe()
-
-    print(crawler.df)
-    if (not crawler.df.empty):
-   # Export in-memory only
-        print(crawler.df)
+    time.sleep(1)  # Reduced sleep time
     
-        # Or use the class directly for more control (also in-memory only)
+    # Process crawler data
+    crawler.start()
+    
+    # Wait for processing to complete
+    while crawler.queue_manager.get_queue_position(crawler.chat_id) is not None:
+        time.sleep(0.5)
+    
+    # crawler.data_to_dataframe()
+
+    if crawler.df.empty:
+        return None, f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx", crawler.df
+    
+    # Create exporter with optimized settings
+    try:
         exporter = ExcelImageExporter(
             image_size=(100, 100),
             row_height=100,
-            timeout=15
+            timeout=15,
+            max_workers=10
         )
         
         excel_buffer = exporter.export_to_excel(
             df=crawler.df,
             image_column='thumbnail_url'
         )
-    else:
-        excel_buffer = None
-
-    # output.seek(0)
-    filename = f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx"
-
-    # print(excel_buffer, filename, craw)
-
-    return excel_buffer, filename, crawler.df
+        return excel_buffer, f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx", crawler.df
+    except Exception as e:
+        logging.error(f"Excel generation failed: {str(e)}")
+        return None, f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx", crawler.df
+    finally:
+        # Ensure crawler resources are cleaned up
+        if hasattr(crawler, 'driver') and crawler.driver:
+            try:
+                crawler.driver.quit()
+            except:
+                pass

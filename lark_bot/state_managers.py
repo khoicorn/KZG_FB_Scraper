@@ -1,68 +1,55 @@
 import threading
 import time
+from collections import defaultdict
+from typing import Optional
 
 class UserStateManager:
     def __init__(self):
-        self.user_states = {}  # Tracks state by user_id
-        self.active_processes = {}  # Tracks active processes by user_id
-        self.cancel_events = {}  # Tracks cancel events by user_id
-        self.user_chat_mapping = {}  # Maps user_id to their current chat_id
-        self.user_message_mapping = {}  # Maps user_id to message_id and root_id
-        self.lock = threading.Lock()
+        self.user_states = {}
+        self.active_processes = {}
+        self.cancel_events = {}
+        self.user_chat_mapping = {}
+        self.user_message_mapping = defaultdict(lambda: {'message_id': None, 'root_id': None})
+        self.lock = threading.RLock()  # Use reentrant lock for nested operations
+        self.cleanup_thread = threading.Thread(target=self.cleanup_stale_processes, daemon=True)
+        self.cleanup_thread.start()
     
-    def set_state(self, user_id, state, chat_id, message_id=None, root_id=None):
+    def set_state(self, user_id, state, chat_id=None, message_id=None, root_id=None):
         with self.lock:
-            print(f"Setting state for user_id {user_id} to {state}, chat_id: {chat_id}, message_id: {message_id}, root_id: {root_id}")
             self.user_states[user_id] = state
             if chat_id:
                 self.user_chat_mapping[user_id] = chat_id
-            # Store message_id and root_id if provided
             if message_id or root_id:
                 self.user_message_mapping[user_id] = {
                     'message_id': message_id,
                     'root_id': root_id
                 }
     
-    def get_state(self, user_id):
+    def get_state(self, user_id) -> Optional[str]:
         with self.lock:
-            state = self.user_states.get(user_id, None)
-            print(f"Getting state for user_id {user_id}: {state}")
-            return state
+            return self.user_states.get(user_id)
     
     def clear_state(self, user_id):
         with self.lock:
-            print(f"Clearing state for user_id {user_id}")
-            self.user_states.pop(user_id, None)
-            # Clear cancel events when clearing state
+            if user_id in self.user_states:
+                del self.user_states[user_id]
             if user_id in self.cancel_events:
                 del self.cancel_events[user_id]
-            # Keep chat_id and message_id/root_id mappings even after state clear
     
-    def get_chat_id(self, user_id):
+    def get_chat_id(self, user_id) -> Optional[str]:
         with self.lock:
-            chat_id = self.user_chat_mapping.get(user_id)
-            print(f"Getting chat_id for user_id {user_id}: {chat_id}")
-            return chat_id
+            return self.user_chat_mapping.get(user_id)
     
-    def get_message_info(self, user_id):
-        """
-        Retrieve message_id and root_id for a user_id.
-        Returns a dict with 'message_id' and 'root_id', or None if not found.
-        """
+    def get_message_info(self, user_id) -> dict:
         with self.lock:
-            message_info = self.user_message_mapping.get(user_id, {'message_id': None, 'root_id': None})
-            print(f"Getting message info for user_id {user_id}: {message_info}")
-            return message_info
+            return self.user_message_mapping[user_id]
 
     def register_process(self, user_id, process, chat_id=None, message_id=None, root_id=None):
         with self.lock:
-            print(f"Registering process for user_id {user_id}, chat_id: {chat_id}, message_id: {message_id}, root_id: {root_id}")
             self.active_processes[user_id] = {
                 'process': process,
-                'timestamp': time.time(),
-                'thread': threading.current_thread()
+                'timestamp': time.time()
             }
-            # Create a fresh cancel event for this process
             self.cancel_events[user_id] = threading.Event()
             if chat_id:
                 self.user_chat_mapping[user_id] = chat_id
@@ -72,48 +59,45 @@ class UserStateManager:
                     'root_id': root_id
                 }
             
-    def request_cancel(self, user_id):
+    def request_cancel(self, user_id) -> bool:
         """Cancel active process for the given user_id"""
         with self.lock:
-            print(f"🔴 Cancellation requested for user {user_id}")
+            if user_id not in self.active_processes:
+                return False
+                
+            # Signal cancellation
+            if user_id in self.cancel_events:
+                self.cancel_events[user_id].set()
             
-            if user_id in self.active_processes:
-                print(f"🔴 Found active process for user {user_id}")
-                
-                # Signal cancellation
-                if user_id in self.cancel_events:
-                    self.cancel_events[user_id].set()
-                
-                # Force stop the process
-                process_info = self.active_processes[user_id]
-                process_info['process'].force_stop()
-                
-                # Clean up active processes but DON'T clear state here
-                del self.active_processes[user_id]
-                
-                return True
+            # Force stop the process
+            process_info = self.active_processes[user_id]
+            process_info['process'].force_stop()
             
-            print(f"🔴 No active process for user {user_id}")
-            return False
+            # Clean up
+            del self.active_processes[user_id]
+            return True
 
-    def should_cancel(self, user_id):
-        """Check if cancellation was requested for the given user_id"""
+    def should_cancel(self, user_id) -> bool:
+        """Check if cancellation was requested"""
         with self.lock:
-            return user_id in self.cancel_events and self.cancel_events[user_id].is_set()
+            event = self.cancel_events.get(user_id)
+            return event and event.is_set()
     
     def cleanup_stale_processes(self):
-        """Call this periodically to remove dead processes"""
-        with self.lock:
-            current_time = time.time()
-            stale_keys = [
-                key for key, info in self.active_processes.items()
-                if current_time - info['timestamp'] > 3600  # 1 hour timeout
-            ]
-            for key in stale_keys:
-                if key in self.active_processes:
-                    del self.active_processes[key]
-                if key in self.cancel_events:
-                    del self.cancel_events[key]
+        """Periodically clean up stale processes"""
+        while True:
+            time.sleep(300)  # Every 5 minutes
+            with self.lock:
+                current_time = time.time()
+                stale_keys = [
+                    user_id for user_id, info in self.active_processes.items()
+                    if current_time - info['timestamp'] > 3600  # 1 hour timeout
+                ]
+                for user_id in stale_keys:
+                    if user_id in self.active_processes:
+                        del self.active_processes[user_id]
+                    if user_id in self.cancel_events:
+                        del self.cancel_events[user_id]
 
-# ✅ Shared instance used across project
+# Shared instance
 state_manager = UserStateManager()
