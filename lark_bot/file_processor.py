@@ -169,6 +169,9 @@ class ExcelImageExporter:
             else:
                 failed_images += 1
         
+        # Auto-adjust other column widths
+        self._auto_adjust_column_widths(ws, df)
+        
         # Process hyperlinks
         hyperlink_columns = ["destination_url", "ad_url", "thumbnail_url"]
         for col_name in hyperlink_columns:
@@ -183,15 +186,12 @@ class ExcelImageExporter:
                         cell.font = Font(color="0563C1", underline="single")
                 
                 # Set column width after processing
-                ws.column_dimensions[get_column_letter(col_idx)].width = 20
+                ws.column_dimensions[get_column_letter(col_idx)].width = 15
 
         # Set image column width
         image_col_letter = get_column_letter(image_col_idx)
         ws.column_dimensions[image_col_letter].width = self.image_col_width
-        
-        # Auto-adjust other column widths
-        self._auto_adjust_column_widths(ws, df)
-        
+
         # Log results
         self.logger.info(f"Export completed: {successful_images} images added, {failed_images} failed")
         
