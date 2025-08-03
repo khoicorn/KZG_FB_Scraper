@@ -1,179 +1,89 @@
-# Facebook Ads Scraper Bot 🤖
+# Facebook Ads Library Scraper Bot
 
-A powerful Lark/Feishu chatbot that scrapes Facebook Ads Library data and delivers comprehensive Excel reports. Simply provide a domain name, and the bot will collect all active Facebook ads associated with that domain.
+A powerful Python-based chatbot that integrates with Lark/Feishu messaging platform to scrape and analyze Facebook Ads Library data. The bot provides automated web scraping capabilities through conversational commands, generating comprehensive Excel reports with ad thumbnails and metadata.
 
-## 📋 Table of Contents
+## 🌟 Key Features
 
-- [Features](#features)
-- [Architecture Overview](#architecture-overview)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Data Flow](#data-flow)
-- [API Documentation](#api-documentation)
-- [File Structure](#file-structure)
-- [Deployment](#deployment)
-- [Monitoring & Logging](#monitoring--logging)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-
-## ✨ Features
-
-### Core Functionality
-- **Domain-based Ad Search**: Search Facebook ads by company domain
-- **Real-time Progress Updates**: Visual progress bars during scraping
-- **Excel Report Generation**: Automated Excel file creation with structured data
-- **Cancellation Support**: Stop running processes anytime
-- **State Management**: Maintains user conversation states
-- **Error Handling**: Comprehensive error management and user feedback
-
-### Data Extraction
-- **Library ID**: Unique Facebook ad identifier
-- **Ad Start Date**: When the ad campaign began
-- **Company Information**: Business name and avatar
-- **Pixel Tracking**: Facebook pixel IDs for analytics
-- **Destination URLs**: Landing page links
-- **Media Content**: Images and videos from ads
-- **Ad Type Classification**: Distinguishes between image and video ads
-
-## 🏗️ Architecture Overview
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Lark Client   │ ──▶│   Flask Webhook  │ ──▶│  Command Handler │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │                        │
-                                ▼                        ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Message Log   │ ◀──│   Core Handler   │ ──▶│ State Manager   │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │                        │
-                                ▼                        ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Excel Report  │ ◀──│ Facebook Crawler │ ──▶│   Lark API      │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```
-
-### Component Breakdown
-
-#### 1. **Flask Webhook Server** (`main.py`)
-- Handles incoming Lark webhook requests
-- Validates authentication tokens
-- Routes messages to appropriate handlers
-
-#### 2. **Command Handler** (`command_handlers.py`)
-- Processes user commands and text input
-- Manages command routing and validation
-- Coordinates asynchronous operations
-
-#### 3. **State Manager** (`state_managers.py`)
-- Maintains user conversation states
-- Manages process cancellation
-- Handles concurrent user sessions
-
-#### 4. **Facebook Crawler** (`tools.py`)
-- Selenium-based web scraper
-- Extracts ad data from Facebook Ads Library
-- Processes images, videos, and metadata
-
-#### 5. **Lark API Client** (`lark_api.py`)
-- Handles authentication with Lark platform
-- Sends messages and files to users
-- Manages API rate limits
-
-#### 6. **File Processor** (`file_processor.py`)
-- Converts scraped data to Excel format
-- Generates downloadable reports
-- Handles file buffer management
-
-## 🔧 Prerequisites
-
-### System Requirements
-- Python 3.8 or higher
-- Chrome browser (for Selenium)
-- ChromeDriver (matching Chrome version)
-- Linux/Windows/macOS
-
-### Dependencies
-```bash
-Flask==2.3.3
-selenium==4.15.2
-pandas==2.1.1
-xlsxwriter==3.1.9
-requests==2.31.0
-python-dotenv==1.0.0
-```
+- **Conversational Interface**: Easy-to-use chat commands through Lark/Feishu
+- **Automated Web Scraping**: Selenium-based Facebook Ads Library crawler
+- **Queue Management**: Handles multiple concurrent requests with intelligent queuing
+- **Rich Excel Reports**: Generated reports include ad images, metadata, and clickable links
+- **Real-time Progress Updates**: Interactive cards showing scraping progress
+- **Cancellation Support**: Users can cancel ongoing processes at any time
+- **Parallel Image Processing**: Optimized image downloading with ThreadPoolExecutor
+- **State Management**: Robust user session and process state handling
 
 ## 🚀 Installation
 
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd facebook-ads-scraper-bot
-```
+### Prerequisites
 
-### 2. Create Virtual Environment
+- Python 3.8+
+- Chrome browser installed
+- ChromeDriver (automatically managed by Selenium)
+- Lark/Feishu app credentials
+
+### Dependencies Installation
+
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd facebook-ads-scraper-bot
+
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
 
-### 3. Install Dependencies
-```bash
+# Install required packages
 pip install -r requirements.txt
 ```
 
-### 4. Install ChromeDriver
-```bash
-# Ubuntu/Debian
-sudo apt-get install chromium-chromedriver
+### Required Python Packages
 
-# MacOS
-brew install chromedriver
-
-# Windows
-# Download from https://chromedriver.chromium.org/
-```
-
-### 5. Set Up Environment Variables
-Create a `.env` file in the project root:
-```env
-LARK_APP_ID=your_app_id_here
-LARK_APP_SECRET=your_app_secret_here
-VERIFICATION_TOKEN=your_verification_token_here
+```txt
+selenium>=4.0.0
+pandas>=1.3.0
+requests>=2.25.0
+openpyxl>=3.0.0
+Pillow>=8.0.0
+python-dotenv>=0.19.0
 ```
 
 ## ⚙️ Configuration
 
-### Lark App Setup
-
-1. **Create Lark Application**
-   - Go to [Lark Developer Console](https://open.larksuite.com/)
-   - Create new app and note App ID and App Secret
-
-2. **Configure Webhook**
-   - Set webhook URL: `https://your-domain.com/webhook`
-   - Enable "Receive Messages" permission
-   - Set verification token
-
-3. **Set Permissions**
-   - `im:message:send_as_bot`
-   - `im:file:upload`
-   - `im:message:read_as_bot`
-
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `LARK_APP_ID` | Lark application identifier | ✅ |
-| `LARK_APP_SECRET` | Lark application secret key | ✅ |
-| `VERIFICATION_TOKEN` | Webhook verification token | ✅ |
+Create a `.env` file in the project root:
+
+```env
+# Lark/Feishu App Credentials
+LARK_APP_ID=your_app_id_here
+LARK_APP_SECRET=your_app_secret_here
+VERIFICATION_TOKEN=your_verification_token_here
+
+# Optional: Custom configurations
+MAX_WORKERS=10
+REQUEST_TIMEOUT=15
+```
+
+### Lark/Feishu App Setup
+
+1. Create a new app in [Lark Developer Console](https://open.larksuite.com/)
+2. Enable the following permissions:
+   - `im:message`
+   - `im:message.group_at_msg`
+   - `im:chat`
+3. Configure webhook endpoints for message events
+4. Copy App ID, App Secret, and Verification Token to your `.env` file
 
 ## 🎯 Usage
 
 ### Starting the Bot
+
 ```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Run the main application
 python main.py
 ```
 
@@ -181,343 +91,170 @@ python main.py
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `help`, `hi`, `start` | Show help menu | `help` |
-| `search` | Start interactive search | `search` |
-| `search domain.com` | Direct domain search | `search chatbuypro.com` |
-| `cancel` | Cancel running operation | `cancel` |
+| `/help` or `/start` | Show command menu | `/help` |
+| `/search <domain>` | Start scraping ads for domain | `/search shopee.com` |
+| `/cancel` | Cancel ongoing process | `/cancel` |
 
-### User Flow
+### Example Workflow
 
-1. **Initiate Search**
+1. **Start a search**:
    ```
-   User: search example.com
-   Bot: 🔍 Processing your request. This may take a minute...
+   /search nike.com
    ```
 
-2. **Progress Updates**
+2. **Monitor progress**:
+   - Real-time progress cards show scraping status
+   - Queue position updates if multiple requests
+
+3. **Receive results**:
+   - Excel file with ad data and thumbnails
+   - Summary card with result count and direct link
+
+4. **Cancel if needed**:
    ```
-   Bot: 🟩⬜⬜⬜⬜⬜⬜⬜⬜⬜ 10%
-   Bot: 🟩🟩🟩🟩⬜⬜⬜⬜⬜⬜ 40%
-   Bot: 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%
+   /cancel
    ```
 
-3. **Results Delivery**
-   ```
-   Bot: ✅ Search completed successfully!
-   Bot: [Excel file attachment]
-   ```
+## 📊 Output Format
 
-## 🔄 Data Flow
+The bot generates Excel reports containing:
 
-### Message Processing Flow
+- **Library ID**: Facebook ad library identifier
+- **Ad Start Date**: When the ad campaign began
+- **Company**: Advertiser name
+- **Pixel ID**: Facebook tracking pixel (if available)
+- **Destination URL**: Landing page link
+- **Ad Type**: Image or video advertisement
+- **Ad URL**: Direct link to ad media
+- **Thumbnail**: Embedded image preview
 
-```mermaid
-graph TD
-    A[Lark Client] -->|Webhook| B[Flask Server]
-    B -->|Verify Token| C{Valid Request?}
-    C -->|No| D[Return 403]
-    C -->|Yes| E[Parse Message]
-    E --> F[Log Incoming Message]
-    F --> G[Get User State]
-    G --> H{Current State?}
-    
-    H -->|None| I[Handle Command]
-    H -->|AWAITING_SEARCH| J[Process Search Term]
-    H -->|IN_PROGRESS| K[Handle Cancel/Info]
-    
-    I --> L{Valid Command?}
-    L -->|Yes| M[Execute Command]
-    L -->|No| N[Send Error Message]
-    
-    J --> O{Valid Domain?}
-    O -->|Yes| P[Start Async Crawl]
-    O -->|No| Q[Request Valid Domain]
-    
-    P --> R[Initialize Chrome Driver]
-    R --> S[Load Facebook Ads Library]
-    S --> T[Scroll & Load All Ads]
-    T --> U[Extract Ad Data]
-    U --> V[Generate Excel Report]
-    V --> W[Send File to User]
-    W --> X[Clear User State]
-```
-
-### Data Extraction Process
-
-```mermaid
-graph LR
-    A[Facebook Ads Library] --> B[Selenium WebDriver]
-    B --> C[Scroll to Load All Ads]
-    C --> D[Extract Ad Elements]
-    D --> E[Parse Ad Data]
-    E --> F[Clean & Structure Data]
-    F --> G[Generate Excel]
-    G --> H[Send to User]
-```
-
-### State Management
-
-```mermaid
-stateDiagram-v2
-    [*] --> None: New User
-    None --> AWAITING_SEARCH_TERM: "search" command
-    None --> None: Other commands
-    AWAITING_SEARCH_TERM --> IN_PROGRESS: Valid domain
-    AWAITING_SEARCH_TERM --> AWAITING_SEARCH_TERM: Invalid domain
-    IN_PROGRESS --> None: Complete/Cancel
-    IN_PROGRESS --> IN_PROGRESS: Status updates
-```
-
-## 📊 API Documentation
-
-### Webhook Endpoint
-
-**POST** `/webhook`
-
-#### Request Headers
-```json
-{
-    "Content-Type": "application/json"
-}
-```
-
-#### Request Body (URL Verification)
-```json
-{
-    "type": "url_verification",
-    "challenge": "verification_string"
-}
-```
-
-#### Request Body (Message Event)
-```json
-{
-    "header": {
-        "event_type": "im.message.receive_v1",
-        "token": "verification_token"
-    },
-    "event": {
-        "message": {
-            "chat_id": "oc_xxxxx",
-            "content": "{\"text\":\"search example.com\"}"
-        }
-    }
-}
-```
-
-#### Response
-```json
-{
-    "code": 0
-}
-```
-
-### Internal API Methods
-
-#### LarkAPI Class
-```python
-def send_text(chat_id: str, text: str) -> None
-def send_file(chat_id: str, file_buffer: BytesIO, filename: str) -> None
-```
-
-#### StateManager Class
-```python
-def set_state(chat_id: str, state: str) -> None
-def get_state(chat_id: str) -> str
-def clear_state(chat_id: str) -> None
-def request_cancel(chat_id: str) -> bool
-```
-
-## 📁 File Structure
+## 🏗️ Project Structure
 
 ```
 facebook-ads-scraper-bot/
-├── main.py                 # Flask webhook server
-├── requirements.txt        # Python dependencies
-├── .env                   # Environment variables
-├── .gitignore            # Git ignore rules
-├── README.md             # This documentation
-│
-├── lark_bot/             # Core bot package
+├── lark_bot/
 │   ├── __init__.py
-│   ├── config.py         # Configuration loader
-│   ├── core.py           # Message routing
-│   ├── command_handlers.py # Command processing
-│   ├── lark_api.py       # Lark API client
-│   ├── state_managers.py # State management
-│   ├── file_processor.py # Excel generation
-│   └── logger.py         # Message logging
-│
-├── tools.py              # Facebook scraper
-├── logs/                 # Log files directory
-│   └── chat_logs_YYYY-MM.json
-│
-└── docs/                 # Additional documentation
-    ├── deployment.md
-    ├── api_reference.md
-    └── troubleshooting.md
+│   ├── command_handlers.py      # Command processing logic
+│   ├── lark_api.py             # Lark/Feishu API integration
+│   ├── state_managers.py       # User state and session management
+│   ├── file_processor.py       # Excel report generation
+│   ├── logger.py               # Message logging system
+│   └── config.py               # Configuration management
+├── tools/
+│   ├── __init__.py
+│   ├── facebook_crawler.py     # Core scraping engine
+│   └── interactive_card_library.py  # UI card templates
+├── logs/                       # Chat logs (auto-generated)
+├── .env                        # Environment variables
+├── requirements.txt            # Python dependencies
+├── main.py                     # Application entry point
+└── README.md                   # This file
 ```
 
-## 🚀 Deployment
+### Core Components
 
-### Local Development
-```bash
-# Run development server
-python main.py
+- **CommandHandler**: Processes user commands and manages workflow
+- **FacebookAdsCrawler**: Selenium-based web scraper
+- **LarkAPI**: Handles all Lark/Feishu messaging operations
+- **UserStateManager**: Manages user sessions and process states
+- **CrawlerQueue**: Implements request queuing and processing
+- **ExcelImageExporter**: Generates rich Excel reports with images
+
+## 🔧 Advanced Configuration
+
+### Crawler Settings
+
+Modify `FacebookAdsCrawler` initialization parameters:
+
+```python
+crawler = FacebookAdsCrawler(
+    keyword=domain,
+    chat_id=chat_id,
+    message_id=message_id
+)
+
+# Customize Excel export settings
+exporter = ExcelImageExporter(
+    image_size=(100, 100),        # Thumbnail dimensions
+    row_height=100,               # Excel row height
+    timeout=15,                   # Request timeout
+    max_workers=10                # Parallel downloads
+)
 ```
 
-### Production with Gunicorn
-```bash
-# Install gunicorn
-pip install gunicorn
+### Chrome Options
 
-# Run production server
-gunicorn -w 4 -b 0.0.0.0:5000 main:app
+Customize browser behavior in `initialize_driver()`:
+
+```python
+options.add_argument('--headless')          # Run in background
+options.add_argument('--window-size=1280,720')  # Browser window size
+options.add_argument('--disable-gpu')       # Reduce resource usage
 ```
 
-### Docker Deployment
-```dockerfile
-FROM python:3.9-slim
+## 🚨 Error Handling
 
-# Install Chrome
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    unzip \
-    chromium-browser \
-    chromium-chromedriver
+The bot includes comprehensive error handling:
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+- **Network Issues**: Automatic retries with exponential backoff
+- **Rate Limiting**: Intelligent request spacing
+- **Resource Cleanup**: Proper browser and file handle management
+- **Cancellation**: Graceful process termination
+- **Logging**: Detailed error logs for debugging
 
-COPY . .
-EXPOSE 5000
+## 📝 Logging
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "main:app"]
-```
+All interactions are logged to monthly JSON files:
 
-### Environment Setup
-```bash
-# Create production environment
-export FLASK_ENV=production
-export LARK_APP_ID="your_app_id"
-export LARK_APP_SECRET="your_secret"
-export VERIFICATION_TOKEN="your_token"
-```
-
-## 📈 Monitoring & Logging
-
-### Log Files
-- **Location**: `logs/chat_logs_YYYY-MM.json`
-- **Format**: JSON with timestamp, chat ID, direction, and message
-- **Rotation**: Monthly automatic rotation
-
-### Log Structure
 ```json
 {
-    "ts": "2024-01-15T10:30:00",
-    "cid": "oc_12345",
-    "dir": "i",
-    "msg": "search exam...",
-    "full": "search example.com"
+  "uid": "user_id",
+  "mid": "message_id", 
+  "ts": "2025-01-15T10:30:00",
+  "cid": "chat_id",
+  "dir": "i",
+  "msg": "search nike.com"
 }
-```
-
-### Monitoring Metrics
-- Message processing time
-- Scraping success rate
-- File generation time
-- Error frequency
-- User engagement
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### 1. ChromeDriver Issues
-```bash
-# Check Chrome version
-google-chrome --version
-
-# Update ChromeDriver
-sudo apt-get update && sudo apt-get install chromium-chromedriver
-```
-
-#### 2. Permission Errors
-```bash
-# Ensure proper file permissions
-chmod +x chromedriver
-sudo chown -R $USER:$USER logs/
-```
-
-#### 3. Memory Issues
-```bash
-# Monitor memory usage
-htop
-
-# Increase swap if needed
-sudo fallocate -l 2G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-sudo swapon /swapfile
-```
-
-#### 4. Network Timeouts
-- Check Facebook Ads Library availability
-- Verify internet connectivity
-- Adjust timeout settings in crawler
-
-### Error Codes
-
-| Code | Description | Solution |
-|------|-------------|----------|
-| 403 | Invalid verification token | Check VERIFICATION_TOKEN |
-| 500 | Internal server error | Check logs for details |
-| Timeout | Facebook page load timeout | Retry or check network |
-
-### Debug Mode
-```bash
-# Enable debug logging
-export FLASK_DEBUG=1
-python main.py
 ```
 
 ## 🤝 Contributing
 
-### Development Setup
 1. Fork the repository
-2. Create feature branch: `git checkout -b feature-name`
-3. Make changes and test thoroughly
-4. Submit pull request with detailed description
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### Code Standards
+### Development Guidelines
+
 - Follow PEP 8 style guidelines
-- Add docstrings to all functions
-- Include unit tests for new features
-- Update documentation for API changes
+- Add type hints for new functions
+- Include docstrings for public methods
+- Write unit tests for new features
+- Update documentation as needed
 
-### Testing
-```bash
-# Run unit tests (when available)
-python -m pytest tests/
+## 🔒 Security Considerations
 
-# Manual testing checklist
-- Test all bot commands
-- Verify file generation
-- Check error handling
-- Test cancellation feature
-```
+- **Environment Variables**: Never commit `.env` files
+- **Rate Limiting**: Respect Facebook's terms of service
+- **User Data**: Implement proper data handling practices
+- **Access Control**: Validate user permissions for commands
 
-## 📞 Support
+## 📄 License
 
-For support and questions:
-- Create an issue in the repository
-- Check troubleshooting guide
-- Review logs for error details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+This tool is for educational and research purposes only. Users are responsible for complying with:
+
+- Facebook's Terms of Service
+- Applicable data protection laws
+- Website scraping policies
+- Rate limiting requirements
+
+Always ensure your usage complies with the target platform's robots.txt and terms of service.
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 22 July 2025  
-**Maintainer**: Cody
+**Built with ❤️ using Python, Selenium, and Lark SDK**
