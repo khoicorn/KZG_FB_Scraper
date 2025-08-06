@@ -1,18 +1,53 @@
-#!/bin/bash
 
-HEALTH_URL="http://localhost:5000/health"
-LOG_FILE="/var/log/bot_health.log"
-RESTART_LOG="/var/log/bot_restart.log"
+# Log function
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+}
 
-# Gửi request đến /health
-RESPONSE=$(curl --silent --max-time 10 "$HEALTH_URL" | grep -o '"status":"ok"')
+# Health check with multiple verification methods
+check_health() {
+    # 1. Check if port is open
+    if ! lsof -i :5000 >/dev/null 2>&1; then
+        log "Port 5000 not in use"
+        return 1
+    fi
 
-# Kiểm tra phản hồi
-if [ "$RESPONSE" != '"status":"ok"' ]; then
-    echo "$(date): ❌ Bot không phản hồi. Đang restart Gunicorn..." >> "$LOG_FILE"
+    # 2. Check if processes are running
+    if ! pgrep -f "gunicorn.*main_app:app" >/dev/null; then
+        log "Gunicorn process not found"
+        return 1
+    fi
 
-    # Gọi script khởi động lại bot
-    /home/ubuntu/start_bot.sh >> "$RESTART_LOG" 2>&1
-else
-    echo "$(date): ✅ Bot đang hoạt động bình thường." >> "$LOG_FILE"
-fi
+    # 3. Check health endpoint
+    RESPONSE=$(curl -sS --max-time 5 "$URL" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        log "Curl failed: $RESPONSE"
+        return 1
+    fi
+
+    # 4. Flexible status checking
+    if [[ "$RESPONSE" == *'"status":"ok"'* ]] ||
+       [[ "$RESPONSE" == *'"status": "ok"'* ]]; then
+        log "Health check passed"
+        return 0
+    fi
+
+    log "Unexpected response: $RESPONSE"
+    return 1
+}
+
+# Main check with retries
+log "Starting health check..."
+for ((i=1; i<=MAX_RETRIES; i++)); do
+    if check_health; then
+        exit 0
+    fi
+
+    if [ $i -lt $MAX_RETRIES ]; then
+        log "Attempt $i failed. Retrying in $RETRY_DELAY seconds..."
+        sleep $RETRY_DELAY
+    fi
+done
+
+log "Health check failed after $MAX_RETRIES attempts. Restarting..."
+bash "$RESTART_SCRIPT" >> "$LOG_FILE" 2>&1

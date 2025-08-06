@@ -511,7 +511,6 @@ class FacebookAdsCrawler:
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
             
             if not self.should_stop():
-                # self.lark_api.reply_to_message(self.message_id, "🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜ 80%")
                 self.lark_api.update_card_message(self.message_id, 
                                         card= domain_processing_card(search_word= self.keyword,
                                          progress_percent= 80),)
