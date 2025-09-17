@@ -195,6 +195,12 @@ class LarkAPI:
         if response.status_code != 200:
             print(f"Failed to send text message: {response.text}")
 
+        try:
+            data = response.json()
+            return data.get("data", {}).get("message_id")
+        except Exception:
+            return None
+
     def send_interactive_card(self, chat_id):
         """
         Sends a clean text-based command menu card
@@ -208,18 +214,10 @@ class LarkAPI:
         divider_color = "#E5E7EB"  # Light gray divider
         
         card_content = {
-            "config": {
-                "wide_screen_mode": True
-            },
+            "config": {"wide_screen_mode": True},
             "header": {
-                "title": {
-                    "tag": "plain_text",
-                    "content": "🤖 FB Chat Bot"
-                },
-                            "subtitle": {
-                "tag": "plain_text",
-                "content": "Excel report results in 1-2 minutes"
-                },
+                "title": {"tag": "plain_text", "content": "🤖 FB Chat Bot"},
+                "subtitle": {"tag": "plain_text", "content": "Excel report results in 1-2 minutes"},
                 "template": "blue"
             },
             "elements": [
@@ -227,36 +225,51 @@ class LarkAPI:
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": "**Basic Commands:**\n" + 
-                                "**📙 /help** - Show available commands\n" +
-                                "**🔍 /search domain.com** - Start scraping the target domain\n" +
-                                "**⛔ /cancel** - Cancel any in-progress search\n"
+                        "content": (
+                            "**Basic Commands:**\n"
+                            "📙 **/help** : Show available commands\n"
+                            "🔍 **/search** domain.com : Start scraping the target domain\n"
+                            "⛔ **/cancel** : Cancel any in-progress search\n"
+                        )
                     }
                 },
                 {
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": "**Example:**\n" + 
-                                " /search chatbuypro.com\n" +
-                                " /search thaidealzone.com"
-                    }
-                },
-                               {
-                    "tag": "hr",
-                    "style": {
-                        "color": divider_color
+                        "content": (
+                            "**Daily Crawl Commands:**\n"
+                            "🌐 **/add_domain** - **/remove_domain** domain.com : add or remove domains to crawl\n"
+                            "🕒 **/add_schedule** - **/remove_schedule** HH:MM : add or remove schedules (time in GMT+7)\n"
+                            "ℹ️ **/list** : Show saved domains and schedules\n"
+                        )
                     }
                 },
                 {
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": "📋 Bot handles **1 request** at a time. New requests will be queued."
+                        "content": (
+                            "**Examples:**\n"
+                            "/search chatbuypro.com\n"
+                            "/add_domain chatbuypro.com, thaidealzone.com\n"
+                            "/add_schedule 09:00, 13:00, 18:30\n"
+                            "/remove_schedule domain.com\n"
+                            "/remove_schedule a"
+                        )
+                    }
+                },
+                {"tag": "hr", "style": {"color": divider_color}},
+                {
+                    "tag": "div",
+                    "text": {
+                        "tag": "lark_md",
+                        "content": "📋 Bot handles **1 request at a time**. New requests will be queued."
                     }
                 }
             ]
         }
+
 
         payload = {
             "chat_id": chat_id,
@@ -275,6 +288,13 @@ class LarkAPI:
         
         if response.status_code != 200:
             raise Exception(f"Failed to send card: {response.text}")
+        
+            # NEW: return message_id so we can update this card later
+        try:
+            data = response.json()
+            return data.get("data", {}).get("message_id")
+        except Exception:
+            return None
         
     def send_file(self, message_id, file_buffer, filename, reply_in_thread = True):
         """

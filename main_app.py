@@ -5,6 +5,11 @@ from lark_bot.config import VERIFICATION_TOKEN
 import logging
 import threading
 
+from lark_bot.command_handlers import command_handler
+from lark_bot.state_managers import state_manager
+import datetime
+import time
+
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -60,10 +65,11 @@ def health_check():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     # ENHANCED DEBUG: Show all event types and details
-    
+    print("HIII")
     data = request.json
     chat_type = data.get("event", {}).get("message", {}).get("chat_type")
 
+    print("Received event:", json.dumps(data, indent=2))
     # URL verification
     if data.get('type') == 'url_verification':
         return jsonify({'challenge': data.get('challenge')})
@@ -80,5 +86,37 @@ def webhook():
     return jsonify({"code": 0, "message": "Event ignored"})
 
 
+
+def _should_fire(now_local, hour, minute):
+    return now_local.hour == hour and now_local.minute == minute
+
+def scheduler_loop():
+    while True:
+        try:
+            now_utc = datetime.datetime.utcnow()
+            # Iterate all chats that have at least one schedule
+            for cid, schedules in list(state_manager.chat_schedules.items()):
+                if not schedules:
+                    continue
+                for s in schedules:
+                    h = int(s.get("hour", 0))
+                    m = int(s.get("minute", 0))
+                    tz = int(s.get("tz_offset", 0))
+
+                    # Compute local time for this schedule
+                    now_local = now_utc + datetime.timedelta(hours=tz)
+
+                    # Debounce key (per chat + schedule + minute)
+                    key = f"{cid}:{h:02d}:{m:02d}:tz{tz}:{now_local.strftime('%Y%m%d%H%M')}"
+                    if _should_fire(now_local, h, m) and state_manager.last_run_key.get(cid) != key:
+                        state_manager.last_run_key[cid] = key
+                        # Fire the scheduled run
+                        command_handler.run_scheduled_crawl(cid, h, m, tz)
+        except Exception as e:
+            logger.error(f"Scheduler error: {e}")
+        finally:
+            time.sleep(5)  # check every 5s to be resilient to clock drifts
+
 if __name__ == "__main__":
+    threading.Thread(target=scheduler_loop, daemon=True).start()
     app.run(port=5000, debug=True)

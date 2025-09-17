@@ -205,6 +205,9 @@ class FacebookAdsCrawler:
         options.add_argument('--single-process')  # Lightweight mode
         options.add_argument('--window-size=1280,720')  # Smaller than 1920x1080
 
+        # Optional: reduce detection
+        # options.add_argument('--disable-blink-features=AutomationControlled')
+
         self.driver = webdriver.Chrome(options=options)
         return True
     
@@ -234,7 +237,7 @@ class FacebookAdsCrawler:
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
         
-        time.sleep(5)
+        time.sleep(8)
 
         return True
 
@@ -253,7 +256,7 @@ class FacebookAdsCrawler:
             
             last_height = self.driver.execute_script("return document.body.scrollHeight")
             scroll_attempt = 0
-            max_attempts = 6  # Reduced from 10 to 6
+            max_attempts = 10  # Reduced from 10 to 6
             
             while scroll_attempt < max_attempts:
                 if self.should_stop():

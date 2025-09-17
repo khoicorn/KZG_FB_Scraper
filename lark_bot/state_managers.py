@@ -2,6 +2,10 @@ import threading
 import time
 from collections import defaultdict
 from typing import Optional
+import json, os
+
+DOMAINS_FILE = "logs/domains.json"
+SCHEDULES_FILE = "logs/schedules.json"
 
 class UserStateManager:
     def __init__(self):
@@ -13,6 +17,10 @@ class UserStateManager:
         self.lock = threading.RLock()  # Use reentrant lock for nested operations
         self.cleanup_thread = threading.Thread(target=self.cleanup_stale_processes, daemon=True)
         self.cleanup_thread.start()
+
+        self.chat_domains = self._load_json(DOMAINS_FILE)
+        self.chat_schedules = self._load_json(SCHEDULES_FILE)
+        self.last_run_key = {}
     
     def set_state(self, user_id, state, chat_id=None, message_id=None, root_id=None):
         with self.lock:
@@ -98,6 +106,120 @@ class UserStateManager:
                         del self.active_processes[user_id]
                     if user_id in self.cancel_events:
                         del self.cancel_events[user_id]
+    # --- persistence helpers ---
+    def _load_json(self, path):
+        if not os.path.exists(path):
+            return {}
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
 
+    def _save_json(self, path, data):
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+        os.replace(tmp, path)
+
+    # ---------------- Domain management ----------------
+    def add_domain(self, chat_id, domain) -> bool:
+        with self.lock:
+            cid = str(chat_id)
+            domains = self.chat_domains.setdefault(cid, [])
+            if domain in domains:
+                return False
+            domains.append(domain)
+            self._save_json(DOMAINS_FILE, self.chat_domains)
+            return True
+
+    def remove_domain(self, chat_id, domain) -> bool:
+        with self.lock:
+            cid = str(chat_id)
+            domains = self.chat_domains.get(cid, [])
+            new_domains = [d for d in domains if d != domain]
+            if len(new_domains) == len(domains):
+                return False
+            self.chat_domains[cid] = new_domains
+            self._save_json(DOMAINS_FILE, self.chat_domains)
+            return True
+
+    def get_domains(self, chat_id):
+        with self.lock:
+            return list(self.chat_domains.get(str(chat_id), []))
+
+    # ---------------- Schedule management (multi) ----------------
+    def _normalize_sched_container(self, chat_id: str):
+        cid = str(chat_id)
+        sched = self.chat_schedules.get(cid)
+        if sched is None:
+            self.chat_schedules[cid] = []
+        elif isinstance(sched, dict):
+            self.chat_schedules[cid] = [sched]
+            self._save_json(SCHEDULES_FILE, self.chat_schedules)
+        elif isinstance(sched, list):
+            pass
+        else:
+            self.chat_schedules[cid] = []
+            self._save_json(SCHEDULES_FILE, self.chat_schedules)
+
+    def _dedupe_contains(self, arr, hour: int, minute: int, tz_offset: int) -> bool:
+        for it in arr:
+            if int(it.get("hour", -1)) == hour and int(it.get("minute", -1)) == minute and int(it.get("tz_offset", 0)) == tz_offset:
+                return True
+        return False
+    
+    # def _make_label(self, hour: int, minute: int, tz_offset: int) -> str:
+    #     return f"{hour:02d}:{minute:02d}GMT{tz_offset:+d}"
+
+    def add_schedule(self, chat_id, when_time, tz_offset_hours: int, allow_duplicate: bool = False) -> bool:
+        with self.lock:
+            cid = str(chat_id)
+            self._normalize_sched_container(cid)
+            arr = self.chat_schedules[cid]
+            h, m, tz = int(when_time.hour), int(when_time.minute), int(tz_offset_hours)
+            if not allow_duplicate and self._dedupe_contains(arr, h, m, tz):
+                return False
+            arr.append({"hour": h, "minute": m, "tz_offset": tz})
+            arr.sort(key=lambda x: (int(x.get("tz_offset", 0)), int(x.get("hour", 0)), int(x.get("minute", 0))))
+            self._save_json(SCHEDULES_FILE, self.chat_schedules)
+            return True
+
+    # Back-compat (if anything still calls set_schedule)
+    def set_schedule(self, chat_id, when_time, tz_offset_hours: int):
+        self.add_schedule(chat_id, when_time, tz_offset_hours, allow_duplicate=False)
+
+    def remove_schedule(self, chat_id, hour: int, minute: int, tz_offset: int) -> bool:
+        with self.lock:
+            cid = str(chat_id)
+            self._normalize_sched_container(cid)
+            arr = self.chat_schedules.get(cid, [])
+            orig = len(arr)
+            self.chat_schedules[cid] = [
+                s for s in arr
+                if not (int(s.get("hour", -1)) == hour and int(s.get("minute", -1)) == minute and int(s.get("tz_offset", 0)) == tz_offset)
+            ]
+            if len(self.chat_schedules[cid]) != orig:
+                self._save_json(SCHEDULES_FILE, self.chat_schedules)
+                return True
+            return False
+
+    def get_schedule(self, chat_id):
+        with self.lock:
+            cid = str(chat_id)
+            self._normalize_sched_container(cid)
+            arr = self.chat_schedules.get(cid, [])
+            if not arr:
+                return None
+            if len(arr) == 1:
+                return arr[0]
+            return list(arr)
+
+    def get_schedules(self, chat_id):
+        with self.lock:
+            cid = str(chat_id)
+            self._normalize_sched_container(cid)
+            return list(self.chat_schedules.get(cid, []))
+        
 # Shared instance
 state_manager = UserStateManager()
