@@ -91,9 +91,14 @@ def _should_fire(now_local, hour, minute):
     return now_local.hour == hour and now_local.minute == minute
 
 def scheduler_loop():
+    logger.info("Scheduler thread has started successfully.")
     while True:
         try:
             now_utc = datetime.datetime.utcnow()
+
+            # Log the current UTC time for debugging
+            logger.info(f"[Scheduler] Tick! Current UTC time: {now_utc.isoformat()}")
+
             # Iterate all chats that have at least one schedule
             for cid, schedules in list(state_manager.chat_schedules.items()):
                 if not schedules:
@@ -109,6 +114,8 @@ def scheduler_loop():
                     # Debounce key (per chat + schedule + minute)
                     key = f"{cid}:{h:02d}:{m:02d}:tz{tz}:{now_local.strftime('%Y%m%d%H%M')}"
                     if _should_fire(now_local, h, m) and state_manager.last_run_key.get(cid) != key:
+                        logger.info(f"[Scheduler] FIRING! chat_id={cid}, schedule={h:02d}:{m:02d}, tz={tz}, calculated_local_time={now_local.isoformat()}")
+                        # ... rest of the firing logic ...
                         state_manager.last_run_key[cid] = key
                         # Fire the scheduled run
                         command_handler.run_scheduled_crawl(cid, h, m, tz)
@@ -117,6 +124,11 @@ def scheduler_loop():
         finally:
             time.sleep(5)  # check every 5s to be resilient to clock drifts
 
+# Start the scheduler thread when the module is loaded
+# This will be executed by Gunicorn
+scheduler_thread = threading.Thread(target=scheduler_loop, daemon=True)
+scheduler_thread.start()
+
 if __name__ == "__main__":
-    threading.Thread(target=scheduler_loop, daemon=True).start()
+    
     app.run(port=5000, debug=True)
