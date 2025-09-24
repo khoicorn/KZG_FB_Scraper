@@ -112,23 +112,11 @@ class ExcelImageExporter:
         if "No" not in df.columns:
             df.insert(0, "No", range(1, len(df) + 1))
 
-        # --- ADD ---
-        # Define the desired final column order for the Excel file.
-        # This is the key change to control the layout.
-        original_columns = list(df.columns)
-        
-        # We will insert 'Image' before 'primary_text' and 'headline_text'.
-        # Let's build the new column list.
-        final_excel_columns = []
-        text_columns_to_move = ['primary_text', 'headline_text']
-        
-        for col in original_columns:
-            if col not in text_columns_to_move:
-                final_excel_columns.append(col)
-        
-        # Now, add the 'Image' column and the text columns at the desired position.
+        # --- SIMPLIFIED COLUMN SETUP ---
+        # Start with the DataFrame's original columns
+        final_excel_columns = list(df.columns)
+        # Add the 'Image' column at the end
         final_excel_columns.append('Image')
-        final_excel_columns.extend(text_columns_to_move)
 
         wb = Workbook()
         ws = wb.active
@@ -201,27 +189,10 @@ class ExcelImageExporter:
             else:
                 failed_images += 1
         
-        # --- MODIFIED ---
-        # The logic for wrapping text columns now uses the correct indices from the final layout.
-        for col_name in ("primary_text", "headline_text"):
-            if col_name in final_excel_columns:
-                col_idx = final_excel_columns.index(col_name) + 1
 
-                if col_name == "primary_text":
-                    ws.column_dimensions[get_column_letter(col_idx)].width = 25
-                elif col_name == "headline_text":
-                    ws.column_dimensions[get_column_letter(col_idx)].width = 50
-
-                for row_idx in range(2, ws.max_row + 1):
-                    cell = ws.cell(row=row_idx, column=col_idx)
-                    cell.alignment = Alignment(wrap_text=True, vertical="top")
-
-        # --- MODIFIED & IMPROVED ---
-        # First, auto-adjust widths for all columns EXCEPT the ones we want to size manually.
-        # Create a temporary DataFrame without the manually sized columns.
-        cols_to_auto_adjust = [c for c in df.columns if c not in ('primary_text', 'headline_text')]
-        df_for_auto_adjust = df[cols_to_auto_adjust]
-        self._auto_adjust_column_widths(ws, df_for_auto_adjust)
+        # --- SIMPLIFIED ---
+        # Auto-adjust column widths for the entire DataFrame.
+        self._auto_adjust_column_widths(ws, df)
         
         # Process hyperlinks (This logic remains largely the same but uses the final column indices)
         hyperlink_columns = ["destination_url", "ad_url", "thumbnail_url"]

@@ -238,26 +238,26 @@ class FacebookAdsCrawler:
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
 
-        # time.sleep(10)        
+        time.sleep(20)        
            # --- REPLACEMENT for time.sleep(10) ---
-        try:
-            print("Waiting up to 30 seconds for ad elements to load...")
+        # try:
+        #     print("Waiting up to 30 seconds for ad elements to load...")
             
-            # Convert your class string into a valid CSS selector.
-            # "class1 class2" becomes ".class1.class2"
-            class_selector = "." + self.ad_card_class.replace(" ", ".")
+        #     # Convert your class string into a valid CSS selector.
+        #     # "class1 class2" becomes ".class1.class2"
+        #     class_selector = "." + self.ad_card_class.replace(" ", ".")
 
-            wait = WebDriverWait(self.driver, 30)
-            # Use the converted class selector to wait for the element.
-            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, class_selector)))
+        #     wait = WebDriverWait(self.driver, 30)
+        #     # Use the converted class selector to wait for the element.
+        #     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, class_selector)))
 
-            time.sleep(16)
-            print("✅ Ad elements found using the specified class. Proceeding with crawl.")
-            return True
+        #     time.sleep(16)
+        #     print("✅ Ad elements found using the specified class. Proceeding with crawl.")
+        #     return True
 
-        except TimeoutException:
-            print("❌ Timed out waiting for page elements. The class selector did not find any matching elements.")
-            return False
+        # except TimeoutException:
+        #     print("❌ Timed out waiting for page elements. The class selector did not find any matching elements.")
+        #     return False
         # --- END REPLACEMENT ---
         return True
 
@@ -362,6 +362,7 @@ class FacebookAdsCrawler:
                 let destinationUrl = null;
                 let pixelId = null;
                 const links = element.querySelectorAll('a');
+                                                 
                 for (const link of links) {
                     const url = link.href;
                     if (url && url.includes('l.facebook.com')) {
@@ -375,16 +376,6 @@ class FacebookAdsCrawler:
                     }
                 }
 
-                // Get Primary Text and Headline/Description
-                let primaryText = null;
-                let headlineText = null;
-
-                const el1 = element.querySelector("._7jyr._a25-");   // first class
-                if (el1) primaryText = el1.innerText;
-
-                const el2 = element.querySelector(".x6s0dn4.x2izyaf.x78zum5.x1qughib.x15mokao.x1ga7v0g.xde0f50.x15x8krk.xexx8yu.xf159sx.xwib8y2.xmzvs34"); 
-                if (el2) headlineText = el2.innerText;
-
                 return {
                     text,
                     company,
@@ -394,8 +385,6 @@ class FacebookAdsCrawler:
                     thumbnailUrl,
                     destinationUrl,
                     pixelId,
-                    primaryText,
-                    headlineText
                 };
             """, ad_element)
 
@@ -415,9 +404,7 @@ class FacebookAdsCrawler:
                 "video_url": ad_data['videoUrl'],
                 "thumbnail_url": ad_data['thumbnailUrl'],
                 "destination_url": ad_data['destinationUrl'],
-                "pixel_id": ad_data['pixelId'],
-                "primary_text": ad_data['primaryText'],
-                "headline_text": ad_data['headlineText']
+                "pixel_id": ad_data['pixelId']
             }
 
         except Exception as e:
@@ -591,8 +578,6 @@ class FacebookAdsCrawler:
             "ad_type",
             "ad_url",
             "thumbnail_url",
-            "primary_text",     # 👈 now placed here
-            "headline_text"     # 👈 now placed here
             ]
 
         # print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
