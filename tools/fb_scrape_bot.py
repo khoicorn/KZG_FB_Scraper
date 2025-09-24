@@ -206,7 +206,7 @@ class FacebookAdsCrawler:
         options.add_argument('--disable-extensions')  # Improve performance
         options.add_argument('--disable-infobars')
         options.add_argument('--single-process')  # Lightweight mode
-        options.add_argument('--window-size=1280,720')  # Smaller than 1920x1080
+        options.add_argument('--window-size=1920,1080')  # Smaller than 1920x1080
 
         # Optional: reduce detection
         # options.add_argument('--disable-blink-features=AutomationControlled')

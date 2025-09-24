@@ -596,7 +596,7 @@ class CommandHandler:
                         df=crawler.df,
                         col="ad_url",
                         zip_basename_prefix=base,
-                        max_workers=10,
+                        max_workers=2,
                         max_zip_bytes= 28 * 1024 * 1024,
                     ):
                         self.lark_api.send_file(
@@ -611,7 +611,7 @@ class CommandHandler:
                         df=crawler.df,
                         col="thumbnail_url",
                         zip_basename_prefix=base,
-                        max_workers=10,
+                        max_workers=2,
                         max_zip_bytes= 28 * 1024 * 1024,
                     ):
                         self.lark_api.send_file(
