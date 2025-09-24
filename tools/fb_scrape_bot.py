@@ -207,37 +207,9 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--disable-gpu')  # Reduce resource usage
-        options.add_argument('--disable-extensions')  # Improve performance
-        options.add_argument('--disable-infobars')
-        options.add_argument('--single-process')  # Lightweight mode
-        options.add_argument('--window-size=1920,1080')  # Smaller than 1920x1080
-
-        # Optional: reduce detection
-        # options.add_argument('--disable-blink-features=AutomationControlled')
 
         self.driver = webdriver.Chrome(options=options)
-            # Block fonts, stylesheets, and other non-essential resources
-        # This must be done AFTER the driver is initialized
-        try:
-            self.driver.execute_cdp_cmd(
-                "Network.setBlockedURLs", {
-                    "urls": [
-                        "*.css", 
-                        "*.woff", 
-                        "*.woff2", 
-                        "*google-analytics.com*", 
-                        "*googletagmanager.com*",
-                        "*doubleclick.net*"
-                    ]
-                }
-            )
-            self.driver.execute_cdp_cmd("Network.enable", {})
-            print("✅ Network request blocking enabled.")
-        except Exception as e:
-            print(f"⚠️ Could not enable network blocking: {e}")
-
-        return True
+        self.driver.set_window_size(1920, 1080)
     
     def start(self):
         """Phương thức để bắt đầu crawl thông qua hàng đợi"""
