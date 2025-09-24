@@ -210,6 +210,8 @@ class FacebookAdsCrawler:
 
         self.driver = webdriver.Chrome(options=options)
         self.driver.set_window_size(1920, 1080)
+
+        return True
     
     def start(self):
         """Phương thức để bắt đầu crawl thông qua hàng đợi"""
