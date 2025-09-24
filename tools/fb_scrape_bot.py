@@ -8,6 +8,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
+from selenium.webdriver.chrome.service import Service
+
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
 from .interactive_card_library import *
@@ -207,8 +209,10 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-
-        self.driver = webdriver.Chrome(options=options)
+        
+        # This automatically finds and uses the correct driver for your browser version
+        service = Service()
+        self.driver = webdriver.Chrome(service=service, options=options)
         self.driver.set_window_size(1920, 1080)
 
         return True
