@@ -1,7 +1,7 @@
 from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.common.exceptions import TimeoutException
@@ -16,7 +16,9 @@ import time
 import threading
 import queue
 # import requests
-
+# Import this at the top of your file
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 # import io
 # from openpyxl import Workbook
 # from openpyxl.drawing.image import Image as OpenPyxlImage
@@ -199,14 +201,13 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--disable-gpu')  # Reduce resource usage
         options.add_argument('--disable-extensions')  # Improve performance
         options.add_argument('--disable-infobars')
         options.add_argument('--single-process')  # Lightweight mode
-        options.add_argument('--window-size=1280,720')  # Smaller than 1920x1080
-
+        options.add_argument('--window-size=1280,1080')  # Smaller than 1920x1080
+        
         # Optional: reduce detection
-        # options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-blink-features=AutomationControlled')
 
         self.driver = webdriver.Chrome(options=options)
         return True
@@ -236,8 +237,18 @@ class FacebookAdsCrawler:
         url = (f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&"
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
-        
-        time.sleep(8)
+
+        time.sleep(10)        
+        # try:
+        #     # Wait up to 20 seconds for the first ad card to be present in the DOM
+        #     # Use a more stable selector here!
+        #     wait = WebDriverWait(self.driver, 20)
+        #     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-testid="ad-library-item"]')))
+        #     print("Page and initial ads loaded successfully.")
+        # except TimeoutException:
+        #     print("Page took too long to load or no ads were found initially.")
+        #     return False
+        # -- END REPLACEMENT --
 
         return True
 
@@ -385,20 +396,6 @@ class FacebookAdsCrawler:
             lib_id = self.extract_library_id(ad_data['text'])
             start_date = self.extract_date(ad_data['text'])
 
-            # print({
-            #     "text_snippet": ad_data['text'][:100].replace("\n", " ") + "...",
-            #     "library_id": lib_id,
-            #     "ad_start_date": start_date,
-            #     "company": ad_data['company'],
-            #     "avatar_url": ad_data['avatarUrl'],
-            #     "image_url": ad_data['imageUrl'],
-            #     "video_url": ad_data['videoUrl'],
-            #     "thumbnail_url": ad_data['thumbnailUrl'],
-            #     "destination_url": ad_data['destinationUrl'],
-            #     "pixel_id": ad_data['pixelId'],
-            #     "primary_text": ad_data['primaryText'],
-            #     "headline_text": ad_data['headlineText']
-            # })
             return {
                 "text_snippet": ad_data['text'][:100].replace("\n", " ") + "...",
                 "library_id": lib_id,
