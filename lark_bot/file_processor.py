@@ -12,11 +12,6 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
-from zipfile import ZipFile, ZIP_DEFLATED
-import hashlib
-from urllib.parse import urlparse
-import os
-
 class ExcelImageExporter:
     """Optimized Excel exporter with parallel image processing."""
     """Optimized Excel exporter with parallel image processing."""
@@ -108,6 +103,7 @@ class ExcelImageExporter:
         if image_column not in df.columns:
             raise ValueError(f"Image column '{image_column}' not found in DataFrame")
         
+<<<<<<< HEAD
         df = df.reset_index(drop=True).copy()
         if "No" not in df.columns:
             df.insert(0, "No", range(1, len(df) + 1))
@@ -130,6 +126,8 @@ class ExcelImageExporter:
         final_excel_columns.append('Image')
         final_excel_columns.extend(text_columns_to_move)
 
+=======
+>>>>>>> parent of 285ca1a (add new function to download)
         wb = Workbook()
         ws = wb.active
         ws.title = "Data with Images"
@@ -251,118 +249,6 @@ class ExcelImageExporter:
         output.seek(0)
         return output
 
-def _filename_from_url(url: str, prefix: str) -> str:
-    """
-    Create a stable filename from URL, preserving extension when possible.
-    """
-    parsed = urlparse(url)
-    # Try to keep the last path segment’s extension
-    base = os.path.basename(parsed.path) or "file"
-    name, ext = os.path.splitext(base)
-    if not ext:
-        ext = ".bin"
-    # Stable short hash to avoid collisions
-    digest = hashlib.sha1(url.encode("utf-8")).hexdigest()[:10]
-    safe_prefix = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in prefix)[:30]
-    return f"{safe_prefix}{ext}"
-
-def _download_bytes(url: str, timeout: int = 20) -> bytes | None:
-    try:
-        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout, stream=True)
-        r.raise_for_status()
-        # Avoid massive memory for huge streams; cap to ~200MB each file just in case
-        return r.content[:200 * 1024 * 1024]
-    except Exception:
-        return None
-
-def build_media_zip(
-     df: pd.DataFrame,
-    col: str,
-    zip_basename_prefix: str,
-    max_workers: int = 8,
-    max_zip_bytes: int = 28 * 1024 * 1024,  # ~28MB safe under 30MB
-) -> list[tuple[str, BytesIO]]:
-    if col not in df.columns:
-        return []
-
-    # Collect (No, url) pairs
-    rows = []
-    for _, row in df.iterrows():
-        val = str(row[col]).strip() if pd.notna(row[col]) else ""
-        if val:
-            no_val = None
-            if "No" in df.columns:
-                try:
-                    no_val = int(row["No"])
-                except Exception:
-                    no_val = None
-            rows.append((no_val, val))
-
-    # Deduplicate by URL string
-    seen = set()
-    unique_rows = []
-    for no_val, u in rows:
-        if u not in seen:
-            seen.add(u)
-            unique_rows.append((no_val, u))
-
-    # Parallel download
-    blobs: list[tuple[int | None, str, bytes | None]] = []
-    if unique_rows:
-        with ThreadPoolExecutor(max_workers=max_workers) as ex:
-            futs = {ex.submit(_download_bytes, u): (no_val, u) for no_val, u in unique_rows}
-            for fut in as_completed(futs):
-                no_val, u = futs[fut]
-                data = fut.result()
-                blobs.append((no_val, u, data))
-
-    parts: list[tuple[str, BytesIO]] = []
-    if not blobs:
-        return parts
-
-    part_idx = 1
-    current = BytesIO()
-    zf = ZipFile(current, "w", compression=ZIP_DEFLATED)
-    written_bytes = 0
-    manifest_rows = []
-
-    def _close_and_push():
-        nonlocal current, zf, manifest_rows, written_bytes, part_idx, parts
-        zf.writestr("manifest.csv", "No,column,url\n".encode("utf-8") +
-                    "\n".join([f"{no},{col},{u}" for no, u in manifest_rows]).encode("utf-8"))
-        zf.close()
-        current.seek(0)
-        fname = f"{zip_basename_prefix}_{col}_media_part{part_idx}.zip"
-        parts.append((fname, current))
-        part_idx += 1
-        current = BytesIO()
-        zf = ZipFile(current, "w", compression=ZIP_DEFLATED)
-        manifest_rows = []
-        written_bytes = 0
-
-    for no_val, u, data in blobs:
-        if not data:
-            continue
-        # build filename
-        base_fname = _filename_from_url(u, prefix=col)
-        if no_val is not None:
-            fname = f"{no_val}_{base_fname}"
-        else:
-            fname = base_fname
-
-        estimated_added = len(data) + 2048
-        if written_bytes + estimated_added > max_zip_bytes and written_bytes > 0:
-            _close_and_push()
-        zf.writestr(fname, data)
-        manifest_rows.append((no_val, u))
-        written_bytes += estimated_added
-
-    if written_bytes > 0 or not parts:
-        _close_and_push()
-
-    return parts
-
-
 def export_dataframe_with_images(df: pd.DataFrame, 
                                 image_column: str,
                                 **kwargs) -> BytesIO:
@@ -396,7 +282,7 @@ def generate_excel_report(crawler):
 
     if crawler.df.empty:
         return None, f"{crawler.keyword.replace('.', '-')}_{today}_results.xlsx", crawler.df
-
+    
     # Create exporter with optimized settings
     try:
         exporter = ExcelImageExporter(

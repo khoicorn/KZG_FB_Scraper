@@ -6,15 +6,11 @@ from datetime import datetime, timedelta
 from .config import APP_ID, APP_SECRET
 from .logger import message_logger
 
-# imports at top of file
-import mimetypes
-
 class LarkAPI:
     def __init__(self):
         self.access_token = None
         self.token_expires_at = 0
         self._refresh_access_token()
-        
     
     def _refresh_access_token(self):
         """Get a new access token from Lark API"""
@@ -300,7 +296,7 @@ class LarkAPI:
         except Exception:
             return None
         
-    def send_file(self, message_id, file_buffer, filename, content_type, reply_in_thread = True):
+    def send_file(self, message_id, file_buffer, filename, reply_in_thread = True):
         """
         Uploads and sends in-memory file
         """
@@ -309,15 +305,10 @@ class LarkAPI:
 
           # Tính expire_time (UTC timestamp mili giây)
         # expire_at = int((datetime.utcnow() + timedelta(minutes=5)).timestamp() * 1000)  # 5 phút sau
-        # NEW: detect content-type
-        # if not content_type:
-        #     guessed, _ = mimetypes.guess_type(filename)
-        #     content_type = guessed or "application/octet-stream"
 
         files = {
-            'file': (filename, file_buffer, content_type)
+            'file': (filename, file_buffer, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         }
-
         data = {'file_type': 'stream', 
                 'file_name': filename
                 }

@@ -1,6 +1,6 @@
 from .state_managers import state_manager
 from .lark_api import LarkAPI
-from .file_processor import generate_excel_report, build_media_zip
+from .file_processor import generate_excel_report
 from tools import *
 import threading
 import re
@@ -306,10 +306,7 @@ class CommandHandler:
                         int(s.get("tz_offset", 0))
                     ):
                         removed += 1
-                        
-                result = ",".join([f"{s['hour']:02d}:{s['minute']:02d}" for s in scheds]) 
-                status = f"🗑️ Removed **all {removed}** schedules:{result}"
-                
+                status = f"🗑️ Removed **all {removed}** schedules."
             current_list_md = self._format_schedules_md(chat_id)
             card = {
                 "config": {"wide_screen_mode": True},
@@ -582,45 +579,7 @@ class CommandHandler:
                         href=link
                     )
                     self.lark_api.update_card_message(message_id=bot_reply_id, card=card)
-                    self.lark_api.send_file(message_id, file_buffer, filename, content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-
-                    base = search_term.replace(".", "-").replace(" ", "_") or "results"
-
-                    # After ensuring crawler.df is not empty
-                    crawler.df = crawler.df.reset_index(drop=True)
-                    if "No" not in crawler.df.columns:
-                        crawler.df.insert(0, "No", range(1, len(crawler.df) + 1))
-
-                    # 1) ad_url packs
-                    for zip_name, zip_buf in build_media_zip(
-                        df=crawler.df,
-                        col="ad_url",
-                        zip_basename_prefix=base,
-                        max_workers=10,
-                        max_zip_bytes= 28 * 1024 * 1024,
-                    ):
-                        self.lark_api.send_file(
-                            message_id=message_id,
-                            file_buffer=zip_buf,
-                            filename=zip_name,
-                            content_type="application/zip",
-                        )
-
-                    # 2) thumbnail_url packs
-                    for zip_name, zip_buf in build_media_zip(
-                        df=crawler.df,
-                        col="thumbnail_url",
-                        zip_basename_prefix=base,
-                        max_workers=10,
-                        max_zip_bytes= 28 * 1024 * 1024,
-                    ):
-                        self.lark_api.send_file(
-                            message_id=message_id,
-                            file_buffer=zip_buf,
-                            filename=zip_name,
-                            content_type="application/zip",
-                        )
-
+                    self.lark_api.send_file(message_id, file_buffer, filename)
             else:
                 self.lark_api.reply_to_message(message_id, "⛔ Process cancelled successfully!")
         except Exception as e:
