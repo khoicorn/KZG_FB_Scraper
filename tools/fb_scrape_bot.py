@@ -12,6 +12,8 @@ from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
 from .interactive_card_library import *
 
+import logging
+
 import re
 import pandas as pd
 # from datetime import datetime
@@ -25,6 +27,9 @@ import queue
 # from openpyxl.drawing.image import Image as OpenPyxlImage
 # from openpyxl.utils import get_column_letter
 # from PIL import Image as PILImage
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class CrawlerQueue:
     _instance = None
@@ -296,24 +301,46 @@ class FacebookAdsCrawler:
             # max_attempts = 10  # Reduced from 10 to 6
 
             wait = WebDriverWait(self.driver, 10) # Timeout for each new scroll load
-            retries = 3 # How many times to retry if the page stops loading
+
+            retries = 5 # Number of times to retry when no new content loads
+            scroll_count = 0 # --- ADDED: Counter for logging ---
             
             while retries > 0:
-                    if self.should_stop():
-                        return False
+                if self.should_stop():
+                    return False
 
-                    last_height = self.driver.execute_script("return document.body.scrollHeight")
-                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                scroll_count += 1
+                last_height = self.driver.execute_script("return document.body.scrollHeight")
+                
+                # --- ADDED: Start timer ---
+                start_time = time.monotonic()
+                
+                # Scroll down
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                
+                try:
+                    # Wait until the page height increases, indicating new content has loaded
+                    wait.until(
+                        lambda driver: driver.execute_script("return document.body.scrollHeight") > last_height
+                    )
                     
-                    try:
-                        # Wait until the page height has actually increased
-                        wait.until(
-                            lambda driver: driver.execute_script("return document.body.scrollHeight") > last_height
-                        )
-                        retries = 3 # Reset retries if content loads
-                    except TimeoutException:
-                        retries -= 1
-                        print(f"Page content did not load after a scroll. Retries left: {retries}")
+                    # --- ADDED: Log success and duration ---
+                    duration = time.monotonic() - start_time
+                    logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: New content loaded in {duration:.2f} seconds.")
+                    
+                    # Reset retries if content loads
+                    retries = 5 
+                except TimeoutException:
+                    # --- ADDED: Log timeout ---
+                    duration = time.monotonic() - start_time
+                    logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: Timed out after {duration:.2f} seconds. No new content.")
+                    
+                    # If the height doesn't change, decrement retries
+                    retries -= 1
+                    logger.info(f"[SCROLL_LOG] Retries left: {retries}")
+
+            print("Finished scrolling or reached end of content.")
+            
 
             self.lark_api.update_card_message(
                 self.message_id, 

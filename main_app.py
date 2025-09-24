@@ -97,7 +97,7 @@ def scheduler_loop():
             now_utc = datetime.datetime.utcnow()
 
             # Log the current UTC time for debugging
-            logger.info(f"[Scheduler] Tick! Current UTC time: {now_utc.isoformat()}")
+            # logger.info(f"[Scheduler] Tick! Current UTC time: {now_utc.isoformat()}")
 
             # Iterate all chats that have at least one schedule
             for cid, schedules in list(state_manager.chat_schedules.items()):
