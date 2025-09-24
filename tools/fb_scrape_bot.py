@@ -238,18 +238,27 @@ class FacebookAdsCrawler:
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
 
-        time.sleep(10)        
-        # try:
-        #     # Wait up to 20 seconds for the first ad card to be present in the DOM
-        #     # Use a more stable selector here!
-        #     wait = WebDriverWait(self.driver, 20)
-        #     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[data-testid="ad-library-item"]')))
-        #     print("Page and initial ads loaded successfully.")
-        # except TimeoutException:
-        #     print("Page took too long to load or no ads were found initially.")
-        #     return False
-        # -- END REPLACEMENT --
+        # time.sleep(10)        
+           # --- REPLACEMENT for time.sleep(10) ---
+        try:
+            print("Waiting up to 30 seconds for ad elements to load...")
+            
+            # Convert your class string into a valid CSS selector.
+            # "class1 class2" becomes ".class1.class2"
+            class_selector = "." + self.ad_card_class.replace(" ", ".")
 
+            wait = WebDriverWait(self.driver, 30)
+            # Use the converted class selector to wait for the element.
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, class_selector)))
+
+            time.sleep(16)
+            print("✅ Ad elements found using the specified class. Proceeding with crawl.")
+            return True
+
+        except TimeoutException:
+            print("❌ Timed out waiting for page elements. The class selector did not find any matching elements.")
+            return False
+        # --- END REPLACEMENT ---
         return True
 
     def scroll_to_bottom(self):
@@ -279,7 +288,7 @@ class FacebookAdsCrawler:
                 self.driver.execute_script(f"window.scrollTo(0, {current_position + scroll_increment});")
                 
                 # Reduced wait time
-                time.sleep(0.8)  # Reduced from 2 seconds
+                time.sleep(2)  # Reduced from 2 seconds
                 
                 new_height = self.driver.execute_script("return document.body.scrollHeight")
                 if new_height == last_height:
