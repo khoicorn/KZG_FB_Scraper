@@ -209,7 +209,8 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-
+        options.add_argument('--force-device-scale-factor=0.5')
+        
         # This automatically finds and uses the correct driver for your browser version
         service = Service()
         self.driver = webdriver.Chrome(service=service, options=options)
@@ -243,21 +244,21 @@ class FacebookAdsCrawler:
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
         
-        time.sleep(8)
+        # time.sleep(8)
 
-        # try:
-        #     # NOTE: This selector is unstable. Find a better one (e.g., 'div[role="article"]')
-        #     # for long-term reliability.
-        #     css_selector = "." + self.ad_card_class.replace(" ", ".")
+        try:
+            # NOTE: This selector is unstable. Find a better one (e.g., 'div[role="article"]')
+            # for long-term reliability.
+            css_selector = "." + self.ad_card_class.replace(" ", ".")
             
-        #     print("Waiting up to 30 seconds for initial ads to load...")
-        #     wait = WebDriverWait(self.driver, 30)
-        #     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
-        #     print("✅ Initial ads loaded.")
-        #     return True
-        # except TimeoutException:
-        #     print("❌ Timed out waiting for initial ads. The page may be empty or the selector is wrong.")
-        #     return False
+            print("Waiting up to 30 seconds for initial ads to load...")
+            wait = WebDriverWait(self.driver, 30)
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+            print("✅ Initial ads loaded.")
+            return True
+        except TimeoutException:
+            print("❌ Timed out waiting for initial ads. The page may be empty or the selector is wrong.")
+            return False
     
         # return True
 
