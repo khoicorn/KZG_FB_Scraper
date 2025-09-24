@@ -260,9 +260,23 @@ class FacebookAdsCrawler:
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
         
-        time.sleep(8)
+        # time.sleep(8)
 
-        return True
+        try:
+            # NOTE: This selector is unstable. Find a better one (e.g., 'div[role="article"]')
+            # for long-term reliability.
+            css_selector = "." + self.ad_card_class.replace(" ", ".")
+            
+            print("Waiting up to 30 seconds for initial ads to load...")
+            wait = WebDriverWait(self.driver, 30)
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+            print("✅ Initial ads loaded.")
+            return True
+        except TimeoutException:
+            print("❌ Timed out waiting for initial ads. The page may be empty or the selector is wrong.")
+            return False
+    
+        # return True
 
     def scroll_to_bottom(self):
             """Optimized scrolling with reduced attempts"""
@@ -282,7 +296,7 @@ class FacebookAdsCrawler:
             # max_attempts = 10  # Reduced from 10 to 6
 
             wait = WebDriverWait(self.driver, 10) # Timeout for each new scroll load
-            retries = 5 # How many times to retry if the page stops loading
+            retries = 3 # How many times to retry if the page stops loading
             
             while retries > 0:
                     if self.should_stop():
@@ -519,7 +533,7 @@ class FacebookAdsCrawler:
 
             print("\nStep 2: Fetching ad elements...")
 
-            time.sleep(10)
+            # time.sleep(10)
 
             # Locate ad elements
             if self.should_stop():
@@ -542,14 +556,12 @@ class FacebookAdsCrawler:
                     return
                 
                 ad_data = self.process_ad_element(ad)
-                time.sleep(1)
 
                 if ad_data:
                     count += 1
                     ad_data["ad_number"] = count
                     self.ads_data.append(ad_data)
                     print(f"Processed ad #{count}: {ad_data['library_id']}")
-                    time.sleep(1)
                 
 
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
