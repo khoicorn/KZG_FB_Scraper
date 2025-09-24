@@ -295,60 +295,104 @@ class FacebookAdsCrawler:
                     progress_percent=10
                 )
             )
-            
-            # last_height = self.driver.execute_script("return document.body.scrollHeight")
-            # scroll_attempt = 0
-            # max_attempts = 10  # Reduced from 10 to 6
 
-            wait = WebDriverWait(self.driver, 10) # Timeout for each new scroll load
-
-            retries = 5 # Number of times to retry when no new content loads
-            scroll_count = 0 # --- ADDED: Counter for logging ---
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            scroll_attempt = 0
+            max_attempts = 10  # Prevent infinite scrolling
             
-            while retries > 0:
+            while scroll_attempt <= max_attempts:
                 if self.should_stop():
                     return False
-
-                scroll_count += 1
-                last_height = self.driver.execute_script("return document.body.scrollHeight")
-                
-                # --- ADDED: Start timer ---
-                start_time = time.monotonic()
-                
-                # Scroll down
+                    
+                # Scroll to bottom
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 
+                # Use dynamic waiting instead of fixed sleep
                 try:
-                    # Wait until the page height increases, indicating new content has loaded
-                    wait.until(
-                        lambda driver: driver.execute_script("return document.body.scrollHeight") > last_height
+                    WebDriverWait(self.driver, 2).until(
+                        lambda d: d.execute_script("return document.body.scrollHeight") > last_height
                     )
-                    
-                    # --- ADDED: Log success and duration ---
-                    duration = time.monotonic() - start_time
-                    logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: New content loaded in {duration:.2f} seconds.")
-                    
-                    # Reset retries if content loads
-                    retries = 5 
                 except TimeoutException:
-                    # --- ADDED: Log timeout ---
-                    duration = time.monotonic() - start_time
-                    logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: Timed out after {duration:.2f} seconds. No new content.")
+                    # No new content loaded within timeout
+                    print("-- Reached bottom of page")
+                    break
                     
-                    # If the height doesn't change, decrement retries
-                    retries -= 1
-                    logger.info(f"[SCROLL_LOG] Retries left: {retries}")
-
-            print("Finished scrolling or reached end of content.")
-            
-
-            self.lark_api.update_card_message(
-                self.message_id, 
-                card=domain_processing_card(
-                    search_word=self.keyword,
-                    progress_percent=40
+                # Check if we need to stop after waiting
+                if self.should_stop():
+                    return False
+                    
+                # Update height and attempt counter
+                new_height = self.driver.execute_script("return document.body.scrollHeight")
+                if new_height == last_height:
+                    print("-- Content height stabilized")
+                    break
+                    
+                last_height = new_height
+                scroll_attempt += 1
+                print(f"-- New content loaded ({scroll_attempt}/{max_attempts})")
+                
+            # Final stabilization check
+            try:
+                WebDriverWait(self.driver, 3).until(
+                    lambda d: self._is_page_stabilized(d, last_height)
                 )
-            )
+            except TimeoutException:
+                print("-- Page stabilization check timeout")
+        
+    
+            # # last_height = self.driver.execute_script("return document.body.scrollHeight")
+            # # scroll_attempt = 0
+            # # max_attempts = 10  # Reduced from 10 to 6
+
+            # wait = WebDriverWait(self.driver, 10) # Timeout for each new scroll load
+
+            # retries = 5 # Number of times to retry when no new content loads
+            # scroll_count = 0 # --- ADDED: Counter for logging ---
+            
+            # while retries > 0:
+            #     if self.should_stop():
+            #         return False
+
+            #     scroll_count += 1
+            #     last_height = self.driver.execute_script("return document.body.scrollHeight")
+                
+            #     # --- ADDED: Start timer ---
+            #     start_time = time.monotonic()
+                
+            #     # Scroll down
+            #     self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                
+            #     try:
+            #         # Wait until the page height increases, indicating new content has loaded
+            #         wait.until(
+            #             lambda driver: driver.execute_script("return document.body.scrollHeight") > last_height
+            #         )
+                    
+            #         # --- ADDED: Log success and duration ---
+            #         duration = time.monotonic() - start_time
+            #         logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: New content loaded in {duration:.2f} seconds.")
+                    
+            #         # Reset retries if content loads
+            #         retries = 5 
+            #     except TimeoutException:
+            #         # --- ADDED: Log timeout ---
+            #         duration = time.monotonic() - start_time
+            #         logger.info(f"[SCROLL_LOG] Scroll #{scroll_count}: Timed out after {duration:.2f} seconds. No new content.")
+                    
+            #         # If the height doesn't change, decrement retries
+            #         retries -= 1
+            #         logger.info(f"[SCROLL_LOG] Retries left: {retries}")
+
+            # print("Finished scrolling or reached end of content.")
+            
+            if not self.should_stop():
+                self.lark_api.update_card_message(
+                    self.message_id, 
+                    card=domain_processing_card(
+                        search_word=self.keyword,
+                        progress_percent=40
+                    )
+                )
             return True
     
     def _is_page_stabilized(self, driver, last_height):

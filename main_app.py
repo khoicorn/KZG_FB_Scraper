@@ -97,7 +97,7 @@ def scheduler_loop():
             now_utc = datetime.datetime.utcnow()
 
             # Log the current UTC time for debugging
-            # logger.info(f"[Scheduler] Tick! Current UTC time: {now_utc.isoformat()}")
+            print(f"[Scheduler] Tick! Current UTC time: {now_utc.isoformat()}")
 
             # Iterate all chats that have at least one schedule
             for cid, schedules in list(state_manager.chat_schedules.items()):
@@ -122,7 +122,7 @@ def scheduler_loop():
         except Exception as e:
             logger.error(f"Scheduler error: {e}")
         finally:
-            time.sleep(5)  # check every 5s to be resilient to clock drifts
+            time.sleep(60)  # check every 5s to be resilient to clock drifts
 
 # Start the scheduler thread when the module is loaded
 # This will be executed by Gunicorn
