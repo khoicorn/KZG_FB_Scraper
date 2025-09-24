@@ -519,6 +519,8 @@ class FacebookAdsCrawler:
 
             print("\nStep 2: Fetching ad elements...")
 
+            time.sleep(5)
+
             # Locate ad elements
             if self.should_stop():
                 return
@@ -545,6 +547,7 @@ class FacebookAdsCrawler:
                     ad_data["ad_number"] = count
                     self.ads_data.append(ad_data)
                     print(f"Processed ad #{count}: {ad_data['library_id']}")
+                    time.sleep(0.5)
                 
 
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
