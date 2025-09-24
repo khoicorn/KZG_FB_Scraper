@@ -1,10 +1,13 @@
 from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.common.exceptions import TimeoutException
+
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
 from lark_bot import LarkAPI
 from lark_bot.state_managers import state_manager
 from .interactive_card_library import *
@@ -16,9 +19,7 @@ import time
 import threading
 import queue
 # import requests
-# Import this at the top of your file
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 # import io
 # from openpyxl import Workbook
 # from openpyxl.drawing.image import Image as OpenPyxlImage
@@ -201,15 +202,36 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')  # Reduce resource usage
         options.add_argument('--disable-extensions')  # Improve performance
         options.add_argument('--disable-infobars')
         options.add_argument('--single-process')  # Lightweight mode
-        options.add_argument('--window-size=1280,1080')  # Smaller than 1920x1080
-        
+        options.add_argument('--window-size=1280,720')  # Smaller than 1920x1080
+
         # Optional: reduce detection
-        options.add_argument('--disable-blink-features=AutomationControlled')
+        # options.add_argument('--disable-blink-features=AutomationControlled')
 
         self.driver = webdriver.Chrome(options=options)
+            # Block fonts, stylesheets, and other non-essential resources
+        # This must be done AFTER the driver is initialized
+        try:
+            self.driver.execute_cdp_cmd(
+                "Network.setBlockedURLs", {
+                    "urls": [
+                        "*.css", 
+                        "*.woff", 
+                        "*.woff2", 
+                        "*google-analytics.com*", 
+                        "*googletagmanager.com*",
+                        "*doubleclick.net*"
+                    ]
+                }
+            )
+            self.driver.execute_cdp_cmd("Network.enable", {})
+            print("✅ Network request blocking enabled.")
+        except Exception as e:
+            print(f"⚠️ Could not enable network blocking: {e}")
+
         return True
     
     def start(self):
@@ -237,28 +259,9 @@ class FacebookAdsCrawler:
         url = (f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&"
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
+        
+        time.sleep(8)
 
-        time.sleep(20)        
-           # --- REPLACEMENT for time.sleep(10) ---
-        # try:
-        #     print("Waiting up to 30 seconds for ad elements to load...")
-            
-        #     # Convert your class string into a valid CSS selector.
-        #     # "class1 class2" becomes ".class1.class2"
-        #     class_selector = "." + self.ad_card_class.replace(" ", ".")
-
-        #     wait = WebDriverWait(self.driver, 30)
-        #     # Use the converted class selector to wait for the element.
-        #     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, class_selector)))
-
-        #     time.sleep(16)
-        #     print("✅ Ad elements found using the specified class. Proceeding with crawl.")
-        #     return True
-
-        # except TimeoutException:
-        #     print("❌ Timed out waiting for page elements. The class selector did not find any matching elements.")
-        #     return False
-        # --- END REPLACEMENT ---
         return True
 
     def scroll_to_bottom(self):
@@ -274,28 +277,29 @@ class FacebookAdsCrawler:
                 )
             )
             
-            last_height = self.driver.execute_script("return document.body.scrollHeight")
-            scroll_attempt = 0
-            max_attempts = 10  # Reduced from 10 to 6
+            # last_height = self.driver.execute_script("return document.body.scrollHeight")
+            # scroll_attempt = 0
+            # max_attempts = 10  # Reduced from 10 to 6
+
+            wait = WebDriverWait(self.driver, 10) # Timeout for each new scroll load
+            retries = 5 # How many times to retry if the page stops loading
             
-            while scroll_attempt < max_attempts:
-                if self.should_stop():
-                    return False
+            while retries > 0:
+                    if self.should_stop():
+                        return False
+
+                    last_height = self.driver.execute_script("return document.body.scrollHeight")
+                    self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                     
-                # Scroll in increments instead of full page
-                scroll_increment = 800
-                current_position = self.driver.execute_script("return window.pageYOffset")
-                self.driver.execute_script(f"window.scrollTo(0, {current_position + scroll_increment});")
-                
-                # Reduced wait time
-                time.sleep(2)  # Reduced from 2 seconds
-                
-                new_height = self.driver.execute_script("return document.body.scrollHeight")
-                if new_height == last_height:
-                    scroll_attempt += 1
-                else:
-                    scroll_attempt = 0
-                    last_height = new_height
+                    try:
+                        # Wait until the page height has actually increased
+                        wait.until(
+                            lambda driver: driver.execute_script("return document.body.scrollHeight") > last_height
+                        )
+                        retries = 3 # Reset retries if content loads
+                    except TimeoutException:
+                        retries -= 1
+                        print(f"Page content did not load after a scroll. Retries left: {retries}")
 
             self.lark_api.update_card_message(
                 self.message_id, 
@@ -362,7 +366,6 @@ class FacebookAdsCrawler:
                 let destinationUrl = null;
                 let pixelId = null;
                 const links = element.querySelectorAll('a');
-                                                 
                 for (const link of links) {
                     const url = link.href;
                     if (url && url.includes('l.facebook.com')) {
@@ -376,6 +379,16 @@ class FacebookAdsCrawler:
                     }
                 }
 
+                // Get Primary Text and Headline/Description
+                let primaryText = null;
+                let headlineText = null;
+
+                const el1 = element.querySelector("._7jyr._a25-");   // first class
+                if (el1) primaryText = el1.innerText;
+
+                const el2 = element.querySelector(".x6s0dn4.x2izyaf.x78zum5.x1qughib.x15mokao.x1ga7v0g.xde0f50.x15x8krk.xexx8yu.xf159sx.xwib8y2.xmzvs34"); 
+                if (el2) headlineText = el2.innerText;
+
                 return {
                     text,
                     company,
@@ -385,6 +398,8 @@ class FacebookAdsCrawler:
                     thumbnailUrl,
                     destinationUrl,
                     pixelId,
+                    primaryText,
+                    headlineText
                 };
             """, ad_element)
 
@@ -404,7 +419,9 @@ class FacebookAdsCrawler:
                 "video_url": ad_data['videoUrl'],
                 "thumbnail_url": ad_data['thumbnailUrl'],
                 "destination_url": ad_data['destinationUrl'],
-                "pixel_id": ad_data['pixelId']
+                "pixel_id": ad_data['pixelId'],
+                "primary_text": ad_data['primaryText'],
+                "headline_text": ad_data['headlineText']
             }
 
         except Exception as e:
@@ -578,6 +595,8 @@ class FacebookAdsCrawler:
             "ad_type",
             "ad_url",
             "thumbnail_url",
+            "primary_text",     # 👈 now placed here
+            "headline_text"     # 👈 now placed here
             ]
 
         # print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
