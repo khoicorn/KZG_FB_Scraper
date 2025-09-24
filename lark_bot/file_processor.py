@@ -19,13 +19,14 @@ import os
 
 class ExcelImageExporter:
     """Optimized Excel exporter with parallel image processing."""
-    
+    """Optimized Excel exporter with parallel image processing."""
+
     def __init__(self, 
-                 image_size: Tuple[int, int] = (80, 80),
-                 row_height: int = 80,
-                 image_col_width: int = 18,
-                 timeout: int = 10,
-                 max_workers: int = 10):
+                    image_size: Tuple[int, int] = (80, 80),
+                    row_height: int = 80,
+                    image_col_width: int = 18,
+                    timeout: int = 10,
+                    max_workers: int = 10):
         """
         Initialize the Excel exporter.
         
@@ -42,16 +43,10 @@ class ExcelImageExporter:
         self.timeout = timeout
         self.max_workers = max_workers
         self.logger = logging.getLogger(__name__)
-    
+
     def _download_and_process_image(self, url: str) -> Optional[bytes]:
         """
         Download and process an image from URL.
-        
-        Args:
-            url: Image URL to download
-            
-        Returns:
-            bytes: PNG image data or None if failed
         """
         try:
             headers = {'User-Agent': 'Mozilla/5.0'}
@@ -59,14 +54,11 @@ class ExcelImageExporter:
             response.raise_for_status()
             
             with Image.open(BytesIO(response.content)) as img:
-                # Convert to RGB if necessary
                 if img.mode in ('RGBA', 'LA', 'P'):
                     img = img.convert('RGB')
                 
-                # Create thumbnail
                 img.thumbnail(self.image_size, Image.Resampling.LANCZOS)
                 
-                # Save to buffer and return bytes
                 with BytesIO() as buffer:
                     img.save(buffer, format="PNG", optimize=True)
                     return buffer.getvalue()
@@ -74,76 +66,102 @@ class ExcelImageExporter:
         except Exception as e:
             self.logger.warning(f"Image processing failed for {url}: {str(e)}")
             return None
-    
+
     def _setup_header_styling(self, ws, num_cols: int):
         """Apply styling to header row."""
         header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
         header_font = Font(color="FFFFFF", bold=True)
         header_alignment = Alignment(horizontal="center", vertical="center")
         
-        for col in range(1, num_cols + 2):  # +1 for image column
+        # --- MODIFIED --- 
+        # The number of columns is now based on the final list of headers, not the original df
+        for col in range(1, num_cols + 1):
             cell = ws.cell(row=1, column=col)
             cell.fill = header_fill
             cell.font = header_font
             cell.alignment = header_alignment
-    
+
     def _auto_adjust_column_widths(self, ws, df: pd.DataFrame):
         """Auto-adjust column widths based on content."""
+        # --- MODIFIED ---
+        # This function now uses the final column order for adjusting width.
+        # We also need to skip the 'Image' column which has a fixed width.
         for col_idx, column in enumerate(df.columns, 1):
-            max_length = max(
-                len(str(column)),
-                df[column].astype(str).str.len().max()
-            )
-            adjusted_width = min(max_length + 2, 50)
-            ws.column_dimensions[get_column_letter(col_idx)].width = adjusted_width
-    
+            if column == 'Image':
+                continue
+            
+            # Check if the column exists in the DataFrame before trying to access it
+            if column in df:
+                max_length = max(
+                    len(str(column)),
+                    df[column].astype(str).str.len().max()
+                )
+                adjusted_width = min(max_length + 2, 50)
+                ws.column_dimensions[get_column_letter(col_idx)].width = adjusted_width
+
     def export_to_excel(self, 
-                       df: pd.DataFrame, 
-                       image_column: str) -> BytesIO:
+                        df: pd.DataFrame, 
+                        image_column: str) -> BytesIO:
         """
         Export DataFrame to Excel with images (in-memory only).
-        
-        Args:
-            df: DataFrame to export
-            image_column: Column name containing image URLs
-            
-        Returns:
-            BytesIO object containing the Excel file
         """
         if image_column not in df.columns:
             raise ValueError(f"Image column '{image_column}' not found in DataFrame")
         
-        # Work on a copy and ensure a stable, 1-based row number in the first column
         df = df.reset_index(drop=True).copy()
         if "No" not in df.columns:
             df.insert(0, "No", range(1, len(df) + 1))
+
+        # --- ADD ---
+        # Define the desired final column order for the Excel file.
+        # This is the key change to control the layout.
+        original_columns = list(df.columns)
+        
+        # We will insert 'Image' before 'primary_text' and 'headline_text'.
+        # Let's build the new column list.
+        final_excel_columns = []
+        text_columns_to_move = ['primary_text', 'headline_text']
+        
+        for col in original_columns:
+            if col not in text_columns_to_move:
+                final_excel_columns.append(col)
+        
+        # Now, add the 'Image' column and the text columns at the desired position.
+        final_excel_columns.append('Image')
+        final_excel_columns.extend(text_columns_to_move)
 
         wb = Workbook()
         ws = wb.active
         ws.title = "Data with Images"
         
-        # Write headers
-        for col_idx, col_name in enumerate(df.columns, 1):
+        # --- MODIFIED ---
+        # Write headers based on our new `final_excel_columns` list.
+        for col_idx, col_name in enumerate(final_excel_columns, 1):
             ws.cell(row=1, column=col_idx, value=col_name)
         
-        # Add image column header
-        image_col_idx = len(df.columns) + 1
-        ws.cell(row=1, column=image_col_idx, value="Image")
+        # --- REMOVE ---
+        # We no longer need this part because the 'Image' header is already in our list.
+        # image_col_idx = len(df.columns) + 1
+        # ws.cell(row=1, column=image_col_idx, value="Image")
         
-        # Apply header styling
-        self._setup_header_styling(ws, len(df.columns))
+        # Apply header styling based on the final number of columns
+        self._setup_header_styling(ws, len(final_excel_columns))
         
         # Phase 1: Write data and collect image URLs
         download_tasks = {}
         for row_idx, (_, row) in enumerate(df.iterrows(), start=2):
-            for col_idx, (col_name, value) in enumerate(row.items(), 1):
-                ws.cell(row=row_idx, column=col_idx, value=value)
+            # --- MODIFIED ---
+            # Write data cell by cell from the original 'row' object,
+            # but into the correct column positions defined by 'final_excel_columns'.
+            for col_idx, col_name in enumerate(final_excel_columns, 1):
+                if col_name != 'Image' and col_name in row:
+                    ws.cell(row=row_idx, column=col_idx, value=row[col_name])
             
             if pd.notna(row[image_column]) and str(row[image_column]).strip():
                 download_tasks[row_idx] = str(row[image_column])
 
-        # Phase 2: Parallel image downloads
-        image_data = {}  # {row_idx: image_bytes}
+        # Phase 2: Parallel image downloads (This part is unchanged)
+        image_data = {}
         if download_tasks:
             with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
                 future_to_row = {
@@ -155,17 +173,21 @@ class ExcelImageExporter:
                     row_idx = future_to_row[future]
                     image_data[row_idx] = future.result()
 
+        # --- ADD ---
+        # Get the new 1-based index for the 'Image' column for placing images.
+        image_col_idx = final_excel_columns.index('Image') + 1
+
         # Phase 3: Insert images into worksheet
         successful_images = 0
         failed_images = 0
         for row_idx, img_bytes in image_data.items():
             if img_bytes:
                 try:
-                    # Create a new BytesIO for OpenPyxlImage
                     img_buffer = BytesIO(img_bytes)
                     img = OpenPyxlImage(img_buffer)
                     
-                    # Position image
+                    # --- MODIFIED ---
+                    # The anchor position now correctly uses the new image_col_idx.
                     image_col_letter = get_column_letter(image_col_idx)
                     img.anchor = f"{image_col_letter}{row_idx}"
                     
@@ -179,33 +201,51 @@ class ExcelImageExporter:
             else:
                 failed_images += 1
         
-        # Auto-adjust other column widths
-        self._auto_adjust_column_widths(ws, df)
+        # --- MODIFIED ---
+        # The logic for wrapping text columns now uses the correct indices from the final layout.
+        for col_name in ("primary_text", "headline_text"):
+            if col_name in final_excel_columns:
+                col_idx = final_excel_columns.index(col_name) + 1
+
+                if col_name == "primary_text":
+                    ws.column_dimensions[get_column_letter(col_idx)].width = 25
+                elif col_name == "headline_text":
+                    ws.column_dimensions[get_column_letter(col_idx)].width = 50
+
+                for row_idx in range(2, ws.max_row + 1):
+                    cell = ws.cell(row=row_idx, column=col_idx)
+                    cell.alignment = Alignment(wrap_text=True, vertical="top")
+
+        # --- MODIFIED & IMPROVED ---
+        # First, auto-adjust widths for all columns EXCEPT the ones we want to size manually.
+        # Create a temporary DataFrame without the manually sized columns.
+        cols_to_auto_adjust = [c for c in df.columns if c not in ('primary_text', 'headline_text')]
+        df_for_auto_adjust = df[cols_to_auto_adjust]
+        self._auto_adjust_column_widths(ws, df_for_auto_adjust)
         
-        # Process hyperlinks
+        # Process hyperlinks (This logic remains largely the same but uses the final column indices)
         hyperlink_columns = ["destination_url", "ad_url", "thumbnail_url"]
         for col_name in hyperlink_columns:
-            if col_name in df.columns:
-                col_idx = df.columns.get_loc(col_name) + 1
+            if col_name in final_excel_columns:
+                # --- MODIFIED ---
+                # Get index from the final list
+                col_idx = final_excel_columns.index(col_name) + 1
                 for row_idx, (_, row) in enumerate(df.iterrows(), start=2):
-                    url = row[col_name]
+                    url = row.get(col_name) # Use .get() for safety
                     if pd.notna(url) and str(url).strip():
                         cell = ws.cell(row=row_idx, column=col_idx)
                         cell.value = "Click here"
-                        cell.hyperlink = url
+                        cell.hyperlink = str(url)
                         cell.font = Font(color="0563C1", underline="single")
                 
-                # Set column width after processing
                 ws.column_dimensions[get_column_letter(col_idx)].width = 15
 
         # Set image column width
         image_col_letter = get_column_letter(image_col_idx)
         ws.column_dimensions[image_col_letter].width = self.image_col_width
 
-        # Log results
         self.logger.info(f"Export completed: {successful_images} images added, {failed_images} failed")
         
-        # Save to memory
         output = BytesIO()
         wb.save(output)
         output.seek(0)

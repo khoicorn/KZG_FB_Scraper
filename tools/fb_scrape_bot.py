@@ -307,20 +307,19 @@ class FacebookAdsCrawler:
         """Optimized element processing with batched JS execution"""
         if self.should_stop():
             return None
-           
+
         try:
-            # Get all data in single JS execution
             ad_data = self.driver.execute_script("""
                 const element = arguments[0];
                 const text = element.innerText;
-                
+
                 // Extract media
                 let company = null;
                 let avatarUrl = null;
                 let imageUrl = null;
                 let videoUrl = null;
                 let thumbnailUrl = null;
-                
+
                 const imgs = element.querySelectorAll('img');
                 for (const img of imgs) {
                     if (img.alt && !company) {
@@ -331,14 +330,14 @@ class FacebookAdsCrawler:
                         thumbnailUrl = img.src;
                     }
                 }
-                
+
                 // Extract video
                 const video = element.querySelector('video');
                 if (video) {
                     videoUrl = video.src;
                     thumbnailUrl = video.poster || thumbnailUrl;
                 }
-                
+
                 // Extract links
                 let destinationUrl = null;
                 let pixelId = null;
@@ -351,11 +350,21 @@ class FacebookAdsCrawler:
                             destinationUrl = url;
                         } else {
                             destinationUrl = url;
-                            break; // Stop at first valid link
+                            break;
                         }
                     }
                 }
-                
+
+                // Get Primary Text and Headline/Description
+                let primaryText = null;
+                let headlineText = null;
+
+                const el1 = element.querySelector("._7jyr._a25-");   // first class
+                if (el1) primaryText = el1.innerText;
+
+                const el2 = element.querySelector(".x6s0dn4.x2izyaf.x78zum5.x1qughib.x15mokao.x1ga7v0g.xde0f50.x15x8krk.xexx8yu.xf159sx.xwib8y2.xmzvs34"); 
+                if (el2) headlineText = el2.innerText;
+
                 return {
                     text,
                     company,
@@ -364,17 +373,32 @@ class FacebookAdsCrawler:
                     videoUrl,
                     thumbnailUrl,
                     destinationUrl,
-                    pixelId
+                    pixelId,
+                    primaryText,
+                    headlineText
                 };
             """, ad_element)
-            
+
             if "Library ID" not in ad_data['text']:
                 return None
-                
-            # Extract ID and date using regex
+
             lib_id = self.extract_library_id(ad_data['text'])
             start_date = self.extract_date(ad_data['text'])
-            
+
+            # print({
+            #     "text_snippet": ad_data['text'][:100].replace("\n", " ") + "...",
+            #     "library_id": lib_id,
+            #     "ad_start_date": start_date,
+            #     "company": ad_data['company'],
+            #     "avatar_url": ad_data['avatarUrl'],
+            #     "image_url": ad_data['imageUrl'],
+            #     "video_url": ad_data['videoUrl'],
+            #     "thumbnail_url": ad_data['thumbnailUrl'],
+            #     "destination_url": ad_data['destinationUrl'],
+            #     "pixel_id": ad_data['pixelId'],
+            #     "primary_text": ad_data['primaryText'],
+            #     "headline_text": ad_data['headlineText']
+            # })
             return {
                 "text_snippet": ad_data['text'][:100].replace("\n", " ") + "...",
                 "library_id": lib_id,
@@ -385,9 +409,11 @@ class FacebookAdsCrawler:
                 "video_url": ad_data['videoUrl'],
                 "thumbnail_url": ad_data['thumbnailUrl'],
                 "destination_url": ad_data['destinationUrl'],
-                "pixel_id": ad_data['pixelId']
+                "pixel_id": ad_data['pixelId'],
+                "primary_text": ad_data['primaryText'],
+                "headline_text": ad_data['headlineText']
             }
-        
+
         except Exception as e:
             print(f"Error processing ad: {e}")
             return None
@@ -558,7 +584,9 @@ class FacebookAdsCrawler:
             "destination_url",
             "ad_type",
             "ad_url",
-            "thumbnail_url"
+            "thumbnail_url",
+            "primary_text",     # 👈 now placed here
+            "headline_text"     # 👈 now placed here
             ]
 
         # print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
