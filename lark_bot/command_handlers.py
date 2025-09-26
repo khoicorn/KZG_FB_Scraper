@@ -699,7 +699,7 @@ class CommandHandler:
             #    (this creates the processing card and spawns the worker thread)
             self.handle_search_term(synthetic_user, domain)
 
-            _t.sleep(1)  # tiny gap for safety
+            _t.sleep(60)  # tiny gap for safety
 
 
 

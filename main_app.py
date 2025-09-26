@@ -122,7 +122,7 @@ def scheduler_loop():
         except Exception as e:
             logger.error(f"Scheduler error: {e}")
         finally:
-            time.sleep(60)  # check every 5s to be resilient to clock drifts
+            time.sleep(10)  # check every 5s to be resilient to clock drifts
 
 # Start the scheduler thread when the module is loaded
 # This will be executed by Gunicorn

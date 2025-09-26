@@ -209,7 +209,11 @@ class FacebookAdsCrawler:
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--force-device-scale-factor=0.5')
+        options.add_argument('--disable-gpu')  # Important for headless servers
+        options.add_argument('--blink-settings=imagesEnabled=false')  # 👈 HUGE performance gain
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-infobars')
+        options.add_argument("--force-device-scale-factor=0.5")
         
         # This automatically finds and uses the correct driver for your browser version
         service = Service()
@@ -568,6 +572,57 @@ class FacebookAdsCrawler:
             print(f"Error extracting links: {e}")
             
         return link_data
+    def _scroll_and_scrape_ads(self):
+        """
+        Handles the core logic of scrolling, finding, and processing ads.
+        This method is memory-efficient as it processes ads in batches while scrolling.
+
+        Returns:
+            list: A list of dictionaries, where each dictionary represents a scraped ad.
+        """
+        processed_ad_ids = set()
+        scraped_data = []
+        no_new_content_strikes = 0
+        max_strikes = 5  # Stop after 5 consecutive scrolls with no new ads found
+
+        while no_new_content_strikes < max_strikes:
+            if self.should_stop():
+                logger.info("🛑 Crawl cancelled during scroll-and-scrape loop.")
+                break
+
+            # Find all ad elements currently in view
+            css_selector = "." + self.ad_card_class.replace(" ", ".")
+            ad_elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
+            
+            new_ads_found_in_batch = False
+            for ad_element in ad_elements:
+                if self.should_stop(): break
+
+                # Quickly get a text snippet to check the ID without full processing
+                text_snippet = self.driver.execute_script("return arguments[0].innerText.substring(0, 200);", ad_element)
+                library_id = self.extract_library_id(text_snippet)
+
+                # If the ad is new, process it fully
+                if library_id and library_id not in processed_ad_ids:
+                    ad_data = self.process_ad_element(ad_element)
+                    if ad_data:
+                        scraped_data.append(ad_data)
+                        processed_ad_ids.add(library_id)
+                        new_ads_found_in_batch = True
+                        logger.info(f"Processed ad #{len(scraped_data)}: {library_id}")
+
+            # Update the strike count based on whether new ads were found
+            if new_ads_found_in_batch:
+                no_new_content_strikes = 0  # Reset strikes
+            else:
+                no_new_content_strikes += 1
+                logger.info(f"No new ads in this view. Strikes: {no_new_content_strikes}/{max_strikes}")
+
+            # Scroll down and wait for new content to load
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(2)
+
+        return scraped_data
         
     def crawl(self):
         """Main method to execute the crawl"""
@@ -588,30 +643,33 @@ class FacebookAdsCrawler:
             # Locate ad elements
             if self.should_stop():
                 return
+       
+            # 2. Call the dedicated function to perform scrolling and scraping
+            self.ads_data = self._scroll_and_scrape_ads()         
+            
+            # count = 0
+            # # print(len(ad_elements))
+
+            # # Convert to CSS selector
+            # css_selector = "." + self.ad_card_class.replace(" ", ".")
+
+            # # Find elements
+            # elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
+            # # threshold = len(elements)
+
+            # for ad in elements:
+            #     # Check cancellation before processing each ad
+            #     if self.should_stop():
+            #         print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")
+            #         return
                 
-            count = 0
-            # print(len(ad_elements))
+            #     ad_data = self.process_ad_element(ad)
 
-            # Convert to CSS selector
-            css_selector = "." + self.ad_card_class.replace(" ", ".")
-
-            # Find elements
-            elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
-            # threshold = len(elements)
-
-            for ad in elements:
-                # Check cancellation before processing each ad
-                if self.should_stop():
-                    print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")
-                    return
-                
-                ad_data = self.process_ad_element(ad)
-
-                if ad_data:
-                    count += 1
-                    ad_data["ad_number"] = count
-                    self.ads_data.append(ad_data)
-                    print(f"Processed ad #{count}: {ad_data['library_id']}")
+            #     if ad_data:
+            #         count += 1
+            #         ad_data["ad_number"] = count
+            #         self.ads_data.append(ad_data)
+            #         print(f"Processed ad #{count}: {ad_data['library_id']}")
                 
 
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
