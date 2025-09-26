@@ -206,6 +206,7 @@ class FacebookAdsCrawler:
             return False
         
         options = Options()
+        options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36')
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
@@ -646,7 +647,7 @@ class FacebookAdsCrawler:
        
             # 2. Call the dedicated function to perform scrolling and scraping
             self.ads_data = self._scroll_and_scrape_ads()         
-            
+
             # count = 0
             # # print(len(ad_elements))
 
