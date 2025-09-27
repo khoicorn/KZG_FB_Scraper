@@ -256,8 +256,8 @@ class FacebookAdsCrawler:
             # for long-term reliability.
             css_selector = "." + self.ad_card_class.replace(" ", ".")
             
-            print("Waiting up to 30 seconds for initial ads to load...")
-            wait = WebDriverWait(self.driver, 30)
+            print("Waiting up to 10 seconds for initial ads to load...")
+            wait = WebDriverWait(self.driver, 10)
             wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
             print("✅ Initial ads loaded.")
             return True
@@ -293,7 +293,7 @@ class FacebookAdsCrawler:
                 
                 # Use dynamic waiting instead of fixed sleep
                 try:
-                    WebDriverWait(self.driver, 2).until(
+                    WebDriverWait(self.driver, 10).until(
                         lambda d: d.execute_script("return document.body.scrollHeight") > last_height
                     )
                 except TimeoutException:
@@ -621,7 +621,7 @@ class FacebookAdsCrawler:
 
             # Scroll down and wait for new content to load
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
+            time.sleep(5)
 
         return scraped_data
         
@@ -646,31 +646,31 @@ class FacebookAdsCrawler:
                 return
        
             # 2. Call the dedicated function to perform scrolling and scraping
-            self.ads_data = self._scroll_and_scrape_ads()         
+            # self.ads_data = self._scroll_and_scrape_ads()         
 
-            # count = 0
-            # # print(len(ad_elements))
+            count = 0
+            # print(len(ad_elements))
 
-            # # Convert to CSS selector
-            # css_selector = "." + self.ad_card_class.replace(" ", ".")
+            # Convert to CSS selector
+            css_selector = "." + self.ad_card_class.replace(" ", ".")
 
-            # # Find elements
-            # elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
-            # # threshold = len(elements)
+            # Find elements
+            elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
+            # threshold = len(elements)
 
-            # for ad in elements:
-            #     # Check cancellation before processing each ad
-            #     if self.should_stop():
-            #         print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")
-            #         return
+            for ad in elements:
+                # Check cancellation before processing each ad
+                if self.should_stop():
+                    print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")
+                    return
                 
-            #     ad_data = self.process_ad_element(ad)
+                ad_data = self.process_ad_element(ad)
 
-            #     if ad_data:
-            #         count += 1
-            #         ad_data["ad_number"] = count
-            #         self.ads_data.append(ad_data)
-            #         print(f"Processed ad #{count}: {ad_data['library_id']}")
+                if ad_data:
+                    count += 1
+                    ad_data["ad_number"] = count
+                    self.ads_data.append(ad_data)
+                    print(f"Processed ad #{count}: {ad_data['library_id']}")
                 
 
             print("--Finished processing ads. Total ads found:", len(self.ads_data))
