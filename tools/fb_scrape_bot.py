@@ -214,7 +214,10 @@ class FacebookAdsCrawler:
         options.add_argument('--blink-settings=imagesEnabled=false')  # 👈 HUGE performance gain
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-infobars')
+        options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("--force-device-scale-factor=0.5")
+        options.add_argument("--start-maximized")
+        options.add_argument("--window-size=1920,1080")
         
         # This automatically finds and uses the correct driver for your browser version
         service = Service()
@@ -297,6 +300,14 @@ class FacebookAdsCrawler:
                         lambda d: d.execute_script("return document.body.scrollHeight") > last_height
                     )
                 except TimeoutException:
+                    # =================== SCREENSHOT LOGIC ADDED HERE ===================
+                    # No new content loaded within timeout, let's see why.
+                    screenshot_filename = f"debug_scroll_failed_{self.keyword}_{int(time.time())}.png"
+                    self.driver.save_screenshot(screenshot_filename)
+                    print(f"📸 Screenshot saved to '{screenshot_filename}' because no new content loaded.")
+                    # You could optionally send a message via Lark API here as well.
+                    # self.lark_api.reply_to_message(self.message_id, f"Debug screenshot captured: {screenshot_filename}")
+                    # ===================================================================
                     # No new content loaded within timeout
                     print("-- Reached bottom of page")
                     break
