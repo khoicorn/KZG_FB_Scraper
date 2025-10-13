@@ -296,7 +296,7 @@ class FacebookAdsCrawler:
         # --- Optionally limit logs ---
         options.add_argument("--log-level=3")            # Suppress console logs
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        
+
         service = Service()
         self.driver = webdriver.Chrome(service=service, options=options)
 
@@ -365,7 +365,7 @@ class FacebookAdsCrawler:
         if existing_path:
             dim_keyword = pd.read_csv(existing_path, dtype=str)
             dim_keyword["keyword"] = self.keyword
-            dim_keyword = dim_keyword[dim_keyword["id"] != "all_pages"]
+            # dim_keyword = dim_keyword[dim_keyword["id"] != "all_pages"]
             dim_keyword = dim_keyword.drop_duplicates()
             return dim_keyword
 
@@ -437,18 +437,20 @@ class FacebookAdsCrawler:
         df.drop_duplicates(inplace=True)
         return df
 
-    def fetch_ads_page_by_id(self, page_id: str) -> bool:
+    def fetch_ads_page_by_id(self, page_name: str) -> bool:
         """
         Open Ads Library page filtered by advertiser/page id.
         """
+        search_word = f"{self.keyword} {page_name}"
         if self.should_stop():
             return False
 
         url = (
             "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&"
-            f"is_targeted_country=false&media_type=all&page_ids[0]={page_id}&q={self.keyword}&search_type=keyword_unordered"
+            f"is_targeted_country=false&media_type=all&q={search_word}&search_type=keyword_unordered"
         )
         self.driver.get(url)
+        print("Search for:", search_word)
 
         try:
             css_selector = "." + self.ad_card_class.replace(" ", ".")
@@ -864,15 +866,16 @@ class FacebookAdsCrawler:
 
             # 1) Get advertiser IDs for this keyword (load CSV if exists; otherwise scrape & save)
             dim_keyword = self.get_dim_keyword()
+            dim_keyword["name_clean"] = dim_keyword["name"].str.split(" ").str[0].str.strip()  
 
             # 2) For each advertiser ID: open page, scroll all, scrape ads
             #    (If CSV already existed, we skip re-scraping the advertiser list and go straight here)
-            ids = dim_keyword["id"].dropna().astype(str).unique().tolist()
+            list_name = dim_keyword["name_clean"].dropna().astype(str).unique().tolist()
 
-            total_ids = len(ids)
+            total_ids = len(list_name)
 
-            print(total_ids, ids)
-            for idx, page_id in enumerate(ids, start=1):
+            print(total_ids, list_name)
+            for idx, page_name in enumerate(list_name, start=1):
                 if self.should_stop():
                     return
 
@@ -886,7 +889,7 @@ class FacebookAdsCrawler:
                 except Exception:
                     pass
 
-                if not self.fetch_ads_page_by_id(page_id):
+                if not self.fetch_ads_page_by_id(page_name):
                     continue
 
                 # Scroll to bottom for this advertiser page
@@ -908,8 +911,9 @@ class FacebookAdsCrawler:
 
         except Exception as e:
             print(f"Error during crawl: {e}")
-            if not self.should_stop():
-                self.lark_api.reply_to_message(self.message_id, f"❌ Error during crawl: {str(e)}")
+            # if not self.should_stop():
+                # self.lark_api.reply_to_message(self.message_id, f"❌ Error during crawl: {str(e)}")
+                
         # (Optional) keep driver open for debugging; otherwise close it here.
         finally:
             if self.driver:
@@ -954,6 +958,6 @@ class FacebookAdsCrawler:
             ]
 
         # print(f"--DataFrame created with rows: {df_cleaned.shape[0]} columns:", final_columns)
-        df_cleaned.drop_duplicates(inplace = True)
+        df_cleaned.drop_duplicates(subset = ["library_id", "company"], inplace = True)
         self.df = df_cleaned[final_columns]
         print(self.df.columns)
