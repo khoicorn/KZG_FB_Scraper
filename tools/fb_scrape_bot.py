@@ -266,27 +266,37 @@ class FacebookAdsCrawler:
         """Initializes the driver using a specific Chrome profile and adds timeouts."""
         if self.should_stop():
             return False
-        
-        # Define the path to your main Chrome User Data folder
-        chrome_profile_path = r"C:\Users\Khoi\AppData\Local\Google\Chrome\User Data"
 
         options = Options()
         print("\nStart initialized successfully.")
-        # --- Profile Arguments ---
-        # These tell Chrome to use your specific "Profile 1"
-        # options.add_argument(f"user-data-dir={chrome_profile_path}")
-        # options.add_argument("profile-directory=Profile 5") 
+        # --- Performance / Speed Optimizations ---
+        options.add_argument("--headless=new")        # Run headless Chrome (no GUI)
+        options.add_argument("--disable-gpu")         # Disable GPU (not needed in headless)
+        options.add_argument("--disable-extensions")  # Disable Chrome extensions
+        options.add_argument("--disable-infobars")    # Hide "Chrome is being controlled" banner
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("--disable-background-timer-throttling")
+        options.add_argument("--disable-backgrounding-occluded-windows")
+        options.add_argument("--disable-renderer-backgrounding")
         
-        # --- Anti-Detection Arguments ---
-        # Hides the "Chrome is being controlled" banner
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option('useAutomationExtension', False)
+        # --- Network / Rendering Optimizations ---
+        options.add_argument("--blink-settings=imagesEnabled=false")   # Don’t load images
+        options.add_argument("--disable-features=TranslateUI")         # Disable translate popup
+        options.add_argument("--mute-audio")                           # Disable sound
+        options.add_argument("--disable-sync")                         # Disable Google sync
+        options.add_argument("--disable-notifications")                # Block push notifications
+        options.add_argument("--no-default-browser-check")
 
-        # --- Stability Arguments ---
-        options.add_argument("--start-maximized")
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--no-sandbox')
+        # --- Memory / CPU Optimizations ---
+        options.add_argument("--disable-dev-shm-usage")  # already have
+        options.add_argument("--no-sandbox")             # already have
+        options.add_argument("--disable-software-rasterizer")
+        options.add_argument("--disable-popup-blocking")
 
+        # --- Optionally limit logs ---
+        options.add_argument("--log-level=3")            # Suppress console logs
+        options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        
         service = Service()
         self.driver = webdriver.Chrome(service=service, options=options)
 
