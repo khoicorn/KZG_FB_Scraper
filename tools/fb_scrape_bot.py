@@ -907,13 +907,6 @@ class FacebookAdsCrawler:
                      self.driver = None # Ensure driver is set to None even if quit fails
             else:
                  logger.info(f"[{self.chat_id}] WebDriver was already None or closed.")
-            
-            # Call cleanup for the temporary directory
-            self._cleanup_temp_dir()
-            logger.info(f"[{self.chat_id}] Cleanup finished.")
-            # if not self.should_stop():
-                # self.lark_api.reply_to_message(self.message_id, f"❌ Error during crawl: {str(e)}")
-                
 
 
     def data_to_dataframe(self):  
