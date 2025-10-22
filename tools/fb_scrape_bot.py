@@ -35,6 +35,8 @@ logger = logging.getLogger(__name__)
 import os
 import zipfile
 
+PROXY_STRING = "r_f0752d77b7:aab4b4ed1c:v2.proxyempire.io:5000"
+
 def create_proxy_extension(host, port, user, pw, file_path):
     """Creates a Chrome extension .zip file for an authenticated proxy."""
     manifest_json = """
@@ -269,41 +271,57 @@ class FacebookAdsCrawler:
 
         options = Options()
         print("\nStart initialized successfully.")
+
         # --- Performance / Speed Optimizations ---
-        options.add_argument("--headless=new")        # Run headless Chrome (no GUI)
-        options.add_argument("--disable-gpu")         # Disable GPU (not needed in headless)
-        options.add_argument("--disable-extensions")  # Disable Chrome extensions
-        options.add_argument("--disable-infobars")    # Hide "Chrome is being controlled" banner
+        # ⚠ Nếu extension auth không hoạt động ở headless, hãy comment dòng dưới:
+        # options.add_argument("--headless=new")        # Run headless Chrome (no GUI)
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-infobars")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("--disable-background-timer-throttling")
         options.add_argument("--disable-backgrounding-occluded-windows")
         options.add_argument("--disable-renderer-backgrounding")
-        
+
         # --- Network / Rendering Optimizations ---
-        options.add_argument("--blink-settings=imagesEnabled=false")   # Don’t load images
-        options.add_argument("--disable-features=TranslateUI")         # Disable translate popup
-        options.add_argument("--mute-audio")                           # Disable sound
-        options.add_argument("--disable-sync")                         # Disable Google sync
-        options.add_argument("--disable-notifications")                # Block push notifications
+        options.add_argument("--blink-settings=imagesEnabled=false")
+        options.add_argument("--disable-features=TranslateUI")
+        options.add_argument("--mute-audio")
+        options.add_argument("--disable-sync")
+        options.add_argument("--disable-notifications")
         options.add_argument("--no-default-browser-check")
 
         # --- Memory / CPU Optimizations ---
-        options.add_argument("--disable-dev-shm-usage")  # already have
-        options.add_argument("--no-sandbox")             # already have
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
         options.add_argument("--disable-software-rasterizer")
         options.add_argument("--disable-popup-blocking")
 
         # --- Optionally limit logs ---
-        options.add_argument("--log-level=3")            # Suppress console logs
+        # options.add_argument("--log-level=3")
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        # user, pw, host, port = PROXY_STRING.split(":")
+        # print(user, pw, host ,port)
+        # options.add_argument(f"--proxy-server=http://{user}:{pw}@{host}:{port}")
 
         service = Service()
         self.driver = webdriver.Chrome(service=service, options=options)
 
+        # (Tuỳ chọn) stealth để tránh bị phát hiện tự động hoá
+        try:
+            stealth(self.driver,
+                    languages=["en-US", "en"],
+                    vendor="Google Inc.",
+                    platform="Win32",
+                    webgl_vendor="Intel Inc.",
+                    renderer="Intel Iris OpenGL Engine",
+                    fix_hairline=True)
+        except Exception:
+            pass
+
         # --- CRUCIAL: Add Timeouts ---
-        # This prevents the script from hanging indefinitely on page loads or element searches.
-        self.driver.set_page_load_timeout(30) # Fails if a page takes >30s to load
-        self.driver.implicitly_wait(5)       # Waits up to 5s for elements to appear
+        self.driver.set_page_load_timeout(30)
+        self.driver.implicitly_wait(5)
 
         print("\n✅ Driver initialized successfully.")
         return True
@@ -356,34 +374,38 @@ class FacebookAdsCrawler:
         Otherwise, open the page, open Filters → Advertisers, scroll all, save CSV, and return it.
         """
         # Try both naming styles (you mentioned ".com" in the key)
-        csv_candidates = [
-            f"ref_data//dim_keyword_{self.keyword}.com.csv",
-            f"ref_data//dim_keyword_{self.keyword}.csv",
-        ]
-        existing_path = next((p for p in csv_candidates if os.path.exists(p)), None)
+        # csv_candidates = [
+        #     f"ref_data//dim_keyword_{self.keyword}.com.csv",
+        #     f"ref_data//dim_keyword_{self.keyword}.csv",
+        # ]
+        # existing_path = next((p for p in csv_candidates if os.path.exists(p)), None)
 
-        if existing_path:
-            dim_keyword = pd.read_csv(existing_path, dtype=str)
-            dim_keyword["keyword"] = self.keyword
-            # dim_keyword = dim_keyword[dim_keyword["id"] != "all_pages"]
-            dim_keyword = dim_keyword.drop_duplicates()
-            return dim_keyword
+        # if existing_path:
+        #     dim_keyword = pd.read_csv(existing_path, dtype=str)
+        #     dim_keyword["keyword"] = self.keyword
+        #     # dim_keyword = dim_keyword[dim_keyword["id"] != "all_pages"]
+        #     dim_keyword = dim_keyword.drop_duplicates()
+        #     return dim_keyword
 
         # If not found => build it by scraping the Advertiser list
         # if not self.fetch_ads_page():
         #     raise RuntimeError("Failed to open Ads Library search page.")
-        if not self.initialize_driver():
-            return
-        print("DONE INITALIZE DRIVER")
+        # if not self.initialize_driver():
+        #     return
+        # print("DONE INITALIZE DRIVER")
 
-        if not self.fetch_ads_page():
-            return
-        print("DONE GET URL")
-        time.sleep(1)
+        # if not self.fetch_ads_page():
+            # return
+        # print("DONE GET URL")
+        # time.sleep(1)
 
         dim_keyword = self.scrape_advertiser_list_from_filters()
         out_path = f"ref_data//dim_keyword_{self.keyword}.csv"
+
+        os.makedirs(os.path.dirname(out_path), exist_ok=True) # Đảm bảo thư mục tồn tại
         dim_keyword.to_csv(out_path, index=False)
+        print(f"✅ Saved new advertiser list to {out_path}")
+        
         return dim_keyword
     
     def scrape_advertiser_list_from_filters(self) -> pd.DataFrame:
@@ -392,7 +414,7 @@ class FacebookAdsCrawler:
         Returns a DataFrame with columns: id, name, keyword
         """
         self.fetch_ads_page
-        wait = WebDriverWait(self.driver, 20)
+        wait = WebDriverWait(self.driver, 5)
 
         # 1) Open Filter panel
         filter_button = wait.until(
@@ -490,29 +512,30 @@ class FacebookAdsCrawler:
         # Use a 'strikes' system. If scrolling and clicking fail a few
         # times in a row, we assume we're done.
         strikes = 0
-        max_strikes = 3 
+        max_strikes = 2
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        while strikes < max_strikes:
-            if self.should_stop(): return False
+        # while strikes < max_strikes:
+        #     if self.should_stop(): return False
 
-            last_height = self.driver.execute_script("return document.body.scrollHeight")
+        #     last_height = self.driver.execute_script("return document.body.scrollHeight")
             
-            # 1. SCROLL: Attempt to trigger infinite scroll
-            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        #     # 1. SCROLL: Attempt to trigger infinite scroll
+        #     self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-            try:
-                # 2. WAIT: Wait for new content from the scroll
-                WebDriverWait(self.driver, 15).until(
-                    lambda d: d.execute_script("return document.body.scrollHeight") > last_height
-                )
-                
-                # If successful, reset strikes and continue the loop
-                logger.info("New content loaded via scrolling.")
-                strikes = 0
             
-            except TimeoutException:
-                # 3. CLICK: Scrolling failed, now try clicking a button
-                logger.warning("Scrolling did not load new content. Looking for a button...")
+        #     # 2. WAIT: Wait for new content from the scroll
+        #     WebDriverWait(self.driver, 5).until(
+        #         lambda d: d.execute_script("return document.body.scrollHeight") > last_height
+        #     )
+            
+        #     # If successful, reset strikes and continue the loop
+        #     logger.info("New content loaded via scrolling.")
+        #     strikes += 1
+        
+            # except TimeoutException:
+            #     # 3. CLICK: Scrolling failed, now try clicking a button
+            #     logger.warning("Scrolling did not load new content. Looking for a button...")
 
         logger.info("✅ Finished scrolling and loading all content.")
         if not self.should_stop():
@@ -716,154 +739,18 @@ class FacebookAdsCrawler:
             print(f"Error extracting links: {e}")
             
         return link_data
-        
-    # def crawl(self):
-    #     """Main method to execute the crawl"""
-    #     try:
-    #         if not self.initialize_driver():
-    #             return
-    #         print("DONE INITALIZE DRIVER")
 
-    #         if not self.fetch_ads_page():
-    #             return
-    #         print("DONE GET URL")
-    #         time.sleep(2)
-    #     # --- Main Script ---
-
-    #         print("Looking for the 'Filters' button...")
-    #        # --- Corrected and Integrated Code for your 'crawl' method ---
-
-    #         try:
-    #             # 1. Click the main "Filters" button to open the panel
-    #             wait = WebDriverWait(self.driver, 20)
-    #             filter_button = wait.until(
-    #                 EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and contains(., 'Filters')]"))
-    #             )
-    #             print("'Filters' button found. Clicking it...")
-    #             filter_button.click()
-
-    #             # 2. Click the "Advertiser" dropdown inside the filter panel to open the list
-    #             advertiser_dropdown = wait.until(
-    #                 # This selector targets the combobox for advertisers
-    #                 EC.element_to_be_clickable((By.XPATH, "//div[@role='combobox' and .//text()='All advertisers']"))
-    #             )
-    #             print("'Advertiser' dropdown found. Clicking it...")
-    #             advertiser_dropdown.click()
-                
-    #             # --- SCROLL AND SCRAPE LOGIC STARTS HERE ---
-
-    #             # 3. Find the scrollable container that holds the options
-    #             # This is often a div with role='listbox'. You may need to inspect the page to confirm.
-    #             scrollable_container_locator = (By.XPATH, "//div[@role='listbox']")
-    #             scrollable_container = wait.until(
-    #                 EC.presence_of_element_located(scrollable_container_locator)
-    #             )
-    #             print("✅ Found the scrollable list container.")
-
-    #             # Locator for the individual options inside the container
-    #             all_options_locator = (By.XPATH, ".//div[@role='option']") # The '.' makes the search relative to the container
-    #             list_data =  []
-    #             # list_rows = []
-    #             last_count = 0
-    #             while True:
-    #                 # Find all options currently loaded within the container
-    #                 option_elements = scrollable_container.find_elements(*all_options_locator)
-    #                 current_count = len(option_elements)
-
-    #                 for i, option in enumerate(option_elements):
-    #                 # Using .get_attribute('textContent') is often more reliable than .text for complex elements
-    #                     option_id = option.get_attribute('id')
-    #                     option_name = option.get_attribute('textContent').strip()
-    #                     print(f"Index: {i}, ID: {option_id}, NAME: {option_name}")
-    #                     list_data.append([option_id, option_name])
-    #                     # list_cols.append(option_name)
-    #                     time.sleep(0.5)
-
-    #                 # list_rows.append(list_cols)
-    #                 if current_count == last_count:
-    #                     # If scrolling down didn't load any new options, we're done.
-    #                     print("No new options loaded. Exiting scroll loop.")
-    #                     break
-
-    #                 last_count = current_count
-
-    #                 # 4. Scroll the LAST visible element into view to trigger the loading of the next batch.
-    #                 print("Scrolling down to load more...")
-    #                 self.driver.execute_script("arguments[0].scrollIntoView(true);", option_elements[-1])
-
-    #                 # 5. Wait a moment for new items to load into the HTML
-    #                 time.sleep(2) # Adjust this if loading is slower or faster
-
-                    
-    #             # Keep the browser open for a few seconds to see the result
-    #             # time.sleep(10)
-    #             print(list_data)
-    #             dim_keyword = pd.DataFrame(list_data, columns=["id", "name"])
-    #             dim_keyword["keyword"] = self.keyword
-    #             dim_keyword.drop_duplicates(inplace = True)
-    #             dim_keyword.to_csv(f"dim_keyword_{self.keyword}.csv", index=False)
-
-    #         except Exception as e:
-    #             print(f"❌ An error occurred during the process: {e}")
-    #         time.sleep(10)
-
-    #         print("\nStep 2: Fetching ad elements...")
-
-    #         # time.sleep(10)
-
-    #         # Locate ad elements
-    #         if self.should_stop():
-    #             return
-       
-    #         # 2. Call the dedicated function to perform scrolling and scraping
-    #         # self.ads_data = self._scroll_and_scrape_ads()         
-
-    #         count = 0
-    #         # print(len(ad_elements))
-
-    #         # Convert to CSS selector
-    #         css_selector = "." + self.ad_card_class.replace(" ", ".")
-
-    #         # Find elements
-    #         elements = self.driver.find_elements(By.CSS_SELECTOR, css_selector)
-    #         # threshold = len(elements)
-
-    #         for ad in elements:
-    #             # Check cancellation before processing each ad
-    #             if self.should_stop():
-    #                 print(f"🛑 Crawl cancelled during ad processing (processed {count} ads)")
-    #                 return
-                
-    #             ad_data = self.process_ad_element(ad)
-
-    #             if ad_data:
-    #                 count += 1
-    #                 ad_data["ad_number"] = count
-    #                 self.ads_data.append(ad_data)
-    #                 print(f"Processed ad #{count}: {ad_data['library_id']}")
-                
-
-    #         print("--Finished processing ads. Total ads found:", len(self.ads_data))
-            
-    #         if not self.should_stop():
-    #             self.lark_api.update_card_message(self.message_id, 
-    #                                     card= domain_processing_card(search_word= self.keyword,
-    #                                      progress_percent= 80),)
-    #     except Exception as e:
-    #         print(f"Error during crawl: {e}")
-    #         if not self.should_stop():
-    #             self.lark_api.reply_to_message(self.message_id, f"❌ Error during crawl: {str(e)}")
-    #     # finally:
-    #     #     if self.driver:
-    #     #         self.driver.quit()
-    #     #         self.driver = None
 
     def crawl(self):
         """Main method to execute the crawl following the required logic."""
         try:
             if not self.initialize_driver():
                 return
-
+            
+            if not self.fetch_ads_page():
+                print("❌ Failed to load initial ads page. Aborting crawl.")
+                return
+            
             # 1) Get advertiser IDs for this keyword (load CSV if exists; otherwise scrape & save)
             dim_keyword = self.get_dim_keyword()
             dim_keyword["name_clean"] = dim_keyword["name"].str.split(" ").str[0].str.strip()  
@@ -888,12 +775,16 @@ class FacebookAdsCrawler:
                     )
                 except Exception:
                     pass
+                page = page_name.split(" ")[0]
+                if "All" in page:
+                    page = ""    
 
-                if not self.fetch_ads_page_by_id(page_name):
+                print(page)
+                if not self.fetch_ads_page_by_id(page):
                     continue
 
                 # Scroll to bottom for this advertiser page
-                # self.scroll_to_bottom()
+                self.scroll_to_bottom()
 
                 # Scrape all ads present on this advertiser page
                 self.scrape_current_page_ads()
