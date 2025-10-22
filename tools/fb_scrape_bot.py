@@ -352,7 +352,7 @@ class FacebookAdsCrawler:
         url = (f"https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&"
                f"is_targeted_country=false&media_type=all&q={self.keyword}&search_type=keyword_unordered")
         self.driver.get(url)
-        
+
         # time.sleep(8)
 
         try:
@@ -415,7 +415,8 @@ class FacebookAdsCrawler:
         """
         self.fetch_ads_page
         wait = WebDriverWait(self.driver, 5)
-
+        self.driver.save_screenshot("Page_Load.png")
+        
         # 1) Open Filter panel
         filter_button = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and contains(., 'Filters')]"))
