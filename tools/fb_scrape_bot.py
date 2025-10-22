@@ -271,42 +271,31 @@ class FacebookAdsCrawler:
             return False
 
         options = Options()
-        print("\nStart initialized successfully.")
+        logger.info("✅ Initialize Success.")
+        # --- Essential EC2/Headless Options ---
+        options.add_argument("--headless=new")      # 必須 for server
+        options.add_argument("--no-sandbox")        # 必須 for Linux environments (like EC2/Docker)
+        options.add_argument("--disable-dev-shm-usage") # 必須 for Linux environments (like EC2/Docker)
+        options.add_argument("--disable-gpu")       # Often recommended with headless
 
-        # --- Performance / Speed Optimizations ---
-        # ⚠ Nếu extension auth không hoạt động ở headless, hãy comment dòng dưới:
-        # options.add_argument("--headless=new")        # Run headless Chrome (no GUI)
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-extensions")
+        # --- Stability & Resource Options ---
+        options.add_argument("--disable-extensions") # Temporarily disable extensions to isolate the issue. Enable later if needed.
         options.add_argument("--disable-infobars")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("--disable-background-timer-throttling")
-        options.add_argument("--disable-backgrounding-occluded-windows")
-        options.add_argument("--disable-renderer-backgrounding")
-
-        # --- Network / Rendering Optimizations ---
-        options.add_argument("--blink-settings=imagesEnabled=false")
-        options.add_argument("--disable-features=TranslateUI")
-        options.add_argument("--mute-audio")
-        options.add_argument("--disable-sync")
-        options.add_argument("--disable-notifications")
-        options.add_argument("--no-default-browser-check")
-
-        # --- Memory / CPU Optimizations ---
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-software-rasterizer")
-        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--disable-features=TranslateUI") # Minor optimization
+        options.add_argument("--mute-audio")          # Minor optimization
+    
+        # options.add_argument("--blink-settings=imagesEnabled=false") # Keep commented initially, enable if needed
 
         # --- Optionally limit logs ---
         # options.add_argument("--log-level=3")
-        options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        # options.add_experimental_option("excludeSwitches", ["enable-logging"])
         # user, pw, host, port = PROXY_STRING.split(":")
         # print(user, pw, host ,port)
         # options.add_argument(f"--proxy-server=http://{user}:{pw}@{host}:{port}")
 
         service = Service()
         self.driver = webdriver.Chrome(service=service, options=options)
+        logger.info("✅ Finished Initialized.")
 
         # (Tuỳ chọn) stealth để tránh bị phát hiện tự động hoá
         try:
@@ -321,8 +310,8 @@ class FacebookAdsCrawler:
             pass
 
         # --- CRUCIAL: Add Timeouts ---
-        self.driver.set_page_load_timeout(30)
-        self.driver.implicitly_wait(5)
+        # self.driver.set_page_load_timeout(30)
+        # self.driver.implicitly_wait(5)
 
         print("\n✅ Driver initialized successfully.")
         return True
