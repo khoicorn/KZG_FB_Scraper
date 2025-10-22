@@ -464,6 +464,11 @@ class FacebookAdsCrawler:
         )
         self.driver.get(url)
         print("Search for:", search_word)
+        if not self.should_stop():
+            self.lark_api.update_card_message(
+                self.message_id,
+                card=domain_processing_card(search_word=self.keyword, progress_percent=10)
+            )
 
         try:
             css_selector = "." + self.ad_card_class.replace(" ", ".")
@@ -495,11 +500,6 @@ class FacebookAdsCrawler:
         """
         if self.should_stop(): return False
 
-        self.lark_api.update_card_message(
-            self.message_id,
-            card=domain_processing_card(search_word=self.keyword, progress_percent=10)
-        )
-
         # Use a 'strikes' system. If scrolling and clicking fail a few
         # times in a row, we assume we're done.
         strikes = 0
@@ -529,11 +529,11 @@ class FacebookAdsCrawler:
             #     logger.warning("Scrolling did not load new content. Looking for a button...")
 
         logger.info("✅ Finished scrolling and loading all content.")
-        if not self.should_stop():
-            self.lark_api.update_card_message(
-                self.message_id,
-                card=domain_processing_card(search_word=self.keyword, progress_percent=40)
-            )
+        # if not self.should_stop():
+        #     self.lark_api.update_card_message(
+        #         self.message_id,
+        #         card=domain_processing_card(search_word=self.keyword, progress_percent=40)
+        #     )
         return True
     
     def _is_page_stabilized(self, driver, last_height):
@@ -876,10 +876,10 @@ class FacebookAdsCrawler:
 
             try:
                 logger.info(f"[{self.chat_id}] Sending final Lark card update (100%).")
-                self.lark_api.update_card_message(
-                    self.message_id,
-                    card=domain_processing_card(search_word=self.keyword, progress_percent=100)
-                )
+                # self.lark_api.update_card_message(
+                #     self.message_id,
+                #     card=domain_processing_card(search_word=self.keyword, progress_percent=100)
+                # )
             except Exception as final_lark_e:
                  logger.warning(f"[{self.chat_id}] Failed to send final Lark card update: {final_lark_e}")
                  pass
@@ -890,10 +890,10 @@ class FacebookAdsCrawler:
             logger.exception(f"[{self.chat_id}] UNEXPECTED ERROR during crawl for keyword '{self.keyword}': {e}")
             # Optionally, send an error message back via Lark if not stopped externally
             if not self.should_stop():
-                 try:
-                    self.lark_api.reply_to_message(self.message_id, f"❌ An unexpected error occurred during the crawl: {str(e)}")
-                 except Exception as report_e:
-                    logger.error(f"[{self.chat_id}] Failed to report crawl error via Lark: {report_e}")
+                #  try:
+                    # self.lark_api.reply_to_message(self.message_id, f"❌ An unexpected error occurred during the crawl: {str(e)}")
+                #  except Exception as report_e:
+                logger.error(f"[{self.chat_id}] Failed to report crawl error via Lark: {str(e)}")
 
         finally:
             logger.info(f"[{self.chat_id}] Entering finally block for cleanup.")
