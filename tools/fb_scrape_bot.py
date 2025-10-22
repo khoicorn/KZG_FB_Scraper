@@ -248,6 +248,7 @@ class FacebookAdsCrawler:
         self._stop_event = threading.Event()
         self.queue_manager = CrawlerQueue()  # Thêm dòng này
         self.message_id = message_id
+        self.user_data_dir = None
 
     def force_stop(self):
         """More reliable stopping mechanism"""
@@ -416,7 +417,7 @@ class FacebookAdsCrawler:
         self.fetch_ads_page
         wait = WebDriverWait(self.driver, 5)
         self.driver.save_screenshot("Page_Load.png")
-        
+
         # 1) Open Filter panel
         filter_button = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//div[@role='button' and contains(., 'Filters')]"))
@@ -742,75 +743,189 @@ class FacebookAdsCrawler:
         return link_data
 
 
+    # def crawl(self):
+    #     """Main method to execute the crawl following the required logic."""
+    #     try:
+    #         if not self.initialize_driver():
+    #             return
+            
+    #         if not self.fetch_ads_page():
+    #             print("❌ Failed to load initial ads page. Aborting crawl.")
+    #             return
+            
+    #         # 1) Get advertiser IDs for this keyword (load CSV if exists; otherwise scrape & save)
+    #         dim_keyword = self.get_dim_keyword()
+    #         dim_keyword["name_clean"] = dim_keyword["name"].str.split(" ").str[0].str.strip()  
+
+    #         # 2) For each advertiser ID: open page, scroll all, scrape ads
+    #         #    (If CSV already existed, we skip re-scraping the advertiser list and go straight here)
+    #         list_name = dim_keyword["name_clean"].dropna().astype(str).unique().tolist()
+
+    #         total_ids = len(list_name)
+
+    #         print(total_ids, list_name)
+    #         for idx, page_name in enumerate(list_name, start=1):
+    #             if self.should_stop():
+    #                 return
+
+    #             # Slight progress feedback via your Lark card (optional)
+    #             pct = int(10 + 60 * idx / max(1, total_ids))  # 10→70%
+    #             try:
+    #                 self.lark_api.update_card_message(
+    #                     self.message_id,
+    #                     card=domain_processing_card(search_word=self.keyword, progress_percent=pct)
+    #                 )
+    #             except Exception:
+    #                 pass
+    #             page = page_name.split(" ")[0]
+    #             if "All" in page:
+    #                 page = ""    
+
+    #             print(page)
+    #             if not self.fetch_ads_page_by_id(page):
+    #                 continue
+
+    #             # Scroll to bottom for this advertiser page
+    #             self.scroll_to_bottom()
+
+    #             # Scrape all ads present on this advertiser page
+    #             self.scrape_current_page_ads()
+
+    #         # 3) Convert to DataFrame, clean, de-dupe, and save once
+    #         self.data_to_dataframe()
+
+    #         try:
+    #             self.lark_api.update_card_message(
+    #                 self.message_id,
+    #                 card=domain_processing_card(search_word=self.keyword, progress_percent=100)
+    #             )
+    #         except Exception:
+    #             pass
+
+    #     except Exception as e:
+    #         print(f"Error during crawl: {e}")
+        #     # (Optional) keep driver open for debugging; otherwise close it here.
+        # finally:
+        #     if self.driver:
+        #         self.driver.quit()
+        #         self.driver = None
     def crawl(self):
         """Main method to execute the crawl following the required logic."""
+        logger.info(f"[{self.chat_id}] Starting crawl for keyword: {self.keyword}")
         try:
+            logger.info(f"[{self.chat_id}] Initializing WebDriver...")
             if not self.initialize_driver():
-                return
-            
+                logger.warning(f"[{self.chat_id}] WebDriver initialization failed or was stopped.")
+                return # Exit if driver fails to initialize
+            logger.info(f"[{self.chat_id}] WebDriver initialized.")
+
+            logger.info(f"[{self.chat_id}] Fetching initial ads page...")
             if not self.fetch_ads_page():
-                print("❌ Failed to load initial ads page. Aborting crawl.")
-                return
-            
+                logger.warning(f"[{self.chat_id}] Failed to load initial ads page or timed out. Aborting crawl.")
+                # No need to return here, finally block will handle cleanup
+                raise RuntimeError("Failed to load initial ads page.") # Raise error to ensure finally block runs
+            logger.info(f"[{self.chat_id}] Initial ads page loaded.")
+
             # 1) Get advertiser IDs for this keyword (load CSV if exists; otherwise scrape & save)
+            logger.info(f"[{self.chat_id}] Getting advertiser dimension data...")
             dim_keyword = self.get_dim_keyword()
-            dim_keyword["name_clean"] = dim_keyword["name"].str.split(" ").str[0].str.strip()  
+
+            if dim_keyword is None or dim_keyword.empty:
+                logger.warning(f"[{self.chat_id}] Failed to get dim_keyword or list is empty. Aborting.")
+                raise RuntimeError("Failed to get dim_keyword or list is empty.") # Raise error
+            logger.info(f"[{self.chat_id}] Advertiser dimension data obtained. Processing names...")
+            dim_keyword["name_clean"] = dim_keyword["name"].str.split(" ").str[0].str.strip()
 
             # 2) For each advertiser ID: open page, scroll all, scrape ads
-            #    (If CSV already existed, we skip re-scraping the advertiser list and go straight here)
             list_name = dim_keyword["name_clean"].dropna().astype(str).unique().tolist()
-
             total_ids = len(list_name)
+            logger.info(f"[{self.chat_id}] Found {total_ids} unique advertiser names to process.")
+            # print(total_ids, list_name) # You can keep this for debugging if needed
 
-            print(total_ids, list_name)
             for idx, page_name in enumerate(list_name, start=1):
                 if self.should_stop():
-                    return
+                    logger.info(f"[{self.chat_id}] Stop signal received during advertiser loop. Exiting.")
+                    return # Exit loop if stopped
+
+                logger.debug(f"[{self.chat_id}] Processing advertiser {idx}/{total_ids}: {page_name}")
 
                 # Slight progress feedback via your Lark card (optional)
                 pct = int(10 + 60 * idx / max(1, total_ids))  # 10→70%
                 try:
-                    self.lark_api.update_card_message(
-                        self.message_id,
-                        card=domain_processing_card(search_word=self.keyword, progress_percent=pct)
-                    )
-                except Exception:
-                    pass
+                    # Reducing frequency of updates slightly to avoid rate limiting
+                    if idx % 5 == 0 or idx == total_ids:
+                         self.lark_api.update_card_message(
+                            self.message_id,
+                            card=domain_processing_card(search_word=self.keyword, progress_percent=pct)
+                        )
+                except Exception as lark_e:
+                    logger.warning(f"[{self.chat_id}] Failed to update Lark card progress: {lark_e}")
+                    pass # Continue even if card update fails
+
                 page = page_name.split(" ")[0]
                 if "All" in page:
-                    page = ""    
+                    page = ""
 
-                print(page)
+                logger.debug(f"[{self.chat_id}] Fetching ads page for advertiser: '{page}' (original: '{page_name}')")
                 if not self.fetch_ads_page_by_id(page):
-                    continue
+                    logger.warning(f"[{self.chat_id}] Failed to load or find ads for page: '{page}'. Skipping.")
+                    continue # Skip to the next advertiser
 
-                # Scroll to bottom for this advertiser page
-                self.scroll_to_bottom()
+                logger.debug(f"[{self.chat_id}] Scrolling page for advertiser: '{page}'")
+                self.scroll_to_bottom() # Assuming this function handles its own errors/stops
 
-                # Scrape all ads present on this advertiser page
-                self.scrape_current_page_ads()
+                logger.debug(f"[{self.chat_id}] Scraping ads for advertiser: '{page}'")
+                self.scrape_current_page_ads() # Assuming this function handles its own errors/stops
+                logger.info(f"[{self.chat_id}] Finished processing advertiser {idx}/{total_ids}: {page_name}. Total ads collected so far: {len(self.ads_data)}")
+
 
             # 3) Convert to DataFrame, clean, de-dupe, and save once
+            logger.info(f"[{self.chat_id}] Processing collected ad data into DataFrame...")
             self.data_to_dataframe()
+            logger.info(f"[{self.chat_id}] DataFrame created with {len(self.df) if hasattr(self, 'df') else 0} rows.")
+
 
             try:
+                logger.info(f"[{self.chat_id}] Sending final Lark card update (100%).")
                 self.lark_api.update_card_message(
                     self.message_id,
                     card=domain_processing_card(search_word=self.keyword, progress_percent=100)
                 )
-            except Exception:
-                pass
+            except Exception as final_lark_e:
+                 logger.warning(f"[{self.chat_id}] Failed to send final Lark card update: {final_lark_e}")
+                 pass
+            logger.info(f"[{self.chat_id}] Crawl completed successfully for keyword: {self.keyword}")
 
         except Exception as e:
-            print(f"Error during crawl: {e}")
+            # Log the full exception traceback
+            logger.exception(f"[{self.chat_id}] UNEXPECTED ERROR during crawl for keyword '{self.keyword}': {e}")
+            # Optionally, send an error message back via Lark if not stopped externally
+            if not self.should_stop():
+                 try:
+                    self.lark_api.reply_to_message(self.message_id, f"❌ An unexpected error occurred during the crawl: {str(e)}")
+                 except Exception as report_e:
+                    logger.error(f"[{self.chat_id}] Failed to report crawl error via Lark: {report_e}")
+
+        finally:
+            logger.info(f"[{self.chat_id}] Entering finally block for cleanup.")
+            if self.driver:
+                logger.info(f"[{self.chat_id}] Quitting WebDriver.")
+                try:
+                    self.driver.quit()
+                except Exception as quit_e:
+                    logger.error(f"[{self.chat_id}] Error while quitting WebDriver: {quit_e}")
+                finally:
+                     self.driver = None # Ensure driver is set to None even if quit fails
+            else:
+                 logger.info(f"[{self.chat_id}] WebDriver was already None or closed.")
+            
+            # Call cleanup for the temporary directory
+            self._cleanup_temp_dir()
+            logger.info(f"[{self.chat_id}] Cleanup finished.")
             # if not self.should_stop():
                 # self.lark_api.reply_to_message(self.message_id, f"❌ Error during crawl: {str(e)}")
                 
-        # (Optional) keep driver open for debugging; otherwise close it here.
-        finally:
-            if self.driver:
-                self.driver.quit()
-                self.driver = None
+
 
     def data_to_dataframe(self):  
         """Convert collected ads data to a DataFrame"""
